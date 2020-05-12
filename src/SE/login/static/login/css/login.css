@@ -19,7 +19,6 @@ body {
 
 .form-login {
     margin-top: 80px;
-    font-weight: 400;
 }
 
 .form-login .form-control {
@@ -123,4 +122,26 @@ button:after {
 button:hover:before, button:hover:after {
     width: 100%;
     transition: 800ms ease all;
+}
+
+.right a:link {
+    color: dodgerblue;
+    text-decoration: none;
+}
+
+.right a:visited {
+    text-decoration: none;
+    color: dodgerblue;
+    font-weight: bold;
+}
+
+.right a:hover {
+    text-decoration: none;
+    color: dodgerblue;
+    font-weight: bolder;
+}
+
+.right a:active {
+    text-decoration: none;
+    color: rebeccapurple;
 }

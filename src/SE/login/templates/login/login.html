@@ -10,29 +10,6 @@
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>
     <title>SE-Login</title>
-    <style type="text/css">
-        .right a:link {
-            color: dodgerblue;
-            text-decoration: none;
-        }
-
-        .right a:visited {
-            text-decoration: none;
-            color: dodgerblue;
-            font-weight: bolder;
-        }
-
-        .right a:hover {
-            text-decoration: none;
-            color: dodgerblue;
-            font-weight: bold;
-        }
-
-        .right a:active {
-            text-decoration: none;
-            color: rebeccapurple;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -49,7 +26,7 @@
 
             <div class="form-group">
                 <div class="wrap">
-                    <div class="left">
+                    <div class="left" style="font-weight: bolder;">
                         {{ login_form.username.label_tag }}
                     </div>
                     <div class="center"></div>
@@ -62,7 +39,7 @@
 
             <div class="form-group">
                 <div class="wrap">
-                    <div class="left">
+                    <div class="left" style="font-weight: bolder;">
                         {{ login_form.password.label_tag }}
                     </div>
                     <div class="center"></div>
