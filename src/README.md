@@ -1,1 +1,1 @@
-Here is the source code.
+所有Django代码放在SE文件夹内
