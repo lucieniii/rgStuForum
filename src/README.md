@@ -5,3 +5,5 @@ python==3.7
 Django==2.2.12
 ```
 
+登录页面：`/login`
+
