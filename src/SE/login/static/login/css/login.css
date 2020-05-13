@@ -27,8 +27,6 @@ body {
     height: auto;
     padding: 10px;
     font-size: 16px;
-
-
 }
 
 .form-login .form-control:focus {
@@ -144,4 +142,9 @@ button:hover:before, button:hover:after {
 .right a:active {
     text-decoration: none;
     color: rebeccapurple;
+}
+
+.alert .alert-danger {
+    max-height: 20px;
+    font-size: 12px;
 }

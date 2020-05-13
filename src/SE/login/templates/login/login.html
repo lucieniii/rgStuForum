@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="{% static 'login/css/login.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/csshake/1.5.3/csshake.min.css" />
     <title>SE-Login</title>
 </head>
 <body>
@@ -17,9 +18,6 @@
         <form class="form-login" action="/login/" method="post">
             <img class="logo" src="{% static 'login/images/logo.png' %}" alt="logo" >
             <br>
-            {% if message %}
-                <div class="alert alert-warning">{{ message }}</div>
-            {% endif %}
             {% csrf_token %}
 
             <!--h3 class="text-center">欢迎登录</h3-->
@@ -35,6 +33,9 @@
                     </div>
                 </div>
                 {{ login_form.username }}
+                {% if message and message == "用户不存在！" %}
+                    <div style="color: red; margin-left: 2px; margin-top: 10px; font-size: 12px">{{ message }}</div>
+                {% endif %}
             </div>
 
             <div class="form-group">
@@ -44,10 +45,13 @@
                     </div>
                     <div class="center"></div>
                     <div class="right">
-                        <a href="{% url "register" %}">忘记密码？</a>
+                        <a href="{% url "register" %}">忘记密码?</a>
                     </div>
                 </div>
                 {{ login_form.password }}
+                {% if message and message == "密码不正确！" %}
+                    <div style="color: red; margin-left: 2px; margin-top: 10px; font-size: 12px">{{ message }}</div>
+                {% endif %}
             </div>
 
             <div>

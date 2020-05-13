@@ -16,9 +16,7 @@
     <div class="col">
         <form class="form-register" action="/register/" method="post">
 
-            {% if register_form.captcha.errors %}
-                <div class="alert alert-warning">{{ register_form.captcha.errors }}</div>
-            {% elif message %}
+            {% if message %}
                 <div class="alert alert-warning">{{ message }}</div>
             {% endif %}
 
