@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'base/css/base.css' %}" rel="stylesheet"/>
+    {% block title %}
+        <title>base</title>
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-light" style="background: linear-gradient(#feffff, #fcfcfc);">
+    <a class="navbar-brand font" href="{% url 'base' %}">
+        <img src="{% static 'base/images/logo.png' %}" class="d-inline-block align-top" width="42" height="23" alt="">
+        {% block navigate %}
+        {% endblock %}
+    </a>
+</nav>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

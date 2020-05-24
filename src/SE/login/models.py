@@ -1,10 +1,10 @@
 from django.db import models
 
+
 # Create your models here.
 
 
 class User(models.Model):
-
     gender = (
         ('male', "男"),
         ('female', "女"),
@@ -23,4 +23,3 @@ class User(models.Model):
         ordering = ["-c_time"]
         verbose_name = "用户"
         verbose_name_plural = "用户"
-

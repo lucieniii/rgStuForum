@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SE</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'base/fonts/BethEllen.css' %}">
+    <link rel="stylesheet" href="{% static 'base/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Navigation-with-Search.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Sidebar-Menu.css' %}">
+</head>
+
+<body style="max-height: 650px;min-height: 0;">
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding-right: 0;padding-left: 0px;">
+    <div class="container">
+        <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
+           style="background-color: rgba(255,255,255,0); margin-left: 5px;">
+            <i class="fa fa-bars"></i>
+        </a>
+        <a class="navbar-brand" href="{% url 'base' %}"
+           style="width: 250px;margin-left: -30px;font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
+            <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-top: -7px;">
+            &nbsp;Share Your Life
+        </a>
+        <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"
+                style="width: 40px;padding: 0;height: 32px;margin-right: 8px;padding-bottom: 3px;margin-bottom: 0px;">
+            <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
+            <form class="form-inline mr-auto" target="_self">
+                <div class="form-group">
+                    <div class="dropdown" style="font-size: 20px;">
+                        <a class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false" href="#"
+                           style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
+                            <i class="fa fa-search" style="font-size: 20px;"></i>
+                        </a>
+                        {% block searchMenu %}
+                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                            <a class="dropdown-item" role="presentation" href="#"> First Item</a>
+                            <a class="dropdown-item" role="presentation" href="#">Second Item</a>
+                            <a class="dropdown-item" role="presentation" href="#">Third Item</a>
+                        </div>
+                        {% endblock %}
+                    </div>
+                    <input class="border rounded form-control search-field"
+                           type="search" id="search-field"
+                           name="search"
+                           style="width: 250px;margin-left: 12px;"
+                           placeholder="请输入关键字">
+                </div>
+            </form>
+            <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
+                   style="background-color: rgb(255,255,255);font-size: 0;">
+                    <!--Avatar-->
+                    {% block avatar %}
+                    <img class="border rounded-circle"
+                         src="{% static 'base/images/logo.png' %}"
+                         style="width: 40px;height: 40px;">
+                    {% endblock %}
+                </a>
+                {% block avatarMenu %}
+                <div class="dropdown-menu text-left" role="menu"
+                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">First Item</a>
+                    <a class="dropdown-item" role="presentation" href="#" style="font-size: 16px;padding-left: 10px;">个人空间</a>
+                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">Third Item</a>
+                </div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</nav>
+<div><img src="{% static 'base/images/logo.png' %}"></div>
+<div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start">
+    <div id="wrapper" style="width: 250px;">
+        <div id="sidebar-wrapper" style="background-color: #ffffff;">
+            {% block sidebar %}
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"><a href="#">Home </a></li>
+                <li><a href="#">Dashboard </a></li>
+                <li><a href="#">Dashboard </a></li>
+                <li><a href="#">Dashboard </a></li>
+            </ul>
+            {% endblock %}
+        </div>
+    </div>
+    {% block mainBody %}
+    <div style="max-width: 100%;">
+        <img src="{% static 'base/images/logo.png' %}">
+    </div>
+    {% endblock %}
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
+</body>
+</html>
