@@ -7,3 +7,10 @@ Django==2.2.12
 
 登录页面：`/login`
 
+新增依赖：
+
+```
+mysql
+mysqlclient
+```
+
