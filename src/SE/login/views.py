@@ -31,7 +31,7 @@ def login(request):
 
             try:
                 user = models.User.objects.get(name=username)
-            except :
+            except:
                 message = '用户不存在！'
                 return render(request, 'login/login.html', locals())
 
