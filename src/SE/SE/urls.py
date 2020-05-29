@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from login import views as view_login
 from forum import views as view_forum
+from space import views as view_space
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,7 @@ urlpatterns = [
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
-    path('post/', view_forum.post, name='post'),
+    path('space/', view_space.base, name='space'),
+    path('settings/', view_space.settings, name='settings'),
+
 ]

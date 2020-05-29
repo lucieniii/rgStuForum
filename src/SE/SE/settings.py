@@ -81,22 +81,17 @@ WSGI_APPLICATION = 'SE.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
-#         'NAME': 'se',  # 数据库名
-#         'USER': 'se',  # 账号
-#         'PASSWORD': 'softwareengineering',  # 密码
-#         'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
-#         'POST': 3306,  # 端口
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'NAME': 'se',  # 数据库名
+        'USER': 'se',  # 账号
+        'PASSWORD': 'softwareengineering',  # 密码
+        'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
+        'POST': 3306,  # 端口
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
