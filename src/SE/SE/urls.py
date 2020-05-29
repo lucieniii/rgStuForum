@@ -25,5 +25,5 @@ urlpatterns = [
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
-    path('post/', view_forum.post, name='post'),
+    # path('post/', view_forum.post, name='post'),
 ]

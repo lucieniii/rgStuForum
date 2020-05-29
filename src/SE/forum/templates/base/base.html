@@ -39,9 +39,8 @@
                         </a>
                         {% block searchMenu %}
                         <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                            <a class="dropdown-item" role="presentation" href="#"> First Item</a>
-                            <a class="dropdown-item" role="presentation" href="#">Second Item</a>
-                            <a class="dropdown-item" role="presentation" href="#">Third Item</a>
+                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
+                            <a class="dropdown-item" role="presentation" href="#">搜人</a>
                         </div>
                         {% endblock %}
                     </div>
@@ -65,9 +64,8 @@
                 {% block avatarMenu %}
                 <div class="dropdown-menu text-left" role="menu"
                      style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">First Item</a>
-                    <a class="dropdown-item" role="presentation" href="#" style="font-size: 16px;padding-left: 10px;">个人空间</a>
-                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">Third Item</a>
+                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
+                    <a class="dropdown-item" role="presentation" href="#" style="font-size: 16px;padding-left: 10px;">登出</a>
                 </div>
                 {% endblock %}
             </div>
@@ -80,10 +78,16 @@
         <div id="sidebar-wrapper" style="background-color: rgba(255,255,255,0);">
             {% block sidebarMenu %}
             <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#">Home </a></li>
-                <li><a href="#">Dashboard </a></li>
-                <li><a href="#">Dashboard </a></li>
-                <li><a href="#">Dashboard </a></li>
+                <li class="sidebar-brand" ><a href="#">发布帖子</a></li>
+                <li><a href="#">讨论区</a></li>
+                <li><a href="#">课程推荐</a></li>
+                <li><a href="#">刷题</a></li>
+                <li><a href="#">校园周边</a></li>
+                <li><a href="#">资源共享</a></li>
+                <li></br></li>
+                <li><a href="#">关注用户</a></li>
+                <li><a href="#">回复和@</a></li>
+                <li><a href="#">关注帖子</a></li>
             </ul>
             {% endblock %}
         </div>
@@ -91,7 +95,17 @@
     {% endblock %}
     <div style="max-width: 100%;background-color: rgba(255,255,255,0);">
         {% block mainBody %}
-        <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
+        <!--<img src="{% static 'base/images/main.png' %}" style="width: 1000px">-->
+        <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
+            <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
+
+        </div>
+
+        <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
+            <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
+
+        </div>
+
         {% endblock %}
     </div>
 </div>

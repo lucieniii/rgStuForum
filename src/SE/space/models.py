@@ -1,6 +1,6 @@
 from django.db import models
 
-
+'''
 # Create your models here.
 class UserSpace(models.Model):
     UserID = models.ForeignKey(primary_key=True, to='User', to_field='id', null=False, on_delete=models.CASCADE)
@@ -40,3 +40,4 @@ class Permission(models.Model):
     ViewFollowPermission = models.BooleanField(verbose_name="查看关注用户权限", default=True)
     ViewFavoritePermission = models.BooleanField(verbose_name="查看收藏帖子权限", default=True)
     ViewSelfInfoPermission = models.BooleanField(verbose_name="查看个人信息权限", default=True)
+'''
