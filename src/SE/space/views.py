@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 
 # Create your views here.
-def base(request):
+def sapce(request):
     return render(request, "space/space.html")
 
 
