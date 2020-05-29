@@ -28,5 +28,5 @@ urlpatterns = [
     path('base/', view_forum.base, name='base'),
     path('space/', view_space.base, name='space'),
     path('settings/', view_space.settings, name='settings'),
-
+    # path('post/', view_forum.post, name='post'),
 ]
