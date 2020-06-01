@@ -1,12 +1,45 @@
 .font {
-    font-family:
-            "lucida grande",
-            "lucida sans unicode",
-            lucida,
-            helvetica,
-            "Hiragino Sans GB",
-            "MicrosoftYaHei",
-            "WenQuanYi Micro Hei",
-            sans-serif;
+    font-family: "lucida grande",
+    "lucida sans unicode",
+    lucida,
+    helvetica,
+    "Hiragino Sans GB",
+    "MicrosoftYaHei",
+    "WenQuanYi Micro Hei",
+    sans-serif;
     font-size: 18px;
 }
+
+@media (min-width: 0px) {
+    .align-items-xl-center {
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+}
+
+@media (min-width: 0px) {
+    .justify-content-xl-center {
+        -ms-flex-pack: center !important;
+        justify-content: center !important;
+    }
+}
+
+@media (min-width: 0px) {
+    .d-xl-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+    }
+}
+
+@media (min-width: 0px) {
+    .d-xl-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+    }
+}
+
+.flex-column {
+  -ms-flex-direction: column!important;
+  flex-direction: column!important;
+}
+
