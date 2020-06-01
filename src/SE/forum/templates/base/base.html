@@ -10,13 +10,16 @@
     <link rel="stylesheet" href="{% static 'base/fonts/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/Navigation-with-Search.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/Sidebar-Menu.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Button-Change-Text-on-Hover.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
 </head>
 
 <body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;">
 {% block head %}
 {% endblock %}
-<nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="padding-right: 0;padding-left: 0px;background-color: rgba(255,255,255,0);">
-    <div class="container">
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
+     style="z-index:2; position: fixed;left: 0; top: 0;background-color: #f5f5f5;width: 100%;height: 70px;">
+    <div class="container" style="">
         <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
            style="background-color: rgba(255,255,255,0); margin-left: 5px;">
             <i class="fa fa-bars"></i>
@@ -32,7 +35,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
             <form class="form-inline mr-auto" target="_self">
-                <div class="form-group" style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
+                <div class="form-group"
+                     style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
                     <div class="dropdown" style="font-size: 20px;">
                         <a class="dropdown-toggle" data-toggle="dropdown"
                            aria-expanded="false" href="#"
@@ -40,10 +44,10 @@
                             <i class="fa fa-search" style="font-size: 20px;"></i>
                         </a>
                         {% block searchMenu %}
-                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
-                            <a class="dropdown-item" role="presentation" href="#">搜人</a>
-                        </div>
+                            <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                                <a class="dropdown-item" role="presentation" href="#">搜贴</a>
+                                <a class="dropdown-item" role="presentation" href="#">搜人</a>
+                            </div>
                         {% endblock %}
                     </div>
                     <input class="border rounded form-control search-field"
@@ -58,56 +62,83 @@
                    style="background-color: rgb(255,255,255);font-size: 0;">
                     <!--Avatar-->
                     {% block avatar %}
-                    <img class="border rounded-circle"
-                         src="{% static 'base/images/logo.png' %}"
-                         style="width: 40px;height: 40px;">
+                        <img class="border rounded-circle"
+                             src="{% static 'base/images/logo.png' %}"
+                             style="width: 40px;height: 40px;">
                     {% endblock %}
                 </a>
                 {% block avatarMenu %}
-                <div class="dropdown-menu text-left" role="menu"
-                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
-                    <a class="dropdown-item" role="presentation" href="#" style="font-size: 16px;padding-left: 10px;">登出</a>
-                </div>
+                    <div class="dropdown-menu text-left" role="menu"
+                         style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                        <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
+                        <a class="dropdown-item" role="presentation" href="#"
+                           style="font-size: 16px;padding-left: 10px;">登出</a>
+                    </div>
                 {% endblock %}
             </div>
         </div>
     </div>
 </nav>
-<div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start" style="background-color: rgba(255,255,255,0);">
+<div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start"
+     style="z-index:10; margin-top:70px; background-color: rgba(255,255,255,0);">
     {% block sidebar %}
-    <div id="wrapper" style="width: 250px;background-color: rgba(255,255,255,0);">
-        <div id="sidebar-wrapper" style="background-color: rgba(255,255,255,0);">
-            {% block sidebarMenu %}
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand" ><a href="#">发布帖子</a></li>
-                <li><a href="#">讨论区</a></li>
-                <li><a href="#">课程推荐</a></li>
-                <li><a href="#">刷题</a></li>
-                <li><a href="#">校园周边</a></li>
-                <li><a href="#">资源共享</a></li>
-                <li><br></li>
-                <li><a href="#">关注用户</a></li>
-                <li><a href="#">回复和@</a></li>
-                <li><a href="#">关注帖子</a></li>
-            </ul>
-            {% endblock %}
+        <div id="wrapper" style="width: 250px;background-color: rgba(255,255,255,0);">
+            <div id="sidebar-wrapper" style="background-color: rgba(255,255,255,0);">
+                {% block sidebarMenu %}
+                    <div class="d-xl-flex justify-content-xl-center"
+                         style="padding: 0;margin-top: 20px;">
+                        <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
+                                type="button" style="height: 50px;width: 180px;padding: 0;">
+                                    <span class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                          style="font-size: 20px;width: 150px;height: 50px;">
+                                        <i class="fa fa-edit" style="padding-right: 20px;"></i>
+                                            发布帖子
+                                    </span>
+                        </button>
+                    </div>
+                    <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                         style="margin-top: 20px;">
+                    <a href="{% url 'space' %}">
+                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                        </button>
+                    </a>
+                    <a href="{% url 'space' %}">
+                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                        </button>
+                    </a>
+                    <a href="{% url 'space' %}">
+                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                        </button>
+                    </a>
+                    <a href="{% url 'space' %}">
+                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                        </button>
+                    </a>
+                    <a href="{% url 'space' %}">
+                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                        </button>
+                    </a>
+                {% endblock %}
+                </div>
+            </div>
         </div>
-    </div>
     {% endblock %}
-    <div style="max-width: 100%;background-color: rgba(255,255,255,0);">
+    <div style="max-width: 100%;background-color: rgba(255,255,255,0); ">
         {% block mainBody %}
-        <!--<img src="{% static 'base/images/main.png' %}" style="width: 1000px">-->
-        <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
-            <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
+            <!--<img src="{% static 'base/images/main.png' %}" style="width: 1000px">-->
+            <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
+                <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
 
-        </div>
+            </div>
+            <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
+                <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
 
-        <div style="width: 100%; height: 50%; background: #448CBB; color: #fff">
-            <img src="{% static 'base/images/main.png' %}" style="width: 1000px">
-
-        </div>
-
+            </div>
         {% endblock %}
     </div>
 </div>
@@ -115,5 +146,14 @@
 <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
+<script>
+    function showSidebar() {
+        const sidebar = document.getElementById("sidebar-wrapper");
+        if (window.innerWidth > 768 && sidebar.offsetWidth === 0) {
+            $("#wrapper").toggleClass("toggled");
+        }
+    }
+    window.addEventListener("resize", showSidebar);
+</script>
 </body>
 </html>
