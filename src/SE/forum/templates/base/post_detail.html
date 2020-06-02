@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    文章详情
+{% endblock title %}
+
+{% block main1 %}
+{% endblock main1 %}
+<!-- 写入 base.html 中定义的 content -->
+{% block main2 %}
+    <!-- 文章详情 -->
+    <div class="container">
+        <div class="row">
+            <!-- 标题及作者 -->
+            <h1 class="col-12 mt-4 mb-4">{{ post.title }}</h1>
+            <h6 class="col-12 mt-4 mb-4">{{ post.tag.name }}</h6>
+            <div class="col-12 alert alert-success">作者：{{ post.author }}</div>
+            <!-- 文章正文 -->
+            <div class="col-12">
+                <p>{{ post.content|safe }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock main2 %}

@@ -28,5 +28,8 @@ urlpatterns = [
     path('base/', view_forum.base, name='base'),
     path('space/', view_space.sapce, name='space'),
     path('settings/', view_space.settings, name='settings'),
-    # path('post/', view_forum.post, name='post'),
+    # path('notice/', include('notice.urls', namespace='notice')),
+    path('post_list/', view_forum.post_list, name='post_list'),
+    path('post/<int:id>/', view_forum.post_detail, name='post_detail'),
+    path('post_create/', view_forum.post_create, name='post_create'),
 ]

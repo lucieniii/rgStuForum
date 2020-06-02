@@ -1,25 +1,31 @@
 from django import forms
-from .models import Comment
+from .models import Comment, Post
 
 
 # 帖子表单
-class PostForm(forms.Form):
-    title = forms.CharField(label="标题", max_length=128, widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
-    content = forms.CharField(label="文章内容", max_length=1024, widget=forms.Textarea(
-        attrs={'class': 'form-control', 'placeholder': "content", 'autofocus': ''}))
-    tag = forms.ChoiceField(label='文章标签', choices=(
-        (1, "课程推荐帖"),
-        (2, "校园周边帖"),
-        (3, "资源共享帖"),
-        (4, "刷题帖")
-    ))
-    file = forms.FileField(label="文件上传")
-    image = forms.ImageField(label="图片上传")
+class PostForm(forms.ModelForm):
+    # title = forms.CharField(label="标题", max_length=128, widget=forms.TextInput(
+    #     attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
+    # content = forms.CharField(label="文章内容", max_length=1024, widget=forms.Textarea(
+    #     attrs={'class': 'form-control', 'placeholder': "content", 'autofocus': ''}))
+    # tag = forms.ChoiceField(label='文章标签', choices=(
+    #     (1, "课程推荐帖"),
+    #     (2, "校园周边帖"),
+    #     (3, "资源共享帖"),
+    #     (4, "刷题帖")
+    # ))
+    # file = forms.FileField(label="文件上传")
+    # image = forms.ImageField(label="图片上传")
+
     # bool = forms.BooleanField(required=False)
-    # urrf = forms.URLField(label="url格式")
+    # urf = forms.URLField(label="url格式")
     # data = forms.DateField(label="日期格式")
     # email = forms.EmailField(label="邮箱格式")
+    class Meta:
+        # 指明数据模型来源
+        model = Post
+        # 定义表单包含的字段
+        fields = ('title', 'content')
 
 
 # 评论表单
