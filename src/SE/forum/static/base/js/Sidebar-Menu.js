@@ -24,12 +24,16 @@ function showSidebar() {
         }
         if (nav.offsetWidth !== 0 && windowStatus === 0) {
             document.getElementById("navbartoggler").click();
-            windowStatus = 1;
         }
+        windowStatus = 1;
         document.getElementById("main").style.opacity = "1";
     } else {
+        if (windowStatus === 1 && nav.offsetHeight === 78) {
+            document.getElementById("navbartoggler").click();
+        }
         if (nav.offsetWidth !== 0)
             windowStatus = 0;
+
     }
 }
 
