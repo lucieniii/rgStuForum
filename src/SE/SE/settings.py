@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'login',
     'forum',
     'space',
+    'mptt',
     'notice',
     'comment',
 ]

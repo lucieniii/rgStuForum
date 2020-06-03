@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 
 
 # Create your views here.
-def post_comment(request, post_id):
+def post_comment(request, post_id, parent_comment_id=None):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -18,6 +18,14 @@ def post_comment(request, post_id):
             new_comment.post = post
             new_comment.user = request.user
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
+            if parent_comment_id:
+                parent_comment = Comment.objects.get(id=parent_comment_id)
+                # 若回复层级超过二级，则转换为二级
+                new_comment.parent_id = parent_comment.get_root().id
+                # 被回复人
+                new_comment.reply_to = parent_comment.user
+                new_comment.save()
+                return HttpResponse('200 OK')
 
             new_comment.save()
             return redirect(post)
@@ -29,5 +37,13 @@ def post_comment(request, post_id):
             #            'comment_list': comment_list
             #            }
             # return render(request, 'base/post_detail.html', context=context)  # TODO render
+    elif request.method == 'GET':
+        comment_form = CommentForm()
+        context = {
+            'comment_form': comment_form,
+            'post_id': post_id,
+            'parent_comment_id': parent_comment_id
+        }
+        return render(request, 'comment/reply.html', context)
     # 不是 post 请求，说明用户没有提交数据，重定向到文章详情页
     return redirect(post)  # TODO 重定向
