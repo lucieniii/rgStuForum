@@ -21,7 +21,7 @@ from space import views as view_space
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', view_login.index, name='index'),
+    path('index/', view_forum.index, name='index'),
     path('login/', view_login.login, name='login'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
@@ -32,4 +32,5 @@ urlpatterns = [
     path('post_list/', view_forum.post_list, name='post_list'),
     path('post/<int:id>/', view_forum.post_detail, name='post_detail'),
     path('post_create/', view_forum.post_create, name='post_create'),
+    path('comment/', include('comment.urls', namespace='comment')),
 ]

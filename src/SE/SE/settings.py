@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'login',
     'forum',
     'space',
-    'notice'
+    'notice',
+    'mptt',
+    'comment',
 ]
 
 MIDDLEWARE = [

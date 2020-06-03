@@ -24,4 +24,60 @@
             </div>
         </div>
     </div>
+
+    <!-- 已有代码，文章正文 -->
+    <div class="col-12">
+        ...
+    </div>
+
+    <!-- 发表评论 -->
+    <hr>
+    <div>
+        <form
+                action="{% url 'comment:post_comment' post.id %}"
+                method="POST"
+        >
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="body">
+                    <strong>
+                        我也要发言：
+                    </strong>
+                </label>
+                <textarea
+                        type="text"
+                        class="form-control"
+                        id="body"
+                        name="body"
+                        rows="2"></textarea>
+            </div>
+            <!-- 提交按钮 -->
+            <button type="submit" class="btn btn-primary ">发送</button>
+        </form>
+    </div>
+    <br>
+
+
+
+    <!-- 显示评论 -->
+    <h4>共有{{ comments.count }}条评论</h4>
+    <div>
+        {% for comment in comments %}
+            <hr>
+            <p>
+                <strong style="color: pink">
+                    {{ comment.user }}
+                </strong> 于
+                <span style="color: green">
+                    {{ comment.created|date:"Y-m-d H:i:s" }}
+                </span> 时说：
+            </p>
+            <pre style="font-family: inherit; font-size: 1em;"> {{ comment.content }}</pre>
+        {% endfor %}
+    </div>
+
+    <!-- 目录 -->
+    <div class="col-3 mt-4">
+        ...
+    </div>
 {% endblock main2 %}
