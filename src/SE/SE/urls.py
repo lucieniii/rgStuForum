@@ -22,6 +22,10 @@ from space import views as view_space
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', view_forum.index, name='index'),
+    path('ForumBoard/', view_forum.forumBoard, name='ForumBoard'),
+    path('FollowUser/', view_forum.followUser, name='FollowUser'),
+    path('Mention/', view_forum.mention, name='Mention'),
+    path('FollowPost/', view_forum.followPost, name='FollowPost'),
     path('login/', view_login.login, name='login'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),

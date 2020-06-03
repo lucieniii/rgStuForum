@@ -15,8 +15,25 @@ def base(request):
     return render(request, 'base/base.html')
 
 
+# index-views
 def index(request):
     return render(request, 'forum/index.html')
+
+
+def forumBoard(request):
+    return render(request, 'forum/ForumBoard.html')
+
+
+def followUser(request):
+    return render(request, 'forum/FollowUser.html')
+
+
+def mention(request):
+    return render(request, 'forum/Mention.html')
+
+
+def followPost(request):
+    return render(request, 'forum/FollowPost.html')
 
 
 def post_create(request):
