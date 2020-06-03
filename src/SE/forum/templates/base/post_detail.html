@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load staticfiles %}
+{% load mptt_tags %}
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
     文章详情
@@ -57,27 +58,44 @@
     </div>
     <br>
 
-
-
-    <!-- 显示评论 -->
     <h4>共有{{ comments.count }}条评论</h4>
-    <div>
-        {% for comment in comments %}
-            <hr>
-            <p>
-                <strong style="color: pink">
-                    {{ comment.user }}
-                </strong> 于
-                <span style="color: green">
-                    {{ comment.created|date:"Y-m-d H:i:s" }}
-                </span> 时说：
-            </p>
-            <pre style="font-family: inherit; font-size: 1em;"> {{ comment.content }}</pre>
-        {% endfor %}
-    </div>
+    <div class="row">
+        {% recursetree comments %}
+            {% with comment=node %}
+                <div class="{% if comment.reply_to %} offset-1 col-11 {% else %} col-12 {% endif %}">
+                    <hr>
+                    <p>
+                        <strong style="color: pink">
+                            {{ comment.user }}
+                        </strong>
 
-    <!-- 目录 -->
-    <div class="col-3 mt-4">
-        ...
-    </div>
+                        {% if comment.reply_to %}
+                            <i class="far fa-arrow-alt-circle-right" style="color: cornflowerblue;"></i>
+                            <strong style="color: pink">
+                                {{ comment.reply_to }}
+                            </strong>
+                        {% endif %}
+                    </p>
+                    <div>{{ comment.content|safe }}</div>
+
+                    <div>
+                        <span style="color: gray">
+                            {{ comment.created|date:"Y-m-d H:i" }}
+                        </span>
+                        <!-- 加载 modal 的按钮 -->
+                        <button type="button" class="btn btn-light btn-sm text-muted">
+                            回复
+                        </button>
+                    </div>
+
+                    {% if not comment.is_leaf_node %}
+                        <div class="children">
+                            {{ children }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        {% endrecursetree %}
+    </div>>
+
 {% endblock main2 %}
