@@ -6,3 +6,13 @@
 {% block main1 %}
     <img src="{% static 'space/images/head.png' %}" style="width: 100%">
 {% endblock %}
+{% block side2_content %}
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+        </button>
+    </a>
+{% endblock %}
+
+{% block side3 %}
+{% endblock %}

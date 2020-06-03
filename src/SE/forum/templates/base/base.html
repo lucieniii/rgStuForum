@@ -77,12 +77,14 @@
                 <div class="dropdown-menu text-left" role="menu"
                      style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
                     <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
-                    <a class="dropdown-item" role="presentation" href="{% url 'logout' %}" style="font-size: 16px;padding-left: 10px;">登出</a>
+                    <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
+                       style="font-size: 16px;padding-left: 10px;">登出</a>
                 </div>
             {% else %}
                 <div class="dropdown-menu text-left" role="menu"
                      style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                    <a class="dropdown-item" role="presentation" href="{% url 'login' %}" style="font-size: 16px;padding-left: 10px;">登录</a>
+                    <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                       style="font-size: 16px;padding-left: 10px;">登录</a>
                 </div>
             {% endif %}
         {% endblock %}
@@ -97,52 +99,96 @@
             <div id="sidebar-wrapper" class="d-xl-flex flex-column justify-content-xl-start align-items-xl-center"
                  style="background-color: #f5f5f5;">
                 {% block sidebarMenu %}
+                    {% block side1 %}
                     <div class="d-xl-flex justify-content-xl-center"
                          style="padding: 0;margin-top: 20px;">
-                        <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
-                                type="button" style="height: 50px;width: 180px;padding: 0;">
-                                    <span class="d-xl-flex justify-content-xl-center align-items-xl-center"
-                                          style="font-size: 20px;width: 150px;height: 50px;">
-                                        <i class="fa fa-edit" style="padding-right: 20px;"></i>
-                                            发布帖子
-                                    </span>
-                        </button>
+                        {% block side1_content %}
+                            <div class="{% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                                style="width: 200px;">
+                                <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
+                                        type="button" style="height: 50px;width: 180px;padding: 0;">
+                                        <span class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                              style="font-size: 20px;width: 150px;height: 50px;">
+                                            <i class="fa fa-edit" style="padding-right: 20px;"></i>
+                                                发布帖子
+                                        </span>
+                                </button>
+                            </div>
+                        {% endblock %}
                     </div>
+                    {% endblock %}
+                    {% block side2 %}
                     <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
-                         style="width: 200px; margin-top: 20px;">
-                    <a href="{% url 'space' %}">
-                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                        </button>
-                    </a>
-                    <a href="{% url 'space' %}">
-                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                        </button>
-                    </a>
-                    <a href="{% url 'space' %}">
-                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                        </button>
-                    </a>
-                    <a href="{% url 'space' %}">
-                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                        </button>
-                    </a>
-                    <a href="{% url 'space' %}">
-                        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                        </button>
-                    </a>
+                             style="width: 200px; margin-top: 20px;">
+                        {% block side2_content %}
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        {% endblock %}
+                    </div>
+                    {% endblock %}
+                    {% block side3 %}
+                    <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                             style="width: 200px; margin-top: 20px;">
+                        {% block side3_content %}
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        <a href="{% url 'space' %}">
+                            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                            </button>
+                        </a>
+                        {% endblock %}
+                    </div>
+                    {% endblock %}
                 {% endblock %}
-                </div>
             </div>
         </div>
     {% endblock %}
     <div id="main" style="padding:30px 30px; max-width: 100%; background-color: rgba(255,255,255,0);">
 
-        <div {% block main1border %}class="border rounded"{% endblock %} style="width: 100%; height: auto; background: rgba(0,0,0,0);">
+        <div {% block main1border %}class="border rounded"{% endblock %}
+             style="width: 100%; height: auto; background: rgba(0,0,0,0);">
             {% block main1 %}
                 <div style="word-break: break-all;">
                     area1area1area1area1area1
