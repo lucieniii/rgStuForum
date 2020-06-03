@@ -14,6 +14,10 @@ def base(request):
     return render(request, 'base/base.html')
 
 
+def index(request):
+    return render(request, 'forum/index.html')
+
+
 def post_create(request):
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
