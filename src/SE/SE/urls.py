@@ -21,7 +21,7 @@ from space import views as view_space
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', view_login.index, name='index'),
+    path('index/', view_forum.index, name='index'),
     path('login/', view_login.login, name='login'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),

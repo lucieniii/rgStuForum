@@ -1,0 +1,83 @@
+{% extends 'base/base.html' %}
+
+
+{% block side2_content %}
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-book" style="padding-right: 10px"></i>课程推荐</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-pencil-square-o" style="padding-right: 10px"></i>刷题</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-map-marker" style="padding-right: 10px"></i>校园周边</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-share-square-o" style="padding-right: 10px"></i>资源共享</span>
+        </button>
+    </a>
+{% endblock %}
+
+{% block side3_content %}
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="查看关注用户" style="color: #06a2ec;">
+            <span><i class="fa fa-group" style="padding-right: 10px"></i>关注用户</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="查看回复和@" style="color: #06a2ec;">
+            <span><i class="fa fa-envelope" style="padding-right: 10px"></i>回复和@</span>
+        </button>
+    </a>
+    <a href="{% url 'space' %}">
+        <button class="button" type="button" data-hover="查看关注帖子" style="color: #06a2ec;">
+            <span><i class="fa fa-file-text	" style="padding-right: 10px"></i>关注帖子</span>
+        </button>
+    </a>
+    {% endblock %}
+
+{% block main1 %}
+    <div class="border flex-column">
+        <div>
+            <a href="#"><i class="fa fa-star"></i>标题 (link to post)</a>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div style="width: 30%">
+                发帖人信息&nbsp;&nbsp;&nbsp;发帖时间
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main2 %}
+    <div class="border flex-column">
+        <div>
+            <a href="#">标题 (link to post)</a>
+        </div>
+        <div>
+            （部分）内容
+        </div>
+        <div class="d-flex justify-content-between">
+            <div style="width: 70%">
+                <br/>
+                发帖板块&nbsp;&nbsp;回复次数
+            </div>
+            <div style="width: 30%">
+                发帖人信息
+                <br/>
+                发帖时间
+            </div>
+        </div>
+    </div>
+{% endblock %}

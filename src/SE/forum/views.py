@@ -6,12 +6,16 @@ from .form import CommentForm, PostForm
 from .models import Post, Tag
 from login.models import User
 # from django.contrib.auth.models import User
-from notifications.signals import notify
+# from notifications.signals import notify
 
 
 # Create your views here.
 def base(request):
     return render(request, 'base/base.html')
+
+
+def index(request):
+    return render(request, 'forum/index.html')
 
 
 def post_create(request):
