@@ -32,4 +32,5 @@ urlpatterns = [
     path('post_list/', view_forum.post_list, name='post_list'),
     path('post/<int:id>/', view_forum.post_detail, name='post_detail'),
     path('post_create/', view_forum.post_create, name='post_create'),
+    path('comment/', include('comment.urls', namespace='comment')),
 ]

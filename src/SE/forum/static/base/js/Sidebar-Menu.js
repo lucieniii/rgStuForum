@@ -18,7 +18,8 @@ function showSidebar() {
     const sidebar = document.getElementById("sidebar-wrapper");
     const nav = document.getElementById("navcol-1");
     const width = Number(window.innerWidth);
-    if (width > 768) {
+    //console.log(windowStatus);
+    if (width >= 768) {
         if (sidebar.offsetWidth === 0) {
             $("#wrapper").toggleClass("toggled");
         }

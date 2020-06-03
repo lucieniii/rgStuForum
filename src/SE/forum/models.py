@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 
 class Zone(models.Model):
@@ -28,13 +29,16 @@ class Post(models.Model):
         self.views += 1
         self.save(update_fields=['views'])
 
+    def get_absolute_url(self):
+        return reverse('post:post_detail', args=[self.id])
 
-class Comment(models.Model):
-    user = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
-    post = models.ForeignKey(to='Post', to_field='id', on_delete=models.CASCADE)
-    content = models.CharField(max_length=255)
-    create_time = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey(to='self', to_field='id', null=True, blank=True, on_delete=models.CASCADE)
+
+# class Comment(models.Model):
+#     user = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
+#     post = models.ForeignKey(to='Post', to_field='id', on_delete=models.CASCADE)
+#     content = models.CharField(max_length=255)
+#     create_time = models.DateTimeField(auto_now_add=True)
+#     parent = models.ForeignKey(to='self', to_field='id', null=True, blank=True, on_delete=models.CASCADE)
 
 
 # 分类表
