@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'space',
     'mptt',
     'notice',
-    'comment',
 ]
 
 MIDDLEWARE = [

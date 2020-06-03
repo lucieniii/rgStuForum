@@ -3,8 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 import markdown
 from django.shortcuts import render, get_object_or_404
 from .form import PostForm
-from .models import Post, Tag
-from comment.models import Comment
+from .models import Post, Tag, Comment
 from login.models import User
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
@@ -64,17 +63,19 @@ def post_create(request):
 
 
 def post_detail(request, id):
-    post = Post.objects.get(id=id)
-    comments = Comment.objects.filter(post=id)
-    # 将markdown语法渲染成html样式
-    post.content = markdown.markdown(post.content,
-                                     extensions=[
-                                         # 包含 缩写、表格等常用扩展
-                                         'markdown.extensions.extra',
-                                         # 语法高亮扩展
-                                         'markdown.extensions.codehilite',
-                                     ])
-    return render(request, 'base/post_detail.html', locals())
+    if request.method == 'GET':
+        post = Post.objects.get(id=id)
+        comments = Comment.objects.filter(post=id)
+        # 将markdown语法渲染成html样式
+        post.content = markdown.markdown(post.content,
+                                         extensions=[
+                                             # 包含 缩写、表格等常用扩展
+                                             'markdown.extensions.extra',
+                                             # 语法高亮扩展
+                                             'markdown.extensions.codehilite',
+                                         ])
+        return render(request, 'base/post_detail.html', locals())
+
 
 
 # 文章详情页面的视图函数

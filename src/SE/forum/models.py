@@ -1,6 +1,41 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
+from login.models import User
+
+
+class Comment(MPTTModel):
+    user = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(to='forum.Post', to_field='id', on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+
+    parent = TreeForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name='children'
+    )
+
+    # 新增，记录二级评论回复给谁, str
+    reply_to = models.ForeignKey(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='replyers'
+    )
+
+    # 替换 Meta 为 MPTTMeta
+    # class Meta:
+    #     ordering = ('created',)
+    class MPTTMeta:
+        order_insertion_by = ['created']
+
+    def __str__(self):
+        return self.content[:20]
 
 
 class Zone(models.Model):
@@ -13,7 +48,7 @@ class Post(models.Model):
     tag = models.ForeignKey(to='Tag', to_field='id', null=True, on_delete=models.CASCADE)
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
-    photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
+    # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
     content = models.TextField()
     title = models.CharField(verbose_name='帖子标题', max_length=64)
     author = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)

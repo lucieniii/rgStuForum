@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-{% load staticfiles %}
+{% load static %}
 {% load mptt_tags %}
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
@@ -34,10 +34,10 @@
     <!-- 发表评论 -->
     <hr>
     <div>
-        <form
-                action="{% url 'comment:post_comment' post.id %}"
+        <!--form
+                action=""
                 method="POST"
-        >
+        -->
             {% csrf_token %}
             <div class="form-group">
                 <label for="body">
@@ -54,7 +54,7 @@
             </div>
             <!-- 提交按钮 -->
             <button type="submit" class="btn btn-primary ">发送</button>
-        </form>
+        <!--/form-->
     </div>
     <br>
 
