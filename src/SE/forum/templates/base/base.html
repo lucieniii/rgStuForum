@@ -73,12 +73,18 @@
             {% endblock %}
         </a>
         {% block avatarMenu %}
-            <div class="dropdown-menu text-left" role="menu"
-                 style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
-                <a class="dropdown-item" role="presentation" href="#"
-                   style="font-size: 16px;padding-left: 10px;">登出</a>
-            </div>
+            {% if is_login %}
+                <div class="dropdown-menu text-left" role="menu"
+                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                    <a class="dropdown-item" role="presentation" href="#" style="padding-left: 10px;">个人空间</a>
+                    <a class="dropdown-item" role="presentation" href="{% url 'logout' %}" style="font-size: 16px;padding-left: 10px;">登出</a>
+                </div>
+            {% else %}
+                <div class="dropdown-menu text-left" role="menu"
+                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                    <a class="dropdown-item" role="presentation" href="{% url 'login' %}" style="font-size: 16px;padding-left: 10px;">登录</a>
+                </div>
+            {% endif %}
         {% endblock %}
     </div>
 </div>

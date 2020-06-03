@@ -14,14 +14,17 @@ def hash_code(s, salt='mysite'):
 
 
 def index(request):
+    is_login = True
     if not request.session.get('is_login', None):
-        return redirect('/login/')
-    return render(request, 'login/index.html')
+        is_login = False
+    return render(request, 'login/index.html', locals())
 
 
 def login(request):
+    is_login = False
     if request.session.get('is_login', None):  # 不允许重复登录
-        return redirect('/index/')
+        is_login = True
+        return redirect('/index/', locals())
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
         message = '请检查填写的内容！'
@@ -39,7 +42,8 @@ def login(request):
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
-                return redirect('/index/')
+                is_login = True
+                return redirect('/index/', locals())
             else:
                 message = '密码不正确！'
                 return render(request, 'login/login.html', locals())
@@ -51,7 +55,9 @@ def login(request):
 
 
 def register(request):
+    is_login = False
     if request.session.get('is_login', None):
+        is_login = True
         return redirect('/index/')
 
     if request.method == 'POST':
@@ -92,9 +98,9 @@ def register(request):
 
 
 def logout(request):
+    is_login = False
     if not request.session.get('is_login', None):
         return redirect('/login/')
 
     request.session.flush()
-    # del request.session['is_login']
-    return redirect("/login/")
+    return redirect("/index/", locals())
