@@ -1,16 +1,18 @@
 from django.shortcuts import render
-
-
-def index(request):
-    is_login = True
-    if not request.session.get('is_login', None):
-        is_login = False
-    return render(request, 'login/index.html', locals())
+from space.models import *
+from login.models import *
+from forum.models import *
 
 
 # Create your views here.
 def space(request):
-    return render(request, "space/space.html")
+    userid = request.session.get('user_id', None)
+    posts = Post.objects.filter(author=userid)
+    # 限定显示30个字符
+    for i in posts:
+        i.content = i.content[0:30]
+    context = {"posts": posts}
+    return render(request, "space/space.html", context)
 
 
 def settings(request):

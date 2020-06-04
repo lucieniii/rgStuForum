@@ -23,57 +23,49 @@
 
 {% endblock %}
 {% block side1_content %}
-    <div class="{% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
-        style="width: 200px;">
-        <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
-                type="button" style="height: 50px;width: 180px;padding: 0;">
-                <span class="d-xl-flex justify-content-xl-center align-items-xl-center"
-                      style="font-size: 20px;width: 150px;height: 50px;">
-                    <i class="fa fa-edit" style="padding-right: 20px;"></i>
-                        发布帖子
-                </span>
-        </button>
-    </div>
+
+    <img src="{% static 'base/images/logo.png' %}" style="height: 80%; width: 80%">
+    <div></div>
 {% endblock %}
 {% block side2_content %}
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;" class="fa">&#xf015</i>空间主页</span>
+            <button class="button" type="button" data-hover="进入个人空间" style="color: #06a2ec;">
+                <span><i style="padding-right:10px;" class="fa">&#xf015</i>个人空间</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <button class="button" type="button" data-hover="查看我的信息" style="color: #06a2ec;">
                 <span><i style="padding-right: 10px;" class="fa">&#xf022</i>我的信息</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <button class="button" type="button" data-hover="查看黑名单" style="color: #06a2ec;">
                 <span><i style="padding-right:10px ;" class="fa">&#xf119</i>黑名单</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <button class="button" type="button" data-hover="查看所有关注帖子" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>  关注用户</span>
+            <button class="button" type="button" data-hover="查看所有关注用户" style="color: #06a2ec;">
+                <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>关注用户</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
-            <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <button class="button" type="button" data-hover="查看我的私信" style="color: #06a2ec;">
                 <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
             </button>
         </a>
@@ -88,12 +80,14 @@
 
 
 {% block main2 %}
+{% for post in posts %}
+
     <div class="border flex-column" >
         <div>
-            <a href="#">标题 (link to post)</a>
+            <a href="#">{{post.title}}</a>
         </div>
         <div>
-            （部分）内容
+            {{post.content}}
         </div>
         <div class="d-flex justify-content-between">
             <div style="width: 70%">
@@ -107,6 +101,7 @@
             </div>
         </div>
     </div>
+{% endfor %}
     <article class="article02 form-group">
         <header class="" style="margin-bottom: 10px;">
             <h2 class="">
