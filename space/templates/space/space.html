@@ -1,18 +1,17 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 <head>
 	<meta charset="utf-8">
 	<!-- 2.引入Bootstrap 样式-->
-	<link href="../css/bootstrap.css" rel="stylesheet">
 	<!-- 3.引用个人定义的welcome主页样式 -->
-	<link rel="stylesheet" href="../css/welcome.css" /> <!-- !important 优先级最高 -->
+
 	<!-- 4.引入所有页面的公共样式 -->
-	<link rel="stylesheet" href="../css/base.css">
 </head>
 
-{% load static %}
-
-
+{% block newCSS %}
+    <link rel="stylesheet" href="{% static 'space/css/welcome.css' %}" /> <!-- !important 优先级最高 -->
+{% endblock %}
 
 {% block main1border %}
 
@@ -40,35 +39,35 @@
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;font-size:20px" class="fa">&#xf015</i>空间主页</span>
+                <span><i style="padding-right:10px;" class="fa">&#xf015</i>空间主页</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right: 10px;font-size:24px" class="fa">&#xf022</i>我的信息</span>
+                <span><i style="padding-right: 10px;" class="fa">&#xf022</i>我的信息</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px ;font-size:24px" class="fa">&#xf119</i>黑名单</span>
+                <span><i style="padding-right:10px ;" class="fa">&#xf119</i>黑名单</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;font-size:24px" class="fa">&#xf1ea</i>关注帖子</span>
+                <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;font-size:24px" class="fa">&#xf2ba</i>  关注用户</span>
+                <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>  关注用户</span>
             </button>
         </a>
     </div>
