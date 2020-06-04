@@ -112,3 +112,17 @@ def post_rank(request):
     # 根据自增的views字段进行排序，并获取最高的5条数据
     hot_doc = models.Post.objects.order_by("-views")[0:5]
     return render(request, "?????.html", {"post_data": post_data, 'hot_doc': hot_doc})  # TODO
+
+# 关注帖子
+def followPost(request):
+    pass
+
+# 关注用户
+def followUser(request):
+    pass
+
+# 拉黑
+def black(request):
+    pass
+
+
