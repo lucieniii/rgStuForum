@@ -1,5 +1,15 @@
 {% extends 'base/base.html' %}
 
+<head>
+	<meta charset="utf-8">
+	<!-- 2.引入Bootstrap 样式-->
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<!-- 3.引用个人定义的welcome主页样式 -->
+	<link rel="stylesheet" href="../css/welcome.css" /> <!-- !important 优先级最高 -->
+	<!-- 4.引入所有页面的公共样式 -->
+	<link rel="stylesheet" href="../css/base.css">
+</head>
+
 {% load static %}
 
 
@@ -30,35 +40,35 @@
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;" class="fa">&#xf015</i>空间主页</span>
+                <span><i style="padding-right:10px;font-size:20px" class="fa">&#xf015</i>空间主页</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right: 10px;" class="fa">&#xf022</i>我的信息</span>
+                <span><i style="padding-right: 10px;font-size:24px" class="fa">&#xf022</i>我的信息</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px ;" class="fa">&#xf119</i>黑名单</span>
+                <span><i style="padding-right:10px ;font-size:24px" class="fa">&#xf119</i>黑名单</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
+                <span><i style="padding-right:10px;font-size:24px" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
         </a>
     </div>
     <div>
         <a href="{% url 'space' %}">
             <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>  关注用户</span>
+                <span><i style="padding-right:10px;font-size:24px" class="fa">&#xf2ba</i>  关注用户</span>
             </button>
         </a>
     </div>
@@ -75,12 +85,11 @@
 
 {% block side3 %}
 
-
 {% endblock %}
 
 
 {% block main2 %}
-    <div class="border flex-column">
+    <div class="border flex-column" >
         <div>
             <a href="#">标题 (link to post)</a>
         </div>
@@ -99,5 +108,20 @@
             </div>
         </div>
     </div>
-
+    <article class="article02 form-group">
+        <header class="" style="margin-bottom: 10px;">
+            <h2 class="">
+                <a class=""  target="_blank" href="../details/details25.html"  title="免费小巧的截图工具 Snipaste 1.6.2 官方中文版"> 免费小巧的截图工具 Snipaste 1.6.2 官方中文版</a>
+            </h2>
+        </header>
+        <p class="note">Snipaste 是一个简单但强大的截图工具，也可以让你将截图贴回到屏幕上！按下 F1 来开始截图，再按 F3，截图就在桌面置顶显示了。就这么简单！ 你还可以将剪贴板里的文字或者颜色信息转化为图片窗口，并且将它...</p>
+        <p class="meta cursor-pointer a">
+            <a class="pc" href=""><i class="fa fa-comments-o"></i>评论(6)</a>
+            <a href="javascript:" class="pull-right" etap="like" class="post-like" data-pid="1504">
+                <i class="fa fa-thumbs-o-up"></i>赞(<span>23</span>)
+            </a>
+            <time class="a"><i class="fa fa-clock-o"></i>2019-10-11</time>
+            <span class="author a"><i class="fa fa-user"></i>卖瓜的王婆</span>
+        </p>
+    </article>
 {% endblock %}

@@ -1,0 +1,78 @@
+/*css基础样式*/
+/*1. css样式重置*/
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, menu, nav, section { padding: 0; margin: 0; /*所有盒子采用内减模式*/ box-sizing: border-box; /*在移动端去除默认点击高亮效果*/ -webkit-tap-highlight-color: transparent; }
+body {
+  font-size: 14px;
+  color: #333;
+  font-family: "Microsoft Yahei";
+}
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+a{ color: #333; }
+a:hover {
+  color: #ea7350;
+  text-decoration: none;
+}
+a:visited{
+  text-decoration: none;
+}
+a:active{
+  text-decoration: none;
+}
+/* 去除所有a的样式 */
+.a:hover {text-decoration: none;color: #ea7350;}
+input {
+  outline: none;
+  border: none;
+}
+em,
+i {
+  font-style: normal;
+}
+/*公共样式*/
+/*浮动*/
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+/*清除浮动*/
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  line-height: 0;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+  display: block;
+}
+/**/
+small{color: #777;font-size: 13px;}
+/* font-size: 13px; */
+/* 鼠标经过呈手型 */
+.cursor-pointer{
+  cursor: pointer;
+}
+/* 统一黑色 */
+.black{color: #111;}
+em{font-style: italic;}
+
+.clear_a{
+  color: #555;
+}
+.clear_a:hover{
+  color: #777;
+}
+/* 给所有a添加蓝色 */
+.a_blue{
+  color: #777;
+}
+.a_blue:hover{
+  transition: all 0.3s;
+  color: #45b6f7;
+}
