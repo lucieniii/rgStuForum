@@ -1,0 +1,93 @@
+body {
+    overflow-x: hidden;
+}
+
+#wrapper {
+    padding-left: 0;
+    width: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 10;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#wrapper.toggled {
+    position: absolute;
+    margin-right: -250px;
+}
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+}
+
+@media (min-width: 768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+}
+@media (max-width: 768px) {
+    #wrapper.toggled {
+        width: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        width: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    #wrapper.toggled  {
+        position: relative;
+        margin-right: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    #menu-toggle {
+        display: none;
+    }
+}
+
