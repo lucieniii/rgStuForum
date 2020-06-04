@@ -9,7 +9,7 @@ def index(request):
 
 
 # Create your views here.
-def sapce(request):
+def space(request):
     return render(request, "space/space.html")
 
 
