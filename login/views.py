@@ -28,6 +28,8 @@ def get_login_status(request):
 
 def login(request):
     is_login = get_login_status(request)
+    if is_login:
+        return render(request, 'forum/index.html')
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
         message = '请检查填写的内容！'
