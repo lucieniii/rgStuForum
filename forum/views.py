@@ -4,7 +4,7 @@ import markdown
 from django.shortcuts import render, get_object_or_404
 from .form import PostForm
 from .models import Post, Tag, Comment
-from ..login.models import User
+from login.models import User
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
