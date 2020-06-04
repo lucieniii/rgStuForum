@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
-from login.models import User
+from ..login.models import User
 
 
 class Comment(MPTTModel):
