@@ -49,25 +49,14 @@
 
 
 {% block main1 %}
-    <div class="border flex-column">
-        <div>
-            <a href="#"><i class="fa fa-star"></i>标题 (link to post)</a>
-        </div>
-        <div class="d-flex justify-content-between">
-            <div style="width: 30%">
-                发帖人信息&nbsp;&nbsp;&nbsp;发帖时间
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% for post in posts %}
 
-{% block main2 %}
-    <div class="border flex-column">
+    <div class="border flex-column" >
         <div>
-            <a href="#">标题 (link to post)</a>
+            <a href="#">{{post.title}}</a>
         </div>
         <div>
-            （部分）内容
+            {{post.content}}
         </div>
         <div class="d-flex justify-content-between">
             <div style="width: 70%">
@@ -81,4 +70,61 @@
             </div>
         </div>
     </div>
+{% endfor %}
+    <article class="article02 form-group">
+        <header class="" style="margin-bottom: 10px;">
+            <h2 class="">
+                <i class="fa fa-star" style="padding-right: 10px"></i>
+                <a class="" style="text-decoration:none;" target="_blank" href="../details/details25.html"  title="官方优选精帖：强烈推荐！"> 官方优选精帖：强烈推荐！</a>
+            </h2>
+        </header>
+        <p class="meta cursor-pointer a">
+            <time class="a"><i class="fa fa-clock-o"></i>2019-10-11</time>
+            <span class="author a"><i class="fa fa-user"></i>UC编辑部</span>
+        </p>
+    </article>
+{% endblock %}
+
+
+
+
+{% block main2 %}
+{% for post in posts %}
+
+    <div class="border flex-column" >
+        <div>
+            <a href="#">{{post.title}}</a>
+        </div>
+        <div>
+            {{post.content}}
+        </div>
+        <div class="d-flex justify-content-between">
+            <div style="width: 70%">
+                <br/>
+                发帖板块&nbsp;&nbsp;回复次数
+            </div>
+            <div style="width: 30%">
+                发帖人信息
+                <br/>
+                发帖时间
+            </div>
+        </div>
+    </div>
+{% endfor %}
+    <article class="article02 form-group">
+        <header class="" style="margin-bottom: 10px;">
+            <h2 class="">
+                <a class="" style="text-decoration:none;" target="_blank" href="../details/details25.html"  title="免费小巧的截图工具 Snipaste 1.6.2 官方中文版"> 免费小巧的截图工具 Snipaste 1.6.2 官方中文版</a>
+            </h2>
+        </header>
+        <p class="note">Snipaste 是一个简单但强大的截图工具，也可以让你将截图贴回到屏幕上！按下 F1 来开始截图，再按 F3，截图就在桌面置顶显示了。就这么简单！ 你还可以将剪贴板里的文字或者颜色信息转化为图片窗口，并且将它...</p>
+        <p class="meta cursor-pointer a">
+            <a style="text-decoration:none;" href="javascript:" class="pull-right" etap="like" class="post-like" data-pid="1504">
+                <i class="fa fa-thumbs-o-up"></i>赞(<span>23</span>)
+            </a>
+            <time class="a"><i class="fa fa-clock-o"></i>2019-10-11</time>
+            <span class="author a"><i class="fa fa-user"></i>卖瓜的王婆</span>
+            <a class="pc" style="text-decoration:none;" href=""><i class="fa fa-comments-o"></i>评论(6)</a>
+        </p>
+    </article>
 {% endblock %}
