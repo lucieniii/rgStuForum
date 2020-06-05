@@ -16,9 +16,23 @@ def base(request):
 
 
 # index-views
-def index(request):
+def index_old(request):
     is_login = get_login_status(request)
     return render(request, 'forum/index.html', locals())
+
+
+def index(request):
+    is_login = get_login_status(request)
+    userid = request.session.get('user_id', None)
+    posts = Post.objects.filter(author=userid)
+    # 限定显示30个字符
+    for i in posts:
+        if len(i.content) > 30:
+            i.content = i.content[0:30] + "..."
+    if posts:
+        return render(request, "forum/index.html", locals())
+    else:
+        return HttpResponse("暂无发帖记录")
 
 
 def forumBoard(request):
