@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from space.models import *
 from login.models import *
@@ -13,8 +14,30 @@ def space(request):
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
     context = {"posts": posts}
-    return render(request, "space/space.html", context)
+    if posts:
+        return render(request, "space/space.html", context)
+    else:
+        return HttpResponse("暂无发帖记录")
 
 
 def settings(request):
-    return render(request, "space/settings.html")
+    pass
+    '''
+    userid = request.session.get('user_id', None)
+    follows = Follow.objects.filter(FollowerID=userid)
+    context = {"follows": follows}
+    if follows:
+        return render(request, "space/settings.html", context)
+    else:
+        return HttpResponse("暂无关注用户")
+    '''
+
+    '''
+    userid = request.session.get('user_id', None)
+    favoritePosts = FavoritePost.objects.filter(UserID=userid)
+    context = {"favoritePosts": favoritePosts}
+    if favoritePosts:
+        return render(request, "space/settings.html", context)
+    else:
+        return HttpResponse("暂无收藏帖子")
+    '''
