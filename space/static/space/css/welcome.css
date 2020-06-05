@@ -4,8 +4,17 @@
     src: url('../fonts/MiFie-Web-Font.eot') format('embedded-opentype'), url('../fonts/MiFie-Web-Font.svg') format('svg'), url('../fonts/MiFie-Web-Font.ttf') format('truetype'), url('../fonts/MiFie-Web-Font.woff') format('woff');
   } */
   /* :root { --tiantest-green:#44a15b; --tiantest-green-light:rgba(165, 220, 134, 0.2); --tiantest-red:red; --tiantest-red-light1:rgba(168, 23, 26, 0.2) } */
-body{margin:0;padding:0;color:#333;font-family:'Microsoft YaHei';;}
-body{background:url(../images/bg01.jpg) no-repeat fixed left top;background-size: cover; background-color: #b4daf0;}
+.font {
+    font-family: "lucida grande",
+    "lucida sans unicode",
+    lucida,
+    helvetica,
+    "Hiragino Sans GB",
+    "MicrosoftYaHei",
+    "WenQuanYi Micro Hei",
+    sans-serif;
+    font-size: 18px;
+}
 img{border:0;}
 a{text-decoration:none;color:#333;}
 a:hover{text-decoration:underline;}
