@@ -3,19 +3,20 @@ from django.shortcuts import render
 from space.models import *
 from login.models import *
 from forum.models import *
+from login.views import get_login_status
 
 
 # Create your views here.
 def space(request):
+    is_login = get_login_status(request)
     userid = request.session.get('user_id', None)
     posts = Post.objects.filter(author=userid)
     # 限定显示30个字符
     for i in posts:
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
-    context = {"posts": posts}
     if posts:
-        return render(request, "space/space.html", context)
+        return render(request, "space/space.html", locals())
     else:
         return HttpResponse("暂无发帖记录")
 

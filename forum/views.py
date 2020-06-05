@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from .form import PostForm
 from .models import Post, Tag, Comment
 from login.models import User
+from login.views import get_login_status
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -16,7 +17,8 @@ def base(request):
 
 # index-views
 def index(request):
-    return render(request, 'forum/index.html')
+    is_login = get_login_status(request)
+    return render(request, 'forum/index.html', locals())
 
 
 def forumBoard(request):
