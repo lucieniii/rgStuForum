@@ -1,5 +1,5 @@
 .font {
-    font-family: "lucida grande",
+    /*font-family: "lucida grande",
     "lucida sans unicode",
     lucida,
     helvetica,
@@ -7,7 +7,16 @@
     "MicrosoftYaHei",
     "WenQuanYi Micro Hei",
     sans-serif;
-    font-size: 18px;
+    font-size: 18px;*/
+    font-family:
+            PingFang SC,
+            Hiragino Sans GB,
+            Arial,
+            Microsoft YaHei,
+            Verdana,Roboto,
+            Noto,
+            Helvetica Neue,
+            sans-serif !important
 }
 
 @media (min-width: 0px) {

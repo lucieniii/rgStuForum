@@ -4,7 +4,7 @@
     src: url('../fonts/MiFie-Web-Font.eot') format('embedded-opentype'), url('../fonts/MiFie-Web-Font.svg') format('svg'), url('../fonts/MiFie-Web-Font.ttf') format('truetype'), url('../fonts/MiFie-Web-Font.woff') format('woff');
   } */
   /* :root { --tiantest-green:#44a15b; --tiantest-green-light:rgba(165, 220, 134, 0.2); --tiantest-red:red; --tiantest-red-light1:rgba(168, 23, 26, 0.2) } */
-.font {
+/*.font {
     font-family: "lucida grande",
     "lucida sans unicode",
     lucida,
@@ -14,6 +14,17 @@
     "WenQuanYi Micro Hei",
     sans-serif;
     font-size: 18px;
+}*/
+.font {
+    font-family:
+            PingFang SC,
+            Hiragino Sans GB,
+            Arial,
+            Microsoft YaHei,
+            Verdana,Roboto,
+            Noto,
+            Helvetica Neue,
+            sans-serif !important
 }
 img{border:0;}
 a{text-decoration:none;color:#333;}
