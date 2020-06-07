@@ -14,6 +14,21 @@ $("#menu-toggle").click(function (e) {
     }
 });
 
+$("#navbartoggler").click(function (e) {
+    const sidebar = document.getElementById("sidebar-wrapper");
+    const nav = document.getElementById("navcol-1");
+    if (sidebar.offsetWidth !== 0) {
+        document.getElementById("menu-toggle").click();
+    }
+    if (nav.offsetHeight === 0) {
+        $("#nav-bar").animate({height: 150});
+        document.getElementById("main").style.opacity = "0.5";
+    } else {
+        $("#nav-bar").animate({height: 70});
+        document.getElementById("main").style.opacity = "1";
+    }
+})
+
 function showSidebar() {
     const sidebar = document.getElementById("sidebar-wrapper");
     const nav = document.getElementById("navcol-1");
@@ -38,18 +53,4 @@ function showSidebar() {
     }
 }
 
-$("#navbartoggler").click(function (e) {
-    const sidebar = document.getElementById("sidebar-wrapper");
-    const nav = document.getElementById("navcol-1");
-    if (sidebar.offsetWidth !== 0) {
-        document.getElementById("menu-toggle").click();
-    }
-    if (nav.offsetHeight === 0) {
-        $("#nav-bar").animate({height: 150});
-        document.getElementById("main").style.opacity = "0.5";
-    } else {
-        $("#nav-bar").animate({height: 70});
-        document.getElementById("main").style.opacity = "1";
-    }
-})
 window.addEventListener("resize", showSidebar);

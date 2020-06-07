@@ -99,7 +99,7 @@
   transition: border-bottom-color 0.3s;
 }
 
-@media (max-width:767px) {
+@media (max-width:768px) {
   .navigation-clean-search .form-inline .search-field {
     display: inline-block;
     width: 80%;

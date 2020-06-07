@@ -29,10 +29,9 @@ def index(request):
     for i in posts:
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
-    if posts:
-        return render(request, "forum/index.html", locals())
-    else:
-        return HttpResponse("暂无发帖记录")
+
+    return render(request, "forum/index.html", locals())
+
 
 
 def forumBoard(request):

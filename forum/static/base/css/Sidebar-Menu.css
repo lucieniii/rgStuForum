@@ -60,6 +60,7 @@ body {
         padding-left: 0;
     }
 }
+
 @media (max-width: 768px) {
     #wrapper.toggled {
         width: 0;
@@ -79,7 +80,7 @@ body {
 }
 
 @media (min-width: 768px) {
-    #wrapper.toggled  {
+    #wrapper.toggled {
         position: relative;
         margin-right: 0;
     }
@@ -88,6 +89,29 @@ body {
 @media (min-width: 768px) {
     #menu-toggle {
         display: none;
+    }
+
+    #toggleContainer {
+        max-width: 0;
+    }
+
+    #navbartogglercontainer {
+        max-width: 0;
+    }
+
+    #brandcontainer {
+        text-align: left!important;
+    }
+
+    #subcontainer {
+        justify-content: left!important;
+        width: 300px !important;
+    }
+}
+
+@media (max-width: 350px) {
+    #brand {
+        font-size: 0.9rem!important;
     }
 }
 

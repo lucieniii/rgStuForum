@@ -24,77 +24,87 @@
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
          id="nav-bar"
          style="z-index:11; position: fixed;left: 0; top: 0;background-color: #f5f5f5;width: 100%;height: 70px;">
-    <div class="container" style="">
 {% endblock %}
-
-<a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
-   style="background-color: rgba(255,255,255,0); margin-left: 5px; {% block sidebartogglervisibility %}{% endblock %}">
-    <i class="fa fa-bars"></i>
-</a>
-
-<a class="navbar-brand" href="{% url 'index' %}"
-   style="width: 250px;margin-left: -30px;font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
-    <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-top: -7px;">
-    &nbsp;Share Your Life
-</a>
-<button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler" id="navbartoggler"
-        style="width: 40px;padding: 0;height: 32px;margin-right: 8px;padding-bottom: 3px;margin-bottom: 0px;">
-    <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
-</button>
-<div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
-    <form class="form-inline mr-auto" target="_self">
-        <div class="form-group"
-             style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
-            <div class="dropdown" style="font-size: 20px;">
-                <a class="dropdown-toggle" data-toggle="dropdown"
-                   aria-expanded="false" href="#"
-                   style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
-                    <i class="fa fa-search" style="font-size: 20px;"></i>
-                </a>
-                {% block searchMenu %}
-                    <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                        <a class="dropdown-item" role="presentation" href="#">搜贴</a>
-                        <a class="dropdown-item" role="presentation" href="#">搜人</a>
-                    </div>
-                {% endblock %}
-            </div>
-            <input class="border rounded form-control search-field"
-                   type="search" id="search-field"
-                   name="search"
-                   style="width: 250px;margin-left: 12px;"
-                   placeholder="请输入关键字">
+<div class="container" style="width: 100%;">
+    <div class="d-flex justify-content-center" style="width: 100%;" id="subcontainer">
+        <div class="d-flex flex-fill align-items-center justify-content-center" id="toggleContainer">
+            <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
+               style="background-color: rgba(255,255,255,0);width: 100%;padding: 0;
+                           {% block sidebartogglervisibility %}{% endblock %}">
+                <i class="fa fa-bars"></i>
+            </a>
         </div>
-    </form>
-    <div class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
-           style="background-color: rgb(255,255,255);font-size: 0;">
-            <!--Avatar-->
-            {% block avatar %}
-                <img class="border rounded-circle"
-                     src="{% static 'base/images/logo.png' %}"
-                     style="width: 40px;height: 40px;">
-            {% endblock %}
-        </a>
-        {% block avatarMenu %}
-            {% if is_login %}
-                <div class="dropdown-menu text-left" role="menu"
-                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                    <a class="dropdown-item" role="presentation" href="{% url 'space' %}" style="padding-left: 10px;">个人空间</a>
-                    <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
-                       style="font-size: 16px;padding-left: 10px;">登出</a>
-                </div>
-            {% else %}
-                <div class="dropdown-menu text-left" role="menu"
-                     style="margin-left: -32px;width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                    <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
-                       style="font-size: 16px;padding-left: 10px;">登录</a>
-                    <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
-                       style="font-size: 16px;padding-left: 10px;">注册</a>
-                </div>
-            {% endif %}
-        {% endblock %}
+        <div class="align-middle" style="width: 75%;text-align: center;" id="brandcontainer">
+            <a class="navbar-brand" href="{% url 'index' %}"
+               style="font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
+                <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-left: 5px;">
+                <span class="align-baseline" style="font-size: 1.1rem; margin-left: 5px;"
+                      id="brand">Share Your Life</span>
+            </a>
+        </div>
+        <div class="d-flex flex-fill align-items-center justify-content-center" style="margin-left: 3px"
+             id="navbartogglercontainer">
+            <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler" id="navbartoggler"
+                    style="width: 80%;padding: 0 0 3px;height: 30px;">
+                <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
+            </button>
+        </div>
     </div>
-</div>
+    <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
+        <form class="form-inline mr-auto" target="_self">
+            <div class="form-group"
+                 style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
+                <div class="dropdown" style="font-size: 20px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="false" href="#"
+                       style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
+                        <i class="fa fa-search" style="font-size: 20px;"></i>
+                    </a>
+                    {% block searchMenu %}
+                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
+                            <a class="dropdown-item" role="presentation" href="#">搜人</a>
+                        </div>
+                    {% endblock %}
+                </div>
+                <input class="border rounded form-control search-field"
+                       type="search" id="search-field"
+                       name="search"
+                       style="width: 250px;margin-left: 12px;"
+                       placeholder="请输入关键字">
+            </div>
+        </form>
+        <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
+               style="background-color: rgb(255,255,255);font-size: 0;">
+                <!--Avatar-->
+                {% block avatar %}
+                    <img class="border rounded-circle"
+                         src="{% static 'base/images/avatar.jpeg' %}"
+                         style="width: 40px;height: 40px;">
+                {% endblock %}
+            </a>
+            {% block avatarMenu %}
+                {% if is_login %}
+                    <div class="dropdown-menu text-left" role="menu"
+                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                        <a class="dropdown-item" role="presentation" href="{% url 'space' %}"
+                           style="padding-left: 10px;">个人空间</a>
+                        <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
+                           style="font-size: 16px;padding-left: 10px;">登出</a>
+                    </div>
+                {% else %}
+                    <div class="dropdown-menu text-left" role="menu"
+                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                           style="font-size: 16px;padding-left: 10px;">登录</a>
+                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                           style="font-size: 16px;padding-left: 10px;">注册</a>
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
 </div>
 </nav>
 <div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start"
@@ -108,10 +118,7 @@
                         <div class="d-xl-flex justify-content-xl-center"
                              style="padding: 0;margin-top: 20px;">
                             {% block side1_content %}
-                                <div class="
-
-
-                                        {% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                                <div class="{% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
                                      style="width: 200px;">
                                     <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
                                             type="button" style="height: 50px;width: 180px;padding: 0;">
@@ -194,41 +201,43 @@
         </div>
     {% endblock %}
     {% block main %}
-    <div id="main" style="padding:30px 30px; width: 100%; background-color: rgba(255,255,255,0);">
+        <div id="main" style="padding:30px 30px; width: 100%; background-color: rgba(255,255,255,0);">
 
-        <div class="{% block main1border %}border rounded{% endblock %}"
-             style="width: 100%; height: auto; background: rgba(0,0,0,0);">
-            {% block main1 %}
-                <div style="word-break: break-all;">
-                    area1area1area1area1area1
-                    area1area1area1area1area1
-                    area1area1area1area1area1
-                    area1area1area1area1area1
-                    area1area1area1area1area1
-                    area1area1area1area1area1
-                </div>
-            {% endblock %}
+            <div class="{% block main1border %}border rounded{% endblock %}"
+                 style="width: 100%; height: auto; background: rgba(0,0,0,0);">
+                {% block main1 %}
+                    <div style="word-break: break-all;">
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                    </div>
+                {% endblock %}
+            </div>
+            <div class="{% block main2border %}border rounded{% endblock %} flex-column"
+                 style="width: 100%; height: auto; background: rgba(0,0,0,0); margin-top: 20px">
+                {% block main2 %}
+                    <div style="word-break: break-all;">
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                    </div>
+                {% endblock %}
+            </div>
         </div>
-        <div class="{% block main2border %}border rounded{% endblock %} flex-column"
-             style="width: 100%; height: auto; background: rgba(0,0,0,0); margin-top: 20px">
-            {% block main2 %}
-                <div style="word-break: break-all;">
-                    area2area2area2area2area2
-                    area2area2area2area2area2
-                    area2area2area2area2area2
-                    area2area2area2area2area2
-                    area2area2area2area2area2
-                    area2area2area2area2area2
-                </div>
-            {% endblock %}
-        </div>
-    </div>
     {% endblock %}
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
+{% block script %}
+    <script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
+{% endblock %}
 <script>
     function init() {
         document.body.style.height = Number(window.innerHeight).toString() + "px";

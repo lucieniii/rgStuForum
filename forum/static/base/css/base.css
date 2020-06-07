@@ -1,3 +1,6 @@
+body {
+    font-size: 62.5%;
+}
 .font {
     /*font-family: "lucida grande",
     "lucida sans unicode",
@@ -52,3 +55,17 @@
   flex-direction: column!important;
 }
 
+@media (max-width: 576px) {
+    #userInfo {
+        width: 100% !important;
+        flex-direction: row!important;
+        padding: 0!important;
+    }
+    #userInfo > div {
+        max-width: 50% !important;
+        margin: 0!important;
+    }
+    #postInfo {
+        width: 100% !important;
+    }
+}

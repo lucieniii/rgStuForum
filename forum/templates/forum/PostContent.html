@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block sidebar %}
 {% endblock %}
@@ -7,5 +8,56 @@
 {% endblock %}
 
 {% block main %}
-dasdasdasdad
+    <div class="d-flex align-items-center" style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);">
+        <div class="border-left border-right border-top" style="width: 90%; word-break: break-all;">
+            <div class="d-flex flex-row">
+                <div class="border d-flex flex-column align-items-center" style="padding: 10px; width: 100px" id="avatarBox">
+                    <div style="width: 75%">
+                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                             style="width: 100%" />
+                    </div>
+                    <div class="font d-flex flex-column" style="font-weight: bolder">
+                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 0.8rem">
+                            <span style="text-align: center">一二三四五六七八</span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                            <span style="font-size: 12px">新手</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="border flex-fill" style="font-size: 1.6em;">
+                    adsadasd
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        function handler() {
+            const width = Number(window.innerWidth);
+            if (width > 1440) {
+                document.getElementById("avatarBox").style.width = "150px";
+                document.getElementById("avatarBox").style.fontSize = "1rem";
+            }
+            else if (width < 375) {
+                document.getElementById("avatarBox").style.width = "100px";
+                document.getElementById("avatarBox").style.fontSize = "0.8rem";
+            }
+            else {
+                w = (width - 375) / 1065 * 50 + 100;
+                r = (width - 375) / 1065 * 0.2 + 0.8;
+                document.getElementById("avatarBox").style.width = w + "px";
+                document.getElementById("avatarBox").style.fontSize = r + "rem";
+            }
+        }
+        window.addEventListener("resize", handler);
+    </script>
+{% endblock %}
+
+{% block funcShowSidebar %}
 {% endblock %}
