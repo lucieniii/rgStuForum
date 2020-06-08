@@ -22,7 +22,7 @@ def space(request):
 
 
 def settings(request):
-    pass
+    return render(request, "space/settings.html")
     '''
     userid = request.session.get('user_id', None)
     follows = Follow.objects.filter(FollowerID=userid)
