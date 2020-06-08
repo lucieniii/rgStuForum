@@ -23,12 +23,13 @@ def index_old(request):
 
 def index(request):
     is_login = get_login_status(request)
-    userid = request.session.get('user_id', None)
-    posts = Post.objects.filter(author=userid)
+    user_id = request.session.get('user_id', None)
+    top_posts = Post.objects.filter(is_top=True)
+    hot_posts = Post.objects.order_by("-views")[0:5]
     if is_login:
-        user = User.objects.get(id=userid)
+        user = User.objects.get(id=user_id)
     # 限定显示30个字符
-    for i in posts:
+    for i in top_posts:
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
 
