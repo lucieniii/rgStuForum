@@ -66,7 +66,7 @@ def PostContent(request, id):
             for comment in comments:
                 if comment.reply_to_comment_id == comment_list[0].id:
                     comment_list[1].append(comment)
-        print(comments_lv1)
+        # print(comments_lv1)
         return render(request, 'forum/PostContent.html', locals())
 
 

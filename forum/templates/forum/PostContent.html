@@ -15,17 +15,17 @@
             <div class="d-flex flex-row">
                 <div class="d-flex flex-column align-items-center" style="padding: 10px; width: 120px" id="avatarBox">
                     <div style="width: 75%">
-                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                        <img src="{{ post.author.avatar.url }}" class="border rounded-circle"
                              style="width: 100%"/>
                     </div>
                     <div class="font d-flex flex-column" style="font-weight: bolder">
                         <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
-                            <span style="text-align: center">Exusiai</span>
+                            <span style="text-align: center">{{ post.author.name }}</span>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
                             <span class="rounded align-middle"
-                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
-                            <span style="font-size: 12px">新手</span>
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                            <span style="font-size: 0.8em">新手</span>
                         </div>
 
                     </div>
@@ -34,7 +34,14 @@
                     <div class="d-flex align-items-center" style="flex-grow: 1">
                         <span class="font" style="font-size: 1.1em; font-weight: bolder;">{{ post.title }}</span>
                     </div>
-                    <div class="d-flex flex-row" style="margin-top: 10px; justify-content: flex-end; font-size:0.9em">
+                </div>
+            </div>
+            <div class="d-flex"
+                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:1em">
+                <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
+                        <div class="d-sm-flex align-items-sm-center">
+                            {{ post.create_time | date:"Y-m-d" }}
+                        </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
                         </div>
@@ -43,79 +50,75 @@
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <i class="fa fa-heart-o" style="margin-left: 5px; padding-right: 2px"></i>
-                            关注
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                            举报
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                            编辑
                         </div>
                     </div>
-                </div>
             </div>
         </div>
         <div class="d-flex justify-content-center" style="width: 90%">
-            <div class="font" style="width: 92%; margin: 5px 0;font-size: 1.07em;">
+            <div class="font" style="width: 95%; margin: 10px 0;font-size: 1.07em;">
                 {{ post.content }}
             </div>
         </div>
         {% for comment in comments_lv1 %}
             <div class="border-top" style="width: 90%;">
-            <div class="d-flex flex-row">
-                <div class="d-flex flex-column align-items-center CommentAvatar" style="padding: 10px; width: 120px">
-                    <div style="width: 75%">
-                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
-                             style="width: 100%"/>
-                    </div>
-                    <div class="font d-flex flex-column" style="font-weight: bolder">
-                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
-                            <span style="text-align: center">Exusiai</span>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column align-items-center CommentAvatar"
+                         style="padding: 10px; width: 120px">
+                        <div style="width: 75%">
+                            <img src="{{ comment.0.user.avatar.url }}" class="border rounded-circle"
+                                 style="width: 100%"/>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                        <div class="font d-flex flex-column" style="font-weight: bolder">
+                            <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                                <span style="text-align: center">{{ comment.0.user.name }}</span>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px;">
                             <span class="rounded align-middle"
-                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
-                            <span style="font-size: 12px">新手</span>
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                                <span style="font-size: 0.8em">新手</span>
+                            </div>
                         </div>
-
                     </div>
-                </div>
-                <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
-                    <div class="d-flex align-items-center" style="flex-grow: 1">
-                        <span class="font" style="font-size: 1.1em;">{{ comment.0.content }}</span>
-                    </div>
-                    <div class="d-flex row " style="margin-top: 10px; justify-content: flex-end; font-size:0.9em">
-                        <div class="d-sm-flex align-items-sm-center">
-                            <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
-                        </div>
-                        <div class="d-sm-flex align-items-sm-center">
-                            <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
-                        </div>
-                        <div class="d-sm-flex align-items-sm-center">
-                            <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                            举报
-                        </div>
-                        <div class="d-sm-flex align-items-sm-center">
-                            <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                            编辑
-                        </div>
-                        <div class="d-sm-flex align-items-sm-center">
-                            <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
-                            删除
+                    <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                        <div class="d-flex align-items-center" style="flex-grow: 1">
+                            <span class="font" style="font-size: 1.1em;">{{ comment.0.content }}</span>
                         </div>
                     </div>
                 </div>
+                <div class="d-flex"
+                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:0.9em">
+                    <div class="d-sm-flex align-items-sm-center">
+                        {{ comment.0.created | date:"Y-m-d H:i:s" }}
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                </div>
+                {% for subcomments in comment.1 %}
+                    <div>
+                        {{ subcomments.content }}
+                        {{ subcomments.created }}
+                    </div>
+                {% endfor %}
             </div>
-            {% for subcomments in comment.1 %}
-                <div>
-                    {{ subcomments.content }}
-                    {{ subcomments.created }}
-                </div>
-            {% endfor %}
-
-        </div>
         {% endfor %}
 
 
@@ -165,11 +168,11 @@
                 //document.getElementById("avatarBox").style.fontSize = "1rem";
                 document.getElementById("titleWrapper").style.fontSize = "1rem";
             } else if (width < 375) {
-                avatarBox.style.minWidth = "100px";
-                avatarBox.style.maxWidth = "100px";
+                avatarBox.style.minWidth = "80px";
+                avatarBox.style.maxWidth = "80px";
                 Array.prototype.forEach.call(commentAvatars, function (el) {
-                    el.style.minWidth = "100px";
-                    el.style.maxWidth = "100px";
+                    el.style.minWidth = "80px";
+                    el.style.maxWidth = "80px";
                 });
                 Array.prototype.forEach.call(flexButtons, function (el) {
                     el.style.width = "40px";
@@ -180,7 +183,7 @@
                 //document.getElementById("avatarBox").style.fontSize = "0.8rem";
                 document.getElementById("titleWrapper").style.fontSize = "0.8rem";
             } else {
-                w = (width - 375) / 1065 * 50 + 100;
+                w = (width - 375) / 1065 * 70 + 80;
                 r = (width - 375) / 1065 * 0.2 + 0.8;
                 d = (width - 375) / 1065 * 20 + 40;
                 dr = (width - 375) / 1065 + 1;
