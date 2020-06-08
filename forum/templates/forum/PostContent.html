@@ -74,14 +74,106 @@
                 </div>
             </div>
         </div>
+        <div class="border-top" style="width: 90%;">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column align-items-center CommentAvatar" style="padding: 10px; width: 120px">
+                    <div style="width: 75%">
+                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                             style="width: 100%"/>
+                    </div>
+                    <div class="font d-flex flex-column" style="font-weight: bolder">
+                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                            <span style="text-align: center">Exusiai</span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                            <span style="font-size: 12px">新手</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                    <div class="d-flex align-items-center" style="flex-grow: 1">
+                        <span class="font" style="font-size: 1.1em;">评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</span>
+                    </div>
+                    <div class="" style="margin-top: 10px; justify-content: flex-end ">
+                        adsadasd
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top" style="width: 90%;">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column align-items-center CommentAvatar" style="padding: 10px; width: 120px">
+                    <div style="width: 75%">
+                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                             style="width: 100%"/>
+                    </div>
+                    <div class="font d-flex flex-column" style="font-weight: bolder">
+                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                            <span style="text-align: center">Exusiai</span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                            <span style="font-size: 12px">新手</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                    <div class="d-flex align-items-center" style="flex-grow: 1">
+                        <span class="font" style="font-size: 1.1em;">评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</span>
+                    </div>
+                    <div class="" style="margin-top: 10px; justify-content: flex-end ">
+                        adsadasd
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top" style="width: 90%;">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column align-items-center CommentAvatar" style="padding: 10px; width: 120px">
+                    <div style="width: 75%">
+                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                             style="width: 100%"/>
+                    </div>
+                    <div class="font d-flex flex-column" style="font-weight: bolder">
+                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                            <span style="text-align: center">Exusiai</span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 10px; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                            <span style="font-size: 12px">新手</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                    <div class="d-flex align-items-center" style="flex-grow: 1">
+                        <span class="font" style="font-size: 1.1em;">评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容评论内容</span>
+                    </div>
+                    <div class="" style="margin-top: 10px; justify-content: flex-end ">
+                        adsadasd
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/><br/><br/><br/><br/><br/><br/>
     </div>
 
 {% endblock %}
 
 {% block moreComponents %}
-    <div class="rounded-circle d-flex align-items-center justify-content-center flex-button"
-         style="z-index: 15; background-color: #046be2; position: absolute; width: 40px; height: 40px; top: 750px; left: 300px; font-size: 1em;">
-        <i class="fa fa-reply" style="color: white;"></i>
+    <div class="rounded-circle d-flex align-items-center justify-content-center flex-button" id="return-button"
+         style="z-index: 15; background-color: #046be2; position: fixed;">
+        <i class="fa fa-arrow-left" style="color: white;"></i>
+    </div>
+    <div class="rounded-circle d-flex align-items-center justify-content-center flex-button" id="reply-button"
+         style="z-index: 15; background-color: #046be2; position: fixed;">
+        <i class="fa fa-commenting-o" style="color: white;"></i>
     </div>
 {% endblock %}
 
@@ -94,9 +186,10 @@
             const avatarBox = document.getElementById("avatarBox");
             const flexButtons = document.getElementsByClassName("flex-button");
             const commentAvatars = document.getElementsByClassName("CommentAvatar");
-            const bodyHeight = document.body.clientHeight;
-            const bodyWidth = document.body.clientWidth;
-
+            const bodyHeight = window.innerHeight;
+            const bodyWidth = window.innerWidth;
+            document.getElementById("reply-button").style.left = bodyWidth - 100 + "px";
+            document.getElementById("return-button").style.left = bodyWidth - 180 + "px";
             if (width >= 1440) {
                 avatarBox.style.minWidth = "150px";
                 avatarBox.style.maxWidth = "150px";
@@ -108,6 +201,7 @@
                     el.style.width = "60px";
                     el.style.height = "60px";
                     el.style.fontSize = "2em";
+                    el.style.top = bodyHeight - 100 + "px";
                 });
                 //document.getElementById("avatarBox").style.fontSize = "1rem";
                 document.getElementById("titleWrapper").style.fontSize = "1rem";
@@ -122,6 +216,7 @@
                     el.style.width = "40px";
                     el.style.height = "40px";
                     el.style.fontSize = "2em";
+                    el.style.top = bodyHeight - 100 + "px";
                 });
                 //document.getElementById("avatarBox").style.fontSize = "0.8rem";
                 document.getElementById("titleWrapper").style.fontSize = "0.8rem";
@@ -140,6 +235,7 @@
                     el.style.width = d + "px";
                     el.style.height = d + "px";
                     el.style.fontSize = dr + "em";
+                    el.style.top = bodyHeight - 100 + "px";
                 });
                 //document.getElementById("avatarBox").style.fontSize = r + "rem";
                 document.getElementById("titleWrapper").style.fontSize = r + "rem";
@@ -172,7 +268,16 @@
                 document.getElementById("titleWrapper").style.opacity = "1";
             }
         })
-
+        /*
+        window.addEventListener('scroll', function (e) {
+            const bodyHeight = window.innerHeight;
+            const bodyWidth = window.innerWidth;
+            const flexButtons = document.getElementsByClassName("flex-button");
+            document.getElementById("reply-button").style.left = bodyWidth - 100 + "px";
+            Array.prototype.forEach.call(flexButtons, function (el) {
+                el.style.top = bodyHeight - 100 + "px";
+            });
+        });*/
     </script>
 {% endblock %}
 
