@@ -123,12 +123,11 @@
                                         回复
                                         {{ subcomments.reply_to }}:
                                     </div>
-                                    <div style="font-size:0.9em; margin-top: 3px">
+                                    <div style="font-size:0.9em; margin: 5px">
                                         {{ subcomments.content }}
-                                        {{ subcomments.created }}
                                     </div>
                                 </div>
-                                <div>something</div>
+                                <div>something {{ subcomments.created }}</div>
                             </div>
 
                         {% endfor %}
