@@ -33,7 +33,7 @@ def index(request):
     return render(request, "forum/index.html", locals())
 
 
-def forumBoard(request):
+def forumBoard(request, id):
     return render(request, 'forum/ForumBoard.html')
 
 
