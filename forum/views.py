@@ -72,8 +72,22 @@ def followPost(request):
     return render(request, 'forum/FollowPost.html')
 
 
-def PostContent(request):
-    return render(request, 'forum/PostContent.html')
+def PostContent(request, id):
+    if request.method == 'GET':
+        post = Post.objects.get(id=id)
+        comments = Comment.objects.filter(post=id)
+        # 将markdown语法渲染成html样式
+        comments_lv1 = []
+        for comment in comments:
+            if comment.reply_to is None:
+                comments_lv1.append([comment, []])
+
+        for comment_list in comments_lv1:
+            for comment in comments:
+                if comment.reply_to_comment_id == comment_list[0].id:
+                    comment_list[1].append(comment)
+        print(comments_lv1)
+        return render(request, 'forum/PostContent.html', locals())
 
 
 def post_create(request):

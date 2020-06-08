@@ -38,7 +38,7 @@ def space(request):
 
 
 def settings(request):
-    pass
+    return render(request, "space/settings.html")
     '''
     # 返回个人信息
     userid = request.session.get('user_id', None)
