@@ -15,7 +15,7 @@ def base(request):
     return render(request, 'base/base.html')
 
 
-# index-views
+# index-views old
 def index_old(request):
     is_login = get_login_status(request)
     return render(request, 'forum/index.html', locals())
