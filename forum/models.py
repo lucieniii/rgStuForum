@@ -45,7 +45,7 @@ class Zone(models.Model):
 
 # 帖子表
 class Post(models.Model):
-    tag = models.ForeignKey(to='Tag', to_field='id', null=True, on_delete=models.CASCADE)
+    section = models.ForeignKey(to='Section', to_field='id', null=True, on_delete=models.CASCADE)
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
     # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
@@ -78,7 +78,7 @@ class Post(models.Model):
 
 
 # 分类表
-class Tag(models.Model):
+class Section(models.Model):
     name = models.CharField(verbose_name='分类名称', max_length=16)
 
 

@@ -3,9 +3,11 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 import markdown
 from django.shortcuts import render, get_object_or_404
 from .form import PostForm
-from .models import Post, Tag, Comment
+from .models import Post, Section, Comment
 from login.models import User
 from login.views import get_login_status
+
+
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -36,8 +38,26 @@ def index(request):
     return render(request, "forum/index.html", locals())
 
 
+# 返回热帖hot_posts,以及普通帖子normal_posts
 def forumBoard(request, id):
-    return render(request, 'forum/ForumBoard.html')
+    if id == 1:  # 讨论区
+        hot_posts = Post.objects.filter(section=1).order_by("-views")[0:3]
+    elif id == 2:  # 课程推荐
+        hot_posts = Post.objects.filter(section=2).order_by("-views")[0:3]
+    elif id == 3:  # 刷题
+        hot_posts = Post.objects.filter(section=3).order_by("-views")[0:3]
+    elif id == 4:  # 校园周边
+        hot_posts = Post.objects.filter(section=4).order_by("-views")[0:3]
+    elif id == 5:  # 资源共享
+        hot_posts = Post.objects.filter(section=5).order_by("-views")[0:3]
+    else:
+        return HttpResponse("不存在这个板块")
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    normal_posts = Post.objects.order_by("create_time")
+    if is_login:
+        user = User.objects.get(id=user_id)
+    return render(request, 'forum/ForumBoard.html', locals())
 
 
 def followUser(request):
@@ -138,5 +158,3 @@ def post_rank(request):
 # 拉黑
 def black(request):
     pass
-
-
