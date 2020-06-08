@@ -56,16 +56,16 @@ body {
 }
 
 @media (max-width: 576px) {
-    #userInfo {
+    .userInfo {
         width: 100% !important;
         display: flex;
         flex-direction: row!important;
         padding: 0!important;
     }
-    #userInfo > div {
+    .userInfo > div {
         margin: 0!important;
     }
-    #postInfo {
+    .postInfo {
         width: 100% !important;
     }
     #top-userInfo {

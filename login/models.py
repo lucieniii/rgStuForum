@@ -17,6 +17,7 @@ class User(models.Model):
     sex = models.CharField(max_length=32, choices=gender, default="男")
     c_time = models.DateTimeField(auto_now_add=True)
 
+
     def __str__(self):
         return self.name
 

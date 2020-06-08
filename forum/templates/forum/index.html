@@ -91,7 +91,7 @@
 {% block main2 %}
     {% for post in posts %}
         <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}" style="padding: 10px 20px;">
-            <div class="flex-column" style="width: 75%;" id="postInfo">
+            <div class="flex-column postInfo" style="width: 75%;">
                 <div class="font" style="font-size: 16px;">
                     <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                         {{ post.title }}
@@ -111,7 +111,7 @@
                     </span>
                 </div>
             </div>
-            <div class="" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;" id="userInfo">
+            <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                 <div class="d-sm-flex align-items-sm-center flex-shrink-1">
                     <img class="rounded-circle" src="{% static 'base/images/logo.png' %}" style="width: 25px; height: 25px" />
                     <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名用户名用户名</span>
