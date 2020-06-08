@@ -216,8 +216,10 @@
                     </div>
                 {% endblock %}
             </div>
+            {% block main2nav %}
+            {% endblock %}
             <div class="{% block main2border %}border rounded{% endblock %} flex-column"
-                 style="width: 100%; height: auto; background: rgba(0,0,0,0); margin-top: 20px">
+                 style="width: 100%; height: auto; background: rgba(0,0,0,0); {% block main2-margintop %}margin-top: 20px;{% endblock %}">
                 {% block main2 %}
                     <div style="word-break: break-all;">
                         area2area2area2area2area2
