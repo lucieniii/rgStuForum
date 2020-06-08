@@ -112,12 +112,28 @@
                         <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
                     </div>
                 </div>
-                {% for subcomments in comment.1 %}
-                    <div>
-                        {{ subcomments.content }}
-                        {{ subcomments.created }}
+                {% if  comment.1|length  > 0 %}
+                    <div class="border rounded sub-comment"
+                         style="margin: 10px 3% 10px 12%; padding: 10px; background-color: rgb(255,255,255)">
+                        {% for subcomments in comment.1 %}
+                            <div class="{% if not forloop.last %}border-bottom{% endif %}" style="margin: 5px">
+                                <div>
+                                    <div style="font-weight:bolder; font-size:1em;">
+                                        {{ subcomments.user }}
+                                        回复
+                                        {{ subcomments.reply_to }}:
+                                    </div>
+                                    <div style="font-size:0.9em; margin-top: 3px">
+                                        {{ subcomments.content }}
+                                        {{ subcomments.created }}
+                                    </div>
+                                </div>
+                                <div>something</div>
+                            </div>
+
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         {% endfor %}
 
