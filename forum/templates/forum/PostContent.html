@@ -9,16 +9,16 @@
 
 {% block main %}
     <div class="d-flex align-items-center" style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);">
-        <div class="border-left border-right border-top" style="width: 90%; word-break: break-all;">
+        <div class="border-left border-right border-top" style="width: 90%;">
             <div class="d-flex flex-row">
-                <div class="border d-flex flex-column align-items-center" style="padding: 10px; width: 100px" id="avatarBox">
+                <div class="border d-flex flex-column align-items-center" style="padding: 10px; width: 120px" id="avatarBox">
                     <div style="width: 75%">
                         <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
                              style="width: 100%" />
                     </div>
                     <div class="font d-flex flex-column" style="font-weight: bolder">
                         <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 0.8rem">
-                            <span style="text-align: center">一二三四五六七八</span>
+                            <span style="text-align: center">Exusiai</span>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
                             <span class="rounded align-middle"
@@ -28,8 +28,13 @@
 
                     </div>
                 </div>
-                <div class="border flex-fill" style="font-size: 1.6em;">
-                    adsadasd
+                <div class="border d-flex flex-fill" style="font-size: 1.6em; padding: 10px; flex-direction: column;">
+                    <div class="border p-2" style="flex-grow: 0">
+                        <h5>标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</h5>
+                    </div>
+                    <div class="border" style="margin-top: 10px; justify-content: flex-end ">
+                        adsadasd
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,22 +46,29 @@
         function handler() {
             const width = Number(window.innerWidth);
             if (width > 1440) {
-                document.getElementById("avatarBox").style.width = "150px";
+                document.getElementById("avatarBox").style.minWidth = "150px";
+                document.getElementById("avatarBox").style.maxWidth = w + "px";
                 document.getElementById("avatarBox").style.fontSize = "1rem";
             }
             else if (width < 375) {
-                document.getElementById("avatarBox").style.width = "100px";
+                document.getElementById("avatarBox").style.minWidth = "100px";
+                document.getElementById("avatarBox").style.maxWidth = w + "px";
                 document.getElementById("avatarBox").style.fontSize = "0.8rem";
             }
             else {
                 w = (width - 375) / 1065 * 50 + 100;
                 r = (width - 375) / 1065 * 0.2 + 0.8;
-                document.getElementById("avatarBox").style.width = w + "px";
+                document.getElementById("avatarBox").style.minWidth = w + "px";
+                document.getElementById("avatarBox").style.maxWidth = w + "px";
                 document.getElementById("avatarBox").style.fontSize = r + "rem";
             }
         }
         window.addEventListener("resize", handler);
     </script>
+{% endblock %}
+
+{% block moreOnloadFunc %}
+    handler();
 {% endblock %}
 
 {% block funcShowSidebar %}

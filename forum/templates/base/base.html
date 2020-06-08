@@ -240,6 +240,8 @@
 {% endblock %}
 <script>
     function init() {
+        {% block moreOnloadFunc %}
+        {% endblock %}
         document.body.style.height = Number(window.innerHeight).toString() + "px";
     }
 </script>
