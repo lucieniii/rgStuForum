@@ -21,91 +21,91 @@
 {% block head %}
 {% endblock %}
 {% block navAttr %}
-    <nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
-         id="nav-bar"
-         style="z-index:11; position: fixed;left: 0; top: 0;background-color: #f5f5f5;width: 100%;height: 70px;">
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
+     id="nav-bar"
+     style="z-index:11; position: fixed;left: 0; top: 0;background-color: #f5f5f5;width: 100%;height: 70px;">
 {% endblock %}
-<div class="container" style="width: 100%;">
-    <div class="d-flex justify-content-center" style="width: 100%;" id="subcontainer">
-        <div class="d-flex flex-fill align-items-center justify-content-center" id="toggleContainer">
-            <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
-               style="background-color: rgba(255,255,255,0);width: 100%;padding: 0;
-                           {% block sidebartogglervisibility %}{% endblock %}">
-                <i class="fa fa-bars"></i>
-            </a>
-        </div>
-        <div class="align-middle" style="width: 75%;text-align: center;" id="brandcontainer">
-            <a class="navbar-brand" href="{% url 'index' %}"
-               style="font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
-                <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-left: 5px;">
-                <span class="align-baseline" style="font-size: 1.1rem; margin-left: 5px;"
-                      id="brand">Share Your Life</span>
-            </a>
-        </div>
-        <div class="d-flex flex-fill align-items-center justify-content-center" style="margin-left: 3px"
-             id="navbartogglercontainer">
-            <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler" id="navbartoggler"
-                    style="width: 80%;padding: 0 0 3px;height: 30px;">
-                <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
-            </button>
-        </div>
-    </div>
-    <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
-        <form class="form-inline mr-auto" target="_self">
-            <div class="form-group"
-                 style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
-                <div class="dropdown" style="font-size: 20px;">
-                    <a class="dropdown-toggle" data-toggle="dropdown"
-                       aria-expanded="false" href="#"
-                       style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
-                        <i class="fa fa-search" style="font-size: 20px;"></i>
-                    </a>
-                    {% block searchMenu %}
-                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
-                            <a class="dropdown-item" role="presentation" href="#">搜人</a>
-                        </div>
-                    {% endblock %}
-                </div>
-                <input class="border rounded form-control search-field"
-                       type="search" id="search-field"
-                       name="search"
-                       style="width: 250px;margin-left: 12px;"
-                       placeholder="请输入关键字">
+    <div class="container" style="width: 100%;">
+        <div class="d-flex justify-content-center" style="width: 100%;" id="subcontainer">
+            <div class="d-flex flex-fill align-items-center justify-content-center" id="toggleContainer">
+                <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
+                   style="background-color: rgba(255,255,255,0);width: 100%;padding: 0;
+                               {% block sidebartogglervisibility %}{% endblock %}">
+                    <i class="fa fa-bars"></i>
+                </a>
             </div>
-        </form>
-        <div class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
-               style="background-color: rgb(255,255,255);font-size: 0;">
-                <!--Avatar-->
-                {% block avatar %}
-                    <img class="border rounded-circle"
-                         src="{% static 'base/images/avatar.jpeg' %}"
-                         style="width: 40px;height: 40px;">
+            <div class="align-middle" style="width: 75%;text-align: center;" id="brandcontainer">
+                <a class="navbar-brand" href="{% url 'index' %}"
+                   style="font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
+                    <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-left: 5px;margin-top: -6px;">
+                    <span class="align-baseline" style="font-size: 1.1rem; margin-left: 5px;"
+                          id="brand">Share Your Life</span>
+                </a>
+            </div>
+            <div class="d-flex flex-fill align-items-center justify-content-center" style="margin-left: 3px"
+                 id="navbartogglercontainer">
+                <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler" id="navbartoggler"
+                        style="width: 80%;padding: 0 0 3px;height: 30px;">
+                    <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
+                </button>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
+            <form class="form-inline mr-auto" target="_self">
+                <div class="form-group"
+                     style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
+                    <div class="dropdown" style="font-size: 20px;">
+                        <a class="dropdown-toggle" data-toggle="dropdown"
+                           aria-expanded="false" href="#"
+                           style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
+                            <i class="fa fa-search" style="font-size: 20px;"></i>
+                        </a>
+                        {% block searchMenu %}
+                            <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                                <a class="dropdown-item" role="presentation" href="#">搜贴</a>
+                                <a class="dropdown-item" role="presentation" href="#">搜人</a>
+                            </div>
+                        {% endblock %}
+                    </div>
+                    <input class="border rounded form-control search-field"
+                           type="search" id="search-field"
+                           name="search"
+                           style="width: 250px;margin-left: 12px;"
+                           placeholder="请输入关键字">
+                </div>
+            </form>
+            <div class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
+                   style="background-color: rgb(255,255,255);font-size: 0;">
+                    <!--Avatar-->
+                    {% block avatar %}
+                        <img class="border rounded-circle"
+                             src="{% static 'base/images/avatar.jpeg' %}"
+                             style="width: 40px;height: 40px;">
+                    {% endblock %}
+                </a>
+                {% block avatarMenu %}
+                    {% if is_login %}
+                        <div class="dropdown-menu text-left" role="menu"
+                             style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                            <a class="dropdown-item" role="presentation" href="{% url 'space' %}"
+                               style="padding-left: 10px;">个人空间</a>
+                            <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
+                               style="font-size: 16px;padding-left: 10px;">登出</a>
+                        </div>
+                    {% else %}
+                        <div class="dropdown-menu text-left" role="menu"
+                             style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                            <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                               style="font-size: 16px;padding-left: 10px;">登录</a>
+                            <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                               style="font-size: 16px;padding-left: 10px;">注册</a>
+                        </div>
+                    {% endif %}
                 {% endblock %}
-            </a>
-            {% block avatarMenu %}
-                {% if is_login %}
-                    <div class="dropdown-menu text-left" role="menu"
-                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                        <a class="dropdown-item" role="presentation" href="{% url 'space' %}"
-                           style="padding-left: 10px;">个人空间</a>
-                        <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
-                           style="font-size: 16px;padding-left: 10px;">登出</a>
-                    </div>
-                {% else %}
-                    <div class="dropdown-menu text-left" role="menu"
-                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
-                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
-                           style="font-size: 16px;padding-left: 10px;">登录</a>
-                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
-                           style="font-size: 16px;padding-left: 10px;">注册</a>
-                    </div>
-                {% endif %}
-            {% endblock %}
+            </div>
         </div>
     </div>
-</div>
 </nav>
 <div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start"
      style="z-index:10; margin-top:70px; background-color: rgba(255,255,255,0);">
@@ -232,6 +232,8 @@
         </div>
     {% endblock %}
 </div>
+{% block moreComponents %}
+{% endblock %}
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
