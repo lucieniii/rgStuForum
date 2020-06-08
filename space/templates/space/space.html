@@ -86,7 +86,7 @@
 {% block main2 %}
     {% for post in posts %}
         <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}" style="padding: 10px 20px;">
-            <div class="flex-column" style="width: 75%;">
+            <div class="flex-column" style="width: 75%;" id="postInfo">
                 <div class="font" style="font-size: 16px;">
                     <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                         {{ post.title }}
@@ -106,12 +106,12 @@
                     </span>
                 </div>
             </div>
-            <div class="flex-column" style="width: 25%; margin: 10px 0">
+            <div class="flex-column" style="width: 25%; margin: 10px 0" id="userInfo">
                 <div class="d-sm-flex align-items-sm-center">
                     <img class="rounded-circle" src="{% static 'base/images/logo.png' %}" style="width: 25px; height: 25px" />
                     <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名</span>
                 </div>
-                <div style="margin-top: 10px; padding-left: 4px; color: #636363">
+                <div style="margin-top: 2px; padding-left: 4px; color: #636363">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
                         2019-10-11
