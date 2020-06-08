@@ -25,7 +25,7 @@ def index(request):
     is_login = get_login_status(request)
     user_id = request.session.get('user_id', None)
     top_posts = Post.objects.filter(is_top=True)
-    hot_posts = Post.objects.order_by("-views")[0:5]
+    hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
     if is_login:
         user = User.objects.get(id=user_id)
     # 限定显示30个字符
