@@ -58,6 +58,7 @@ body {
 @media (max-width: 576px) {
     #userInfo {
         width: 100% !important;
+        display: flex;
         flex-direction: row!important;
         padding: 0!important;
     }
