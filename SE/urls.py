@@ -26,6 +26,7 @@ urlpatterns = [
     path('FollowUser/', view_forum.followUser, name='FollowUser'),
     path('Mention/', view_forum.mention, name='Mention'),
     path('FollowPost/', view_forum.followPost, name='FollowPost'),
+    path('PostContent/', view_forum.PostContent, name='PostContent'),
     path('login/', view_login.login, name='login'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
@@ -33,8 +34,4 @@ urlpatterns = [
     path('space/', view_space.space, name='space'),
     path('settings/', view_space.settings, name='settings'),
     # path('notice/', include('notice.urls', namespace='notice')),
-    path('post_list/', view_forum.post_list, name='post_list'),
-    path('post/<int:id>/', view_forum.post_detail, name='post_detail'),
-    path('post_create/', view_forum.post_create, name='post_create'),
-    path('PostContent', view_forum.PostContent, name='PostContent')
 ]
