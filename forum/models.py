@@ -35,6 +35,7 @@ class Post(models.Model):
     title = models.CharField(verbose_name='帖子标题', max_length=64)
     author = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
+    is_top = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-create_time',)
