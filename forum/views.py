@@ -25,6 +25,8 @@ def index(request):
     is_login = get_login_status(request)
     userid = request.session.get('user_id', None)
     posts = Post.objects.filter(author=userid)
+    if is_login:
+        user = User.objects.get(id=userid)
     # 限定显示30个字符
     for i in posts:
         if len(i.content) > 30:

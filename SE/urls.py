@@ -18,6 +18,8 @@ from django.urls import path, include
 from login import views as view_login
 from forum import views as view_forum
 from space import views as view_space
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,3 +37,5 @@ urlpatterns = [
     path('settings/', view_space.settings, name='settings'),
     # path('notice/', include('notice.urls', namespace='notice')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # 图片相关
