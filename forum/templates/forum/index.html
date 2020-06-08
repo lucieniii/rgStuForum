@@ -66,13 +66,13 @@
             </div>
             <div class="d-sm-flex " style="width: 100%; margin: 10px 0 0 0; align-items:center; justify-content:flex-end;" id="top-userInfo">
                 <div class="d-sm-flex align-items-sm-center">
-                    <img class="rounded-circle" src="{% static 'base/images/logo.png' %}" style="width: 20px; height: 20px" />
-                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名</span>
+                    <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 20px; height: 20px" />
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ post.author.name }}</span>
                 </div>
                 <div class="d-sm-flex align-items-sm-center" style="padding-left: 4px; color: #636363; ">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        2019-10-11
+                        {{ post.create_time }}
                     </time>
                 </div>
             </div>
@@ -83,7 +83,7 @@
 
 
 
-<!--普通贴-->
+<!--热贴-->
 {% block main2border %}
     border-left border-right
 {% endblock %}
@@ -107,19 +107,19 @@
                     </span>
                         <span class="font"
                               style="font-size: 14px; font-weight:600;">
-                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论(6)
+                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comments.count}})
                     </span>
                 </div>
             </div>
             <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                 <div class="d-sm-flex align-items-sm-center flex-shrink-1">
-                    <img class="rounded-circle" src="{% static 'base/images/logo.png' %}" style="width: 25px; height: 25px" />
-                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名用户名用户名</span>
+                    <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 25px; height: 25px" />
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ post.author.name }}</span>
                 </div>
                 <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        2019-10-11
+                        {{ post.create_time }}
                     </time>
                 </div>
             </div>
