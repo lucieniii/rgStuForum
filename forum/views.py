@@ -33,7 +33,6 @@ def index(request):
     return render(request, "forum/index.html", locals())
 
 
-
 def forumBoard(request):
     return render(request, 'forum/ForumBoard.html')
 
@@ -132,13 +131,6 @@ def post_rank(request):
     hot_doc = models.Post.objects.order_by("-views")[0:5]
     return render(request, "?????.html", {"post_data": post_data, 'hot_doc': hot_doc})  # TODO
 
-# 关注帖子
-def followPost(request):
-    pass
-
-# 关注用户
-def followUser(request):
-    pass
 
 # 拉黑
 def black(request):
