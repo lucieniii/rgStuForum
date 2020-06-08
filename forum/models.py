@@ -11,7 +11,7 @@ class Comment(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
-    reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, on_delete=models.CASCADE, related_name='replyToComment')
+    reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE, related_name='replyToComment')
 
     class Meta:
         ordering = ('created',)
