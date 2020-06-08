@@ -8,13 +8,28 @@ from login.views import get_login_status
 
 # Create your views here.
 def space(request):
-    is_login = get_login_status(request)
+    # is_login = get_login_status(request)
     userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
     posts = Post.objects.filter(author=userid)
-    # 限定显示30个字符
+    comments = Comment.objects.filter(user=userid)
+    # Comment表里没有post的title属性，故在本地进行查询
+    '''
+    comments_tmp = Comment.objects.filter(user=userid)
+    comments = []
+    
+    for i in comments_tmp:
+        post = Post.objects.get(author=i.user, id=i.post)
+        title = post.title
+        author = user.name
+        tag = post.tag
+        dic = {'title': title, 'author': author, 'tag': tag}
+        comments.append(dic)
+    '''
+    # 限定显示100个字符
     for i in posts:
-        if len(i.content) > 30:
-            i.content = i.content[0:30] + "..."
+        if len(i.content) > 100:
+            i.content = i.content[0:100] + "..."
     if posts:
         return render(request, "space/space.html", locals())
     else:

@@ -115,7 +115,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
                           style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                        &nbsp;发帖板块&nbsp;
+                        &nbsp;{{ post.tag }}&nbsp;
                     </span>
                             <span class="font"
                                   style="font-size: 14px; font-weight:600;">
@@ -127,12 +127,12 @@
                         <div class="d-sm-flex align-items-sm-center flex-shrink-1">
                             <img class="rounded-circle" src="{% static 'base/images/logo.png' %}"
                                  style="width: 25px; height: 25px"/>
-                            <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名</span>
+                            <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{user.name}}</span>
                         </div>
                         <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                             <time style="font-size: 14px; font-weight:600;">
                                 <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                                2019-10-11
+                                {{post.create_time}}
                             </time>
                         </div>
                     </div>
@@ -140,21 +140,22 @@
             {% endfor %}
         </div>
         <div class="tab-pane fade" id="AllComments" role="tabpanel" aria-labelledby="Comment-tab">
+            {% for comment in comments %}
             <div class="d-sm-flex align-items-sm-center border-bottom"
                  style="padding: 10px 20px;">
                 <div class="flex-column postInfo" style="width: 75%;">
                     <div class="font" style="font-size: 16px;">
                         <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                            评论
+                            {{comment.post.title}}
                         </a>
                     </div>
                     <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                        评论
+                        {{comment.content}}
                     </div>
                     <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
                           style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                        &nbsp;发帖板块&nbsp;
+                        &nbsp;{{comment.post.tag}}&nbsp;
                     </span>
                         <span class="font"
                               style="font-size: 14px; font-weight:600;">
@@ -166,16 +167,17 @@
                     <div class="d-sm-flex align-items-sm-center flex-shrink-1">
                         <img class="rounded-circle" src="{% static 'base/images/logo.png' %}"
                              style="width: 25px; height: 25px"/>
-                        <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">用户名</span>
+                        <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{comment.user.name}}</span>
                     </div>
                     <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                         <time style="font-size: 14px; font-weight:600;">
                             <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                            2019-10-11
+                            {{ comment.created }}
                         </time>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 
