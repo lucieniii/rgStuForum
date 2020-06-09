@@ -23,9 +23,23 @@
 
 {% endblock %}
 {% block side1_content %}
-
-    <img src={{user.avatar.url}} style="height: 80%; width: 80%">
-    <div></div>
+    <div class="d-flex flex-column align-items-center" style="height: 100%; width: 100%">
+        <img class="font border rounded-circle" src="{{ user.avatar.url }}" style="height: 60%; width: 60%">
+        <div style="margin:5px; font-size: 2em; font-weight: bolder">
+            {{ user.name }}
+        </div>
+        <div class="font d-flex flex-column" style="font-weight: bolder">
+            <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                <span class="rounded align-middle"
+                      style="margin-right: 5px; padding: 0 4px; font-size: 1.2em; font-weight: bolder; color: white; background-color: #5baaff">
+                    lv 1
+                </span>
+                <span style="font-size: 1.3em">
+                    新手
+                </span>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block side2_content %}
     <div>
@@ -105,7 +119,8 @@
                      style="padding: 10px 20px;">
                     <div class="flex-column postInfo" style="width: 75%;">
                         <div class="font" style="font-size: 16px;">
-                            <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                            <a href="{{ post.get_absolute_url }}"
+                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 {{ post.title }}
                             </a>
                         </div>
@@ -125,14 +140,15 @@
                     </div>
                     <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                         <div class="d-sm-flex align-items-sm-center flex-shrink-1">
-                            <img class="rounded-circle" src="{{user.avatar.url}}"
+                            <img class="rounded-circle" src="{{ user.avatar.url }}"
                                  style="width: 25px; height: 25px"/>
-                            <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{user.name}}</span>
+                            <span class="font"
+                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ user.name }}</span>
                         </div>
                         <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                             <time style="font-size: 14px; font-weight:600;">
                                 <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                                {{post.create_time}}
+                                {{ post.create_time }}
                             </time>
                         </div>
                     </div>
@@ -141,42 +157,33 @@
         </div>
         <div class="tab-pane fade" id="AllComments" role="tabpanel" aria-labelledby="Comment-tab">
             {% for comment in comments %}
-            <div class="d-sm-flex align-items-sm-center border-bottom"
-                 style="padding: 10px 20px;">
-                <div class="flex-column postInfo" style="width: 75%;">
-                    <div class="font" style="font-size: 16px;">
-                        <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                            {{comment.post.title}}
-                        </a>
-                    </div>
-                    <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                        {{comment.content}}
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                    <span class="font rounded"
-                          style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                        &nbsp;{{comment.post.section.name}}&nbsp;
-                    </span>
-                        <span class="font"
-                              style="font-size: 14px; font-weight:600;">
-                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论(6)
-                    </span>
-                    </div>
-                </div>
-                <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
-                    <div class="d-sm-flex align-items-sm-center flex-shrink-1">
-                        <img class="rounded-circle" src="{{user.avatar.url}}"
-                             style="width: 25px; height: 25px"/>
-                        <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{comment.user.name}}</span>
-                    </div>
-                    <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
-                        <time style="font-size: 14px; font-weight:600;">
-                            <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                            {{ comment.created }}
-                        </time>
+                <div class="d-sm-flex align-items-sm-center border-bottom"
+                     style="padding: 10px 20px;">
+                    <div class="flex-column postInfo" style="width: 95%;">
+                        <div class="font" style="font-size: 16px;">
+                            <a href="{{ comment.post.get_absolute_url }}"
+                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                                回复&nbsp;<i>{{ comment.reply_to }}</i>&nbsp;于&nbsp;<i>{{ comment.post.title }}</i>
+                            </a>
+                        </div>
+                        <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                            {{ comment.content }}
+                        </div>
+                        <div class="d-sm-flex align-items-sm-center">
+                        <span class="font rounded"
+                              style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                            &nbsp;{{ comment.post.section.name }}&nbsp;
+                        </span>
+                            <span class="flex-shrink-1 align-center"
+                                  style="margin-top: 2px; padding-left: 4px; color: #636363;">
+                            <time style="font-size: 14px; font-weight:600;">
+                                <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                                {{ comment.created }}
+                            </time>
+                        </span>
+                        </div>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>

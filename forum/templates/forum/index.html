@@ -59,7 +59,7 @@
             <div style="width: 100%;">
                 <div class="font" style="font-size: 16px;">
                     <span class="badge badge-info">置顶帖</span>
-                    <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                    <a href="{{ post.get_absolute_url }}" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                         {{ post.title }}
                     </a>
                 </div>
@@ -93,7 +93,7 @@
         <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}" style="padding: 10px 20px;">
             <div class="flex-column postInfo" style="width: 75%;">
                 <div class="font" style="font-size: 16px;">
-                    <a href="#" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                    <a href="{{ post.get_absolute_url }}" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                         {{ post.title }}
                     </a>
                 </div>
