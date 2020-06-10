@@ -14,6 +14,8 @@ def space(request):
         user = User.objects.get(id=userid)
         posts = Post.objects.filter(author=userid)
         comments = Comment.objects.filter(user=userid)
+        for post in posts:
+            post.comment_count = len(Comment.objects.filter(post=post))
         # Comment表里没有post的title属性，故在本地进行查询
         # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
         '''
@@ -77,5 +79,12 @@ def settings(request):
     # 返回私信
     userid = request.session.get('user_id', None)
     messages = Message.objects.filter(SenderID=userid)
+    return render(request, "space/settings.html", locals())
+    '''
+
+    '''
+    # 返回权限信息
+    userid = request.session.get('user_id', None)
+    permissions = Permission.objects.filter(SenderID=userid)
     return render(request, "space/settings.html", locals())
     '''
