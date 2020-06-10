@@ -16,6 +16,7 @@ def space(request):
         comments = Comment.objects.filter(user=userid)
         # Comment表里没有post的title属性，故在本地进行查询
         # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
+
         '''
         comments_tmp = Comment.objects.filter(user=userid)
         comments = []
@@ -30,6 +31,7 @@ def space(request):
         '''
         # 限定显示100个字符
         for i in posts:
+            # print(i.comment_set.all().count)
             if len(i.content) > 100:
                 i.content = i.content[0:100] + "..."
         return render(request, "space/space.html", locals())

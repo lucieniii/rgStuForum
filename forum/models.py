@@ -40,6 +40,7 @@ class Post(models.Model):
     author = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
     is_top = models.BooleanField(default=False)
+    comment_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-create_time',)

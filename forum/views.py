@@ -100,26 +100,21 @@ def PostContent(request, s):
         # print(1)
         return render(request, 'forum/PostContent.html', locals())
     elif request.method == 'POST':
-        print(1)
         post = Post.objects.get(id=int(ls[0]))
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
-        print(2)
         if comment_form.is_valid():
-            print(3)
+            post.comment_count += 1
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
             new_comment = comment_form.save(commit=False)
             # 将评论和被评论的文章关联起来。
             new_comment.post = post
             new_comment.user = user
-            print(4)
             if ls[1] != '0':
                 new_comment.reply_to_id = int(ls[1])
             if ls[2] != '0':
                 new_comment.reply_to_comment_id = int(ls[2])
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
-            print(5)
             new_comment.save()
-            print(6)
             return redirect(reverse('PostContent', args=str(post.id)) , locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
