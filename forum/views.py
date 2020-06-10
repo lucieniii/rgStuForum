@@ -64,12 +64,57 @@ def followUser(request):
     return render(request, 'forum/FollowUser.html')
 
 
-def mention(request):
+def mention_old(request):
     return render(request, 'forum/Mention.html')
 
 
-def followPost(request):
+def mention(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        posts = Post.objects.filter(author=userid)
+        comments = Comment.objects.filter(user=userid)
+        # Comment表里没有post的title属性，故在本地进行查询
+        # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
+        '''
+        comments_tmp = Comment.objects.filter(user=userid)
+        comments = []
+    
+        for i in comments_tmp:
+            post = Post.objects.get(author=i.user, id=i.post)
+            title = post.title
+            author = user.name
+            tag = post.tag
+            dic = {'title': title, 'author': author, 'tag': tag}
+            comments.append(dic)
+        '''
+        # 限定显示100个字符
+        for i in posts:
+            if len(i.content) > 100:
+                i.content = i.content[0:100] + "..."
+        return render(request, "forum/Mention.html", locals())
+    else:
+        return redirect('/index/', locals())
+
+
+def followPost_old(request):
     return render(request, 'forum/FollowPost.html')
+
+
+def followPost(request):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    top_posts = Post.objects.filter(is_top=True)
+    hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
+    if is_login:
+        user = User.objects.get(id=user_id)
+    # 限定显示30个字符
+    for i in top_posts:
+        if len(i.content) > 30:
+            i.content = i.content[0:30] + "..."
+
+    return render(request, "forum/FollowPost.html", locals())
 
 
 def PostContent(request, s):
