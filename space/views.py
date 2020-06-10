@@ -39,6 +39,12 @@ def space(request):
 
 def settings(request):
     return render(request, "space/settings.html")
+
+    '''
+    is_login = get_login_status(request)
+    if is_login:
+    '''
+
     '''
     # 返回个人信息
     userid = request.session.get('user_id', None)
@@ -64,5 +70,12 @@ def settings(request):
     # 返回黑名单
     userid = request.session.get('user_id', None)
     blackList = BlackList.objects.filter(BlockerID=userid)
+    return render(request, "space/settings.html", locals())
+    '''
+
+    '''
+    # 返回私信
+    userid = request.session.get('user_id', None)
+    messages = Message.objects.filter(SenderID=userid)
     return render(request, "space/settings.html", locals())
     '''
