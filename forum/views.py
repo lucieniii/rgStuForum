@@ -64,8 +64,42 @@ def followUser(request):
     return render(request, 'forum/FollowUser.html')
 
 
-def mention(request):
+def mention_old(request):
     return render(request, 'forum/Mention.html')
+
+
+def mention(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        posts = Post.objects.filter(author=userid)
+        comments = Comment.objects.filter(user=userid)
+        # Comment表里没有post的title属性，故在本地进行查询
+        # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
+        '''
+        comments_tmp = Comment.objects.filter(user=userid)
+        comments = []
+    
+        for i in comments_tmp:
+            post = Post.objects.get(author=i.user, id=i.post)
+            title = post.title
+            author = user.name
+            tag = post.tag
+            dic = {'title': title, 'author': author, 'tag': tag}
+            comments.append(dic)
+        '''
+        # 限定显示100个字符
+        for i in posts:
+            if len(i.content) > 100:
+                i.content = i.content[0:100] + "..."
+        return render(request, "forum/Mention.html", locals())
+    else:
+        return redirect('/index/', locals())
+
+
+def followPost_old(request):
+    return render(request, 'forum/FollowPost.html')
 
 
 def followPost(request):
@@ -100,21 +134,26 @@ def PostContent(request, s):
         # print(1)
         return render(request, 'forum/PostContent.html', locals())
     elif request.method == 'POST':
+        print(1)
         post = Post.objects.get(id=int(ls[0]))
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
+        print(2)
         if comment_form.is_valid():
-            post.comment_count += 1
+            print(3)
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
             new_comment = comment_form.save(commit=False)
             # 将评论和被评论的文章关联起来。
             new_comment.post = post
             new_comment.user = user
+            print(4)
             if ls[1] != '0':
                 new_comment.reply_to_id = int(ls[1])
             if ls[2] != '0':
                 new_comment.reply_to_comment_id = int(ls[2])
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
+            print(5)
             new_comment.save()
+            print(6)
             return redirect(reverse('PostContent', args=str(post.id)) , locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
