@@ -150,6 +150,7 @@ def PostContent(request, s):
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         print(2)
         if comment_form.is_valid():
+            post.comment_count += 1
             print(3)
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
             new_comment = comment_form.save(commit=False)
