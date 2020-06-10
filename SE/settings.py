@@ -39,13 +39,14 @@ INSTALLED_APPS = [
     'space',
     'mptt',
     'ckeditor',
+    'ckeditor_uploader',
     'notice',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 CKEDITOR_IMAGE_BACKEND = "pillow"
 CKEDITOR_JQUERY_URL = 'https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'
-
+CKEDITOR_ENABLE_CSRF = True
 CKEDITOR_CONFIGS = {
     # django-ckeditor默认使用default配置
     'default': {
@@ -59,13 +60,13 @@ CKEDITOR_CONFIGS = {
         # 工具栏按钮
         'toolbar_Custom': [
             # 表情 代码块
-            ['Smiley', 'CodeSnippet'],
+            ['Smiley', 'Source', 'CodeSnippet'],
             # 字体风格
             ['Bold', 'Italic', 'Underline', 'RemoveFormat', 'Blockquote'],
             # 字体颜色
             ['TextColor', 'BGColor'],
             # 链接
-            ['Link', 'Unlink'],
+            ['Image', 'Link', 'Unlink'],
             # 列表
             ['NumberedList', 'BulletedList'],
             # 最大化

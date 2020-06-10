@@ -4,13 +4,15 @@ from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from login.models import User
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(to='forum.Post', to_field='id', on_delete=models.CASCADE, related_name='comments')
     # content = models.TextField()
-    content = RichTextField()  # 富文本编辑器
+    # content = RichTextField()  # 富文本编辑器
+    content = RichTextUploadingField()  # 富文本编辑器
     created = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
     reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE, related_name='replyToComment')

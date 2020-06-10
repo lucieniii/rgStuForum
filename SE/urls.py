@@ -19,6 +19,7 @@ from login import views as view_login
 from forum import views as view_forum
 from space import views as view_space
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -36,6 +37,7 @@ urlpatterns = [
     path('space/', view_space.space, name='space'),
     path('settings/', view_space.settings, name='settings'),
     # path('notice/', include('notice.urls', namespace='notice')),
+    url(r'', include('ckeditor_uploader.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # 图片相关

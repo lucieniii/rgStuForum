@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="{% static 'base/css/Button-Change-Text-on-Hover.css' %}">
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block newCSS %}{% endblock %}
+    <style type="text/css">
+        a,button,input,img{ outline: none; }
+    </style>
 </head>
 
 <body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;" onload="init()">

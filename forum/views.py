@@ -73,6 +73,13 @@ def followPost(request):
 
 
 def PostContent(request, id):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    comment_form = CommentForm(request.POST)
+    if not is_login:
+        return redirect("/index/", locals())
+    else:
+        user = User.objects.get(id=user_id)
     if request.method == 'GET':
         post = Post.objects.get(id=id)
         comments = Comment.objects.filter(post=id)
@@ -88,24 +95,21 @@ def PostContent(request, id):
                     comment_list[1].append(comment)
         # print(comments_lv1)
         return render(request, 'forum/PostContent.html', locals())
-    '''
     elif request.method == 'POST':
-        comment_form = CommentForm(request.POST)
+        post = Post.objects.get(id=id)
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         if comment_form.is_valid():
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
             new_comment = comment_form.save(commit=False)
             # 将评论和被评论的文章关联起来。
             new_comment.post = post
-            new_comment.user = request.user
+            new_comment.user = user
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
-           
-
             new_comment.save()
             return redirect(post)
         else:
             return HttpResponse("表单内容有误，请重新填写。")
-    '''
+
 
 def post_create(request):
     if request.method == "POST":
