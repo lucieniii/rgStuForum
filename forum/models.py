@@ -52,7 +52,7 @@ class Post(models.Model):
         self.save(update_fields=['views'])
 
     def get_absolute_url(self):
-        return reverse('PostContent', args=[self.id])
+        return reverse('PostContent', args=str(self.id))
 
 
 # class Comment(models.Model):

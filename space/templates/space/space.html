@@ -163,7 +163,11 @@
                         <div class="font" style="font-size: 16px;">
                             <a href="{{ comment.post.get_absolute_url }}"
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                                回复&nbsp;<i>{{ comment.reply_to }}</i>&nbsp;于&nbsp;<i>{{ comment.post.title }}</i>
+                                回复
+                                {% if comment.reply_to %}
+                                    <i>{{ comment.reply_to }}</i>&nbsp;于&nbsp;
+                                {% endif %}
+                                <i>{{ comment.post.title }}</i>
                             </a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">

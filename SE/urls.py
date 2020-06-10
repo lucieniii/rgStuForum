@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from login import views as view_login
 from forum import views as view_forum
 from space import views as view_space
@@ -29,7 +29,8 @@ urlpatterns = [
     path('FollowUser/', view_forum.followUser, name='FollowUser'),
     path('Mention/', view_forum.mention, name='Mention'),
     path('FollowPost/', view_forum.followPost, name='FollowPost'),
-    path('PostContent/<int:id>/', view_forum.PostContent, name='PostContent'),
+    # re_path(r'^PostContent/(?P<s>[0-9]+(&[0-9]+)*)/$', view_forum.PostContent, name='PostContent'),
+    path('PostContent/<str:s>/', view_forum.PostContent, name='PostContent'),
     path('login/', view_login.login, name='login'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),

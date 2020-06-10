@@ -4,6 +4,7 @@ from .models import Comment
 from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
+
 # 评论表单
 # 表单对应有一个数据库模型 用ModelForm
 class CommentForm(forms.ModelForm):
