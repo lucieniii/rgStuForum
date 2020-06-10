@@ -132,7 +132,7 @@
                                         {{ subcomments.reply_to }}:
                                     </div>
                                     <div style="font-size:0.9em; margin: 5px">
-                                        {{ subcomments.content }}
+                                        {{ subcomments.content | safe }}
                                     </div>
                                 </div>
                                 <div>something {{ subcomments.created }}</div>
