@@ -12,7 +12,7 @@ def space(request, id):
     if is_login:
         userid = request.session.get('user_id', None)
         is_owner = userid == id
-        print(is_owner)
+        # print(is_owner)
         user = User.objects.get(id=id)
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
