@@ -36,6 +36,7 @@ urlpatterns = [
     path('post_update/<int:id>/', view_forum.post_update, name='post_update'),
     path('post_list/', view_forum.post_list, name='post_list'),
     path('register/', view_login.register, name='register'),
+    # path('post_safe_delete/<int:id>/', view_forum.post_safe_delete, name='post_safe_delete'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
     path('space/<int:id>/', view_space.space, name='space'),

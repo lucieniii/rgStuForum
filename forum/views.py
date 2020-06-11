@@ -300,6 +300,18 @@ def post_list(request):
     return render(request, 'base/post_list.html', context)
 
 
+def post_safe_delete(request, id):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        post = Post.objects.get(id=id)
+        post.delete()
+        return redirect('/index/', locals())
+    else:
+        return HttpResponse("仅允许post请求")
+
+
 def post_rank(request):
     # 文档内容
     # 获取显示的文章id

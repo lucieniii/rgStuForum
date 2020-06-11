@@ -46,8 +46,8 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'login/login.html', locals())
 
-            if user.password == hash_code(password):
-            # if user.password == password:
+            # if user.password == hash_code(password):
+            if user.password == password:
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
