@@ -15,6 +15,7 @@ class FavoritePost(models.Model):
 
     class Meta:
         unique_together = ("UserID", "PostID")
+        ordering = ["-FavoriteTime"]
 
 
 class Follow(models.Model):
@@ -24,6 +25,7 @@ class Follow(models.Model):
 
     class Meta:
         unique_together = ("FollowerID", "FollowedID")
+        ordering = ["-FollowTime"]
 
 
 class Message(models.Model):
@@ -34,6 +36,7 @@ class Message(models.Model):
 
     class Meta:
         unique_together = ("SenderID", "ReceiverID")
+        ordering = ["-SendTime"]
 
 
 class BlackList(models.Model):
@@ -43,6 +46,7 @@ class BlackList(models.Model):
 
     class Meta:
         unique_together = ("BlockerID", "BlockedID")
+        ordering = ["-BlockTime"]
 
 
 class Permission(models.Model):
