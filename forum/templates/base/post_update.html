@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load staticfiles %}
+{% load static %}
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
     文章详情
@@ -11,6 +12,9 @@
 {% endblock main1 %}
 <!-- 写入 base.html 中定义的 content -->
 {% block main2 %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "prism/prism.js" %}"></script>
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -25,8 +29,12 @@
                     <div class="form-group">
                         <label for="body">文章正文</label>
                         <!-- 文本域不需要 value 属性，直接在标签体中嵌入数据即可 -->
-                        <textarea type="text" class="form-control" id="body" name="body"
-                                  rows="12">{{ post.content }}</textarea>
+                        <textarea name="editor1" id="editor1" rows="10" cols="80">
+                            {{ post.content }}
+                        </textarea>
+                        <script>
+                            CKEDITOR.replace( 'editor1' );
+                        </script>
                     </div>
                     <button type="submit" class="btn btn-primary">完成</button>
                 </form>
