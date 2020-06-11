@@ -36,9 +36,12 @@
         <div class="d-flex justify-content-center"
              style="margin-top: 15px; width: 100%; font-size: 1.8em;">
             <span>
-                <i class="fa fa-star" style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
-                <i class="fa fa-ban" style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
-                <i class="fa fa-times" style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
+                <i class="fa fa-star" id="follow"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
+                <i class="fa fa-ban" id="black"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
+                <i class="fa fa-times" id="ban"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
             </span>
         </div>
         {% endif %}
@@ -208,7 +211,6 @@
         </div>
     </div>
     <script>
-
         // 删除文章的函数
         {#function confirm_delete() {#}
         {#    // 调用layer弹窗组件#}
@@ -223,7 +225,59 @@
         {#            location.href='{% url "post_safe_delete" post.id %}'#}
         {#        },#}
         {#    })#}
+        function f() {
+            isf = {{ is_Following }};
+            isb =  {{ is_Ban }};
 
+            if (isf) {
+                document.getElementById("follow").style.color = "#e6db74";
+            } else {
+                document.getElementById("follow").style.color = "darkgrey";
+            }
+            if (isb) {
+                document.getElementById("follow").style.color = "red";
+            } else {
+                document.getElementById("follow").style.color = "darkgrey";
+            }
+        }
+    </script>
+    <script>
+        function thumbs(type, id, divid) {
+            $.ajax({
+                url: '/ajax/thumb/',
+                data: {
+                    "type": type,
+                    "id": id,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.isThumb) {
+                        document.getElementById(divid).className = "fa fa-thumbs-o-up";
+                    } else {
+                        document.getElementById(divid).className = "fa fa-thumbs-up";
+                    }
+                }
+            })
+        }
     </script>
 
+{% endblock %}
+
+{% block initParaInHtml %}
+{% endblock %}
+{% block initParaInFunc %}
+{% endblock %}
+{% block moreOnloadFunc %}
+    isf = {% if is_Following %}true{% else %}false{% endif %};
+    isb = {% if is_Ban %}true{% else %}false{% endif %};
+    if (isf) {
+        document.getElementById("follow").style.color = "#e6db74";
+    } else {
+        document.getElementById("follow").style.color = "darkgrey";
+    }
+    if (isb) {
+        document.getElementById("black").style.color = "red";
+    } else {
+        document.getElementById("black").style.color = "darkgrey";
+    }
 {% endblock %}

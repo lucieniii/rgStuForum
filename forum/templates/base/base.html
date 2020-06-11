@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;" onload="init()">
+<body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;" onload="init({% block initParaInHtml %}{% endblock %})">
 {% block head %}
 {% endblock %}
 {% block navAttr %}
@@ -213,7 +213,7 @@
 {% block morescript %}
 {% endblock %}
 <script>
-    function init() {
+    function init({% block initParaInFunc %}{% endblock %}) {
         {% block moreOnloadFunc %}
         {% endblock %}
         document.body.style.height = Number(window.innerHeight).toString() + "px";

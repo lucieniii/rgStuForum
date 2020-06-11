@@ -8,18 +8,24 @@ from forum.models import *
 from login.views import get_login_status
 
 
-
+def get_space_status(request, userid, ownerid):
+    is_login = get_login_status(request)
+    is_owner = (str(userid) == str(ownerid))
+    space_owner = User.objects.get(id=ownerid)
+    user = User.objects.get(id=userid)
+    is_Following = True
+    is_Ban = True
+    return is_login, is_owner, space_owner, user, is_Following, is_Ban
 
 
 # Create your views here.
 def space(request, id):
+
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_owner = (str(userid) == str(id))
-        space_owner = User.objects.get(id=id)
-        # print(is_owner)
-        user = User.objects.get(id=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
         for post in posts:
@@ -54,9 +60,8 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        is_owner = (str(userid) == str(id))
-        space_owner = User.objects.get(id=id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         if request.method == "POST":
             form = userInfo(request.POST, request.FILES, instance=user)
             # form = UserInfo(request.POST)
@@ -146,9 +151,8 @@ def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        is_owner = (str(userid) == str(id))
-        space_owner = User.objects.get(id=id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         follows = Follow.objects.filter(FollowerID=userid)
     else:
         return redirect('/index/', locals())
@@ -159,9 +163,8 @@ def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        is_owner = (str(userid) == str(id))
-        space_owner = User.objects.get(id=id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         blackLists = BlackList.objects.filter(BlockerID=userid)
     else:
         return redirect('/index/', locals())
