@@ -92,7 +92,7 @@ def register(request):
 
                 new_user = models.User()
                 new_user.name = username
-                new_user.password = password1
+                new_user.password = hash_code(password1)
                 new_user.email = email
                 # new_user.sex = sex
                 # new_user.avatar = avatar
