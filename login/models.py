@@ -11,7 +11,7 @@ class User(models.Model):
     )
 
     # zone = models.OneToOneField(to='forum.Zone', to_field='id', null=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(verbose_name='头像', upload_to='user_avatar/', blank=True, null=True)
+    avatar = models.ImageField(verbose_name='头像', upload_to='user_avatar/', blank=True, null=True, default='avatar.png')
     name = models.CharField(verbose_name='用户名', max_length=128, unique=True)
     age = models.IntegerField(verbose_name='年龄', blank=True, null=True)
     password = models.CharField(verbose_name='密码', max_length=256)

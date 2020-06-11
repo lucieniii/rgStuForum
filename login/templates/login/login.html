@@ -14,6 +14,7 @@
 </head>
 <body>
 <div class="container">
+    {% block form %}
     <div class="col">
         <form class="form-login" action="/login/" method="post">
             <img class="logo" src="{% static 'login/images/logo.png' %}" alt="logo" >
@@ -21,7 +22,7 @@
             {% csrf_token %}
 
             <!--h3 class="text-center">欢迎登录</h3-->
-            {% block form %}
+
             <div class="form-group">
                 <div class="wrap">
                     <div class="left" style="font-weight: bolder;">
@@ -53,7 +54,6 @@
                     <div style="color: red; margin-left: 2px; margin-top: 10px; font-size: 12px">{{ message }}</div>
                 {% endif %}
             </div>
-            {% endblock %}
             {% block button %}
             <div>
                 <button type="submit">登录</button>
@@ -61,6 +61,7 @@
             {% endblock %}
         </form>
     </div>
+    {% endblock %}
 </div> <!-- /container -->
 
 <!-- Optional JavaScript -->

@@ -70,7 +70,7 @@ def settings(request):
                 if g_error:
                     g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
 
-                return render(request, "space/setting.html", locals())
+                return render(request, "space/settings.html", locals())
 
         else:
             # email = user.email
