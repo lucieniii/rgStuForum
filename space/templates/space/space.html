@@ -16,10 +16,10 @@
 {% endblock %}
 {% block side1_content %}
     <div class="d-flex flex-column align-items-center" style="height: 100%; width: 100%">
-        <img class="font border rounded-circle" src="{{ user.avatar.url }}" style="width: 150px; height: 150px;">
+        <img class="font border rounded-circle" src="{{ space_owner.avatar.url }}" style="width: 150px; height: 150px;">
 
         <div style="margin:5px; font-size: 2em; font-weight: bolder">
-            {{ user.name }}
+            {{ space_owner.name }}
         </div>
         <div class="font d-flex flex-column" style="font-weight: bolder">
             <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
@@ -32,6 +32,7 @@
                 </span>
             </div>
         </div>
+        {% if not is_owner %}
         <div class="d-flex justify-content-center"
              style="margin-top: 15px; width: 100%; font-size: 1.8em;">
             <span>
@@ -40,52 +41,54 @@
                 <i class="fa fa-times" style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
             </span>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block side2_content %}
 
     <div>
-        <a href="{% url 'space' userid %}">
+        <a href="{% url 'space' space_owner.id %}">
             <button class="button" type="button" data-hover="进入个人空间" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf015</i>个人空间</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'settings' %}">
+        <a href="{% url 'settings' space_owner.id %}">
             <button class="button" type="button" data-hover="管理个人信息" style="color: #06a2ec;">
                 <span><i style="padding-right: 10px;" class="fa">&#xf022</i>个人信息</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'BlackList' %}">
+        <a href="{% url 'BlackList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理黑名单" style="color: #06a2ec;">
                 <span><i style="padding-right:10px ;" class="fa">&#xf119</i>黑名单</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'space' userid %}">
+        <a href="{% url 'space' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注帖子" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'FriendList' %}">
+        <a href="{% url 'FriendList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注用户" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>关注用户</span>
             </button>
         </a>
     </div>
-    <div>
-        <a href="{% url 'space' userid %}">
-            <button class="button" type="button" data-hover="管理我的私信" style="color: #06a2ec;">
-                <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
-            </button>
-        </a>
-    </div>
+
+        <div>
+            <a href="{% url 'space' space_owner.id %}">
+                <button class="button" type="button" data-hover="管理我的私信" style="color: #06a2ec;">
+                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
+                </button>
+            </a>
+        </div>
 {% endblock %}
 
 
@@ -147,12 +150,12 @@
                     </div>
                     <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                         <div class="d-sm-flex align-items-sm-center flex-shrink-1">
-                            <a href="{% url 'space' user.id %}">
-                                <img class="rounded-circle" src="{{ user.avatar.url }}"
+                            <a href="{% url 'space' space_owner.id %}">
+                                <img class="rounded-circle" src="{{ space_owner.avatar.url }}"
                                      style="width: 25px; height: 25px"/>
                             </a>
                             <span class="font"
-                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ user.name }}</span>
+                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ space_owner.name }}</span>
                         </div>
                         <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                             <time style="font-size: 14px; font-weight:600;">
