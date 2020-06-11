@@ -161,6 +161,11 @@ def PostContent(request, s):
 
 
 def post_create(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('/index/', locals())
+    user_id = request.session.get('user_id', None)
+    user = User.objects.get(id=user_id)
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
         post_form = PostForm(data=request.POST)
@@ -171,11 +176,11 @@ def post_create(request):
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
             # 此时请重新创建用户，并传入此用户的id
-            new_post.author = User.objects.get(id=1)
+            new_post.author = user
             # 将新文章保存到数据库中
             new_post.save()
             # 完成后返回到文章列表
-            return redirect("index")
+            return redirect('/index/', locals())
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")
