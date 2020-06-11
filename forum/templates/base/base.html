@@ -65,13 +65,13 @@
                     </a>
                     {% block searchMenu %}
                         <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
+                            <a class="dropdown-item" role="presentation" href="{% url 'post_list' %}?order=views&search={{ search }}">搜贴</a>
                             <a class="dropdown-item" role="presentation" href="#">搜人</a>
                         </div>
                     {% endblock %}
                 </div>
                 <input class="border rounded form-control search-field"
-                       type="search" id="search-field"
+                       type="search" id="search"
                        name="search"
                        style="width: 250px;margin-left: 12px;"
                        placeholder="请输入关键字">
