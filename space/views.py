@@ -13,9 +13,9 @@ def space(request, id):
         userid = request.session.get('user_id', None)
         is_owner = userid == id
         print(is_owner)
-        user = User.objects.get(id=userid)
-        posts = Post.objects.filter(author=userid)
-        comments = Comment.objects.filter(user=userid)
+        user = User.objects.get(id=id)
+        posts = Post.objects.filter(author=id)
+        comments = Comment.objects.filter(user=id)
         for post in posts:
             post.comment_count = len(Comment.objects.filter(post=post))
         # Comment表里没有post的title属性，故在本地进行查询

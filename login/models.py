@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 # Create your models here.
 
@@ -23,3 +23,6 @@ class User(models.Model):
 
     class Meta:
         ordering = ["-c_time"]
+
+    def get_absolute_url(self):
+        return reverse('space', args=str(self.id))
