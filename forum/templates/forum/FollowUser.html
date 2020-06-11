@@ -9,50 +9,39 @@
             <div class="d-flex flex-row">
                 <div class="d-flex flex-column align-items-center" style="padding: 10px; width: 120px" id="avatarBox">
                     <div style="width: 75%">
-                        <img src="{{ post.author.avatar.url }}" class="border rounded-circle"
+                        <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
                              style="width: 100%"/>
                     </div>
                     <div class="font d-flex flex-column" style="font-weight: bolder">
                         <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
-                            <span style="text-align: center">{{ post.author.name }}</span>
+                            <span style="text-align: center"></span>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
-                            <span class="rounded align-middle"
-                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
-                            <span style="font-size: 0.8em">新手</span>
-                        </div>
-
                     </div>
                 </div>
                 <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
                     <div class="d-flex align-items-center" style="flex-grow: 1">
-                        <span class="font" style="font-size: 1.1em; font-weight: bolder;">{{ post.title }}</span>
+                        <span class="font" style="font-size: 1.1em; font-weight: bolder;">用户姓名</span>
+                    </div>
+                    <div class="d-flex">
+                        <div class="rounded d-flex align-items-center"
+                             style="margin-right: 5px; display: block;
+                                  padding: 0 4px; text-align: center;
+                                   font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
+                            <span>lv 1</span>
+                        </div>
+                        <span style="font-size: 0.8em; font-weight: bolder;">新手</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center"
+                     style="max-width:100%; flex-direction:row; font-size:1.4em">
+                    <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
+                        <div class="d-sm-flex align-items-sm-center">
+                            <i class="fa fa-star" style="color: #e6db74; margin-left: 5px; padding-right: 2px"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex"
-                 style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:1em">
-                <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
-                    <div class="d-sm-flex align-items-sm-center">
-                        {{ post.create_time | date:"Y-m-d" }}
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-heart-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="d-flex justify-content-center" style="width: 90%">
             <div class="font" style="width: 90%; margin: 10px 0;font-size: 1.07em;">
@@ -97,7 +86,8 @@
                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
                     </div>
                     <div class="d-sm-flex align-items-sm-center">
-                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal" data-target="#ModalComment"
+                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                           data-target="#ModalComment"
                            style="text-decoration: none; color: black;" onclick="f(0, {{ comment.0.id }})">
                             <i class="fa fa-commenting" style="margin-left: 5px; padding-right: 2px"></i>
                         </a>
@@ -141,8 +131,10 @@
                                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
                                     </div>
                                     <div class="d-sm-flex align-items-sm-center">
-                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal" data-target="#ModalComment"
-                                           style="text-decoration: none; color: black;" onclick="f({{ subcomments.user.id }}, {{ comment.0.id }})">
+                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                                           data-target="#ModalComment"
+                                           style="text-decoration: none; color: black;"
+                                           onclick="f({{ subcomments.user.id }}, {{ comment.0.id }})">
                                             <i class="fa fa-commenting"
                                                style="margin-left: 5px; padding-right: 2px"></i>
                                         </a>
