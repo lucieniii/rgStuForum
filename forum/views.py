@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from login.views import get_login_status
 from django.db.models import Q
 
+
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -268,6 +269,9 @@ def post_detail(request, id):
 
 # 文章详情页面的视图函数
 def post_list(request):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    user = User.objects.get(id=user_id)
     search = request.GET.get('search')
     order = request.GET.get('order')
     # 用户搜索逻辑
@@ -296,7 +300,7 @@ def post_list(request):
     posts = paginator.get_page(page)
 
     # 增加 search 到 context
-    context = {'posts': posts, 'order': order, 'search': search}
+    context = {'posts': posts, 'order': order, 'search': search, 'user': user}
 
     return render(request, 'base/post_list.html', context)
 
