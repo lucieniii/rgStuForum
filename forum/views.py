@@ -5,8 +5,9 @@ from django.shortcuts import render, get_object_or_404
 from .form import PostForm, CommentForm
 from .models import Post, Section, Comment
 from login.models import User
+from django.core.paginator import Paginator
 from login.views import get_login_status
-
+from django.db.models import Q
 
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
@@ -267,26 +268,37 @@ def post_detail(request, id):
 
 # 文章详情页面的视图函数
 def post_list(request):
-    # post = get_object_or_404(Post, pk=id)
-    # post.body = markdown.markdown(post.body,
-    #                               extensions=[
-    #                                   'markdown.extensions.extra',
-    #                                   'markdown.extensions.codehilite',
-    #                                   'markdown.extensions.toc',
-    #                               ])
-    # # 记得在顶部导入 CommentForm
-    # form = CommentForm()
-    # # 获取这篇 post 下的全部评论
-    # comment_list = post.comment_set.all()
-    #
-    # # 将文章、表单、以及文章下的评论列表作为模板变量传给 detail.html 模板，以便渲染相应数据。
-    # context = {'post': post,
-    #            'form': form,
-    #            'comment_list': comment_list
-    #            }
-    # return render(request, 'post_list.html', context=context)
-    posts = Post.objects.all()
-    return render(request, 'base/post_list.html', locals())
+    search = request.GET.get('search')
+    order = request.GET.get('order')
+    # 用户搜索逻辑
+    if search:
+        if order == 'total_views':
+            # 用 Q对象 进行联合搜索
+            article_list = Post.objects.filter(
+                Q(title__icontains=search) |
+                Q(body__icontains=search)
+            ).order_by('-total_views')
+        else:
+            article_list = Post.objects.filter(
+                Q(title__icontains=search) |
+                Q(body__icontains=search)
+            )
+    else:
+        # 将 search 参数重置为空
+        search = ''
+        if order == 'total_views':
+            article_list = Post.objects.all().order_by('views')
+        else:
+            article_list = Post.objects.all()
+
+    paginator = Paginator(article_list, 3)  # 分页工具
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+
+    # 增加 search 到 context
+    context = {'posts': posts, 'order': order, 'search': search}
+
+    return render(request, 'base/post_list.html', context)
 
 
 def post_rank(request):
