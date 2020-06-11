@@ -12,13 +12,14 @@
         <div class="d-flex align-items-center flex-column"
              style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;"
              id="titleWrapper">
+            {% for follow in follows %}
             <div class="border-top" style="width: 90%;">
                 <div class="d-flex flex-row">
                     <div class="d-flex flex-column align-items-center CommentAvatar"
                          style="padding: 10px; width: 120px">
                         <div style="width: 75%">
                             <a href="#">
-                                <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                                <img src="{{ follow.FollowedID.avatar.url }}" class="border rounded-circle"
                                  style="width: 100%"/>
                             </a>
                         </div>
@@ -30,14 +31,14 @@
                     </div>
                     <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
                         <div class="d-flex align-items-center" style="flex-grow: 1">
-                            <span class="font" style="font-size: 1.1em; font-weight: bolder;">用户姓名</span>
+                            <span class="font" style="font-size: 1.1em; font-weight: bolder;">{{ follow.FollowedID.name }}</span>
                         </div>
                         <div class="d-flex">
                             <div class="rounded d-flex align-items-center"
                                  style="margin-right: 5px; display: block;
                                   padding: 0 4px; text-align: center;
                                    font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
-                                <span>lv 1</span>
+                                <span>lv 1 </span>
                             </div>
                             <span style="font-size: 0.8em; font-weight: bolder;">新手</span>
                         </div>
@@ -52,6 +53,7 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

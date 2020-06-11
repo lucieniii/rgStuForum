@@ -114,7 +114,7 @@ def settings(request):
     '''
     # 返回黑名单
     userid = request.session.get('user_id', None)
-    blackList = BlackList.objects.filter(BlockerID=userid)
+    blackLists = BlackList.objects.filter(BlockerID=userid)
     return render(request, "space/settings.html", locals())
     '''
 
@@ -133,21 +133,24 @@ def settings(request):
     '''
 
 
-def FriendList(request):
+def friendList(request):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
+        follows = Follow.objects.filter(FollowerID=userid)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/FriendList.html', locals())
 
 
-def BlackList(request):
+def blackList(request):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
+        blackLists = BlackList.objects.filter(BlockerID=userid)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlackList.html', locals())
+
