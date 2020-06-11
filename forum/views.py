@@ -271,7 +271,7 @@ def post_list(request):
     order = request.GET.get('order')
     # 用户搜索逻辑
     if search:
-        if order == 'total_views':
+        if order == 'views':
             # 用 Q对象 进行联合搜索
             article_list = Post.objects.filter(
                 Q(title__icontains=search) |
