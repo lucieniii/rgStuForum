@@ -33,6 +33,7 @@ urlpatterns = [
     path('PostContent/<str:s>/', view_forum.PostContent, name='PostContent'),
     path('login/', view_login.login, name='login'),
     path('post_create/', view_forum.post_create, name='post_create'),
+    path('post_update/<int:id>/', view_forum.post_update, name='post_update'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),

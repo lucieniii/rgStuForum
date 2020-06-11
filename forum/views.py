@@ -154,10 +154,50 @@ def PostContent(request, s):
             print(5)
             new_comment.save()
             print(6)
-            return redirect(reverse('PostContent', args=str(post.id)) , locals())
+            return redirect(reverse('PostContent', args=str(post.id)), locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
     # print(1)
+
+
+def post_update(request, id):
+    """
+    更新文章的视图函数
+    通过POST方法提交表单，更新 title、body字段
+    GET方法进入初始表单页面
+    id： 文章的 id
+    """
+    is_login = True
+    if not is_login:
+        return redirect('/index/', locals())
+    user_id = request.session.get('user_id', None)
+    user = User.objects.get(id=user_id)
+    # 获取需要修改的具体文章对象
+    post = Post.objects.get(id=id)
+    # 判断用户是否为 POST 提交表单数据
+    if request.method == "POST":
+        # 将提交的数据赋值到表单实例中
+        post_form = PostForm(data=request.POST)
+        # 判断提交的数据是否满足模型的要求
+        if post_form.is_valid():
+            # 保存新写入的 title、body 数据并保存
+            post.title = request.POST['title']
+            post.body = request.POST['body']
+            post.save()
+            # 完成后返回到修改后的文章中。需传入文章的 id 值
+            return render(request, 'forum/PostContent.html', locals())
+        # 如果数据不合法，返回错误信息
+        else:
+            return HttpResponse("表单内容有误，请重新填写。")
+
+    # 如果用户 GET 请求获取数据
+    else:
+        # 创建表单类实例
+        post_form = PostForm()
+        # 赋值上下文，将 article 文章对象也传递进去，以便提取旧的内容
+        context = {'post': post, 'post_form': post_form}
+        # 将响应返回到模板中
+        return render(request, 'base/post_update.html', locals())
 
 
 def post_create(request):
