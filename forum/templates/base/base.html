@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
     {% block newCSS %}{% endblock %}
     <style type="text/css">
-        a,button,input,img{ outline: none; }
+        a, button, input, img {
+            outline: none;
+        }
     </style>
 </head>
 
@@ -65,8 +67,10 @@
                     </a>
                     {% block searchMenu %}
                         <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
-                            <a class="dropdown-item" role="presentation" href="#">搜贴</a>
-                            <a class="dropdown-item" role="presentation" href="#">搜人</a>
+                            <a class="dropdown-item" role="presentation"
+                               href="{% url 'post_list' %}?order=total_views&search={{ search }}">搜贴</a>
+                            <a class="dropdown-item" role="presentation"
+                               href="{% url 'post_list' %}?order=total_views&search={{ search }}">搜人</a>
                         </div>
                     {% endblock %}
                 </div>
@@ -128,7 +132,8 @@
                              style="padding: 0;margin-top: 20px;">
                             {% block side1_content %}
                                 <a href="{% url 'post_create' %}">
-                                    <div class="{% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                                    <div class="
+                                            {% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
                                          style="width: 200px;">
                                         <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
                                                 type="button" style="height: 50px;width: 180px;padding: 0;">
@@ -147,9 +152,9 @@
                         <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
                              style="width: 200px; margin-top: 20px;">
                             {% block side2_content %}
-                                    <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                                        <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                                    </button>
+                                <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                                </button>
                             {% endblock %}
                         </div>
                     {% endblock %}
@@ -157,9 +162,9 @@
                         <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
                              style="width: 200px; margin-top: 20px;">
                             {% block side3_content %}
-                                    <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
-                                        <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
-                                    </button>
+                                <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                                </button>
                             {% endblock %}
                         </div>
                     {% endblock %}
