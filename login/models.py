@@ -11,12 +11,18 @@ class User(models.Model):
     )
 
     # zone = models.OneToOneField(to='forum.Zone', to_field='id', null=True, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='user_avatar/', blank=True, null=True)
-    name = models.CharField(max_length=128, unique=True)
-    password = models.CharField(max_length=256)
-    email = models.EmailField(unique=True)
-    sex = models.CharField(max_length=32, choices=gender, default="男")
-    c_time = models.DateTimeField(auto_now_add=True)
+    avatar = models.ImageField(verbose_name='头像', upload_to='user_avatar/', blank=True, null=True)
+    name = models.CharField(verbose_name='用户名', max_length=128, unique=True)
+    age = models.IntegerField(verbose_name='年龄', blank=True, null=True)
+    password = models.CharField(verbose_name='密码', max_length=256)
+    email = models.EmailField(verbose_name='邮箱', unique=True)
+    sex = models.CharField(verbose_name='性别', max_length=32, choices=gender, default="男")
+    school = models.CharField(verbose_name='学校', max_length=128, null=True, blank=True)
+    major = models.CharField(verbose_name='专业', max_length=128, null=True, blank=True)
+    is_admin = models.BooleanField(verbose_name='管理员', default=False)
+    c_time = models.DateTimeField(verbose_name='注册时间', auto_now_add=True)
+    exp = models.IntegerField(verbose_name='经验值', default=0)
+
 
     def __str__(self):
         return self.name

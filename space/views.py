@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from space.forms import userInfo
 from space.models import *
 from login.models import *
 from forum.models import *
@@ -12,7 +14,7 @@ def space(request, id):
     if is_login:
         userid = request.session.get('user_id', None)
         is_owner = userid == id
-        print(is_owner)
+        # print(is_owner)
         user = User.objects.get(id=id)
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
@@ -44,13 +46,44 @@ def space(request, id):
 
 
 def settings(request):
+    # 定制化提示信息，
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
-        return render(request, "space/settings.html", locals())
-    else:
-        return redirect('/index/', locals())
+        if request.method == "POST":
+            form = userInfo(request.POST, request.FILES, instance=user)
+            # form = UserInfo(request.POST)
+            # 如果全部输入信息有效
+            if form.is_valid():
+                form.save()
+                return HttpResponse("修改成功")
+            else:
+                # 失败
+                # 打印输入的信息
+                print("---", form.cleaned_data)  # 得到一个字典
+                print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
+                print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
+
+                g_error = form.errors.get("__all__")
+                print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
+                if g_error:
+                    g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
+
+                return render(request, "space/setting.html", locals())
+
+        else:
+            # email = user.email
+            # username = user.name
+            # # age = user.age
+            # data = {'username': username, 'age': 18, 'email': email}
+            # form = UserInfo(data)
+            form = userInfo(initial={'name': user.name, 'sex': user.sex, 'age': user.age,
+                                     'school': user.school, 'major': user.major,
+                                     'exp': user.exp, 'email': user.email, 'avatar': user.avatar}, instance=user)
+            return render(request, "space/settings.html", locals())
+
+    return render(request, "space/settings.html")
 
     '''
     is_login = get_login_status(request)

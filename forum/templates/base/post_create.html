@@ -1,4 +1,4 @@
-{% extends "base/base.html" %}
+{% extends "forum/index.html" %}
 {% load staticfiles %}
 {% load static %}
 <!-- 写入 base.html 中定义的 title -->
@@ -6,7 +6,10 @@
     文章详情
 {% endblock title %}
 
-{% block main1border %}
+{% block main2border %}
+    border
+{% endblock %}
+{% block main2-margintop %}
 {% endblock %}
 {% block main1 %}
 {% endblock main1 %}
@@ -15,7 +18,7 @@
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
     <script type="text/javascript" src="{% static "prism/prism.js" %}"></script>
-    <div class="container">
+    <div class="container" style="padding: 10px;">
         <div class="row">
             <div class="col-12">
                 <br>
@@ -26,19 +29,28 @@
                     <!-- 文章标题 -->
                     <div class="form-group">
                         <!-- 标签 -->
-                        <label for="title">文章标题</label>
+                        <div for="title" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章标题</div>
                         <!-- 文本框 -->
                         <input type="text" class="form-control" id="title" name="title">
                     </div>
                     <!-- 文章正文 -->
                     <div class="form-group">
-                        <label for="content">文章正文</label>
+                        <div for="content" style="font-size: 1.8em; font-weight: bolder; margin-bottom: 10px;">文章正文
+                        </div>
                         <!-- 文本区域 -->
                         <textarea name="content" id="content" rows="10" cols="80">
                             开始编辑您的文章
                         </textarea>
                         <script>
+<<<<<<< HEAD
                             CKEDITOR.replace( 'content' );
+=======
+                            // Replace the <textarea id="editor1"> with a CKEditor
+                            // instance, using default configuration.
+                            CKEDITOR.replace('editor1', {
+                                'height': '400px',
+                            });
+>>>>>>> fec8a894c32f8d307d198c1ca692fe6c744df6d4
                         </script>
                     </div>
                     <!-- 提交按钮 -->
