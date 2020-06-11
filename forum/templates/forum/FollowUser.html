@@ -3,11 +3,10 @@
 
 {% block main %}
     <div class="d-flex align-items-center flex-column"
-         style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;"
-         id="titleWrapper">
+         style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;">
         <div class="border-top" style="width: 90%;">
             <div class="d-flex flex-row">
-                <div class="d-flex flex-column align-items-center" style="padding: 10px; width: 120px" id="avatarBox">
+                <div class=" CommentAvatar d-flex flex-column align-items-center" style="padding: 10px; width: 120px">
                     <div style="width: 75%">
                         <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
                              style="width: 100%"/>
@@ -41,120 +40,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="d-flex justify-content-center" style="width: 90%">
-            <div class="font" style="width: 90%; margin: 10px 0;font-size: 1.07em;">
-                {{ post.content|safe }}
-            </div>
-        </div>
-        {% for comment in comments_lv1 %}
-            <div class="border-top" style="width: 90%;">
-                <div class="d-flex flex-row">
-                    <div class="d-flex flex-column align-items-center CommentAvatar"
-                         style="padding: 10px; width: 120px">
-                        <div style="width: 75%">
-                            <img src="{{ comment.0.user.avatar.url }}" class="border rounded-circle"
-                                 style="width: 100%"/>
-                        </div>
-                        <div class="font d-flex flex-column" style="font-weight: bolder">
-                            <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
-                                <span style="text-align: center">{{ comment.0.user.name }}</span>
-                            </div>
-                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px;">
-                            <span class="rounded align-middle"
-                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
-                                <span style="font-size: 0.8em">新手</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
-                        <div class="d-flex align-items-center" style="flex-grow: 1">
-                            <span class="font" style="font-size: 1.1em;">{{ comment.0.content|safe }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex"
-                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:0.9em">
-                    <div class="d-sm-flex align-items-sm-center">
-                        {{ comment.0.created | date:"Y-m-d H:i:s" }}
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
-                           data-target="#ModalComment"
-                           style="text-decoration: none; color: black;" onclick="f(0, {{ comment.0.id }})">
-                            <i class="fa fa-commenting" style="margin-left: 5px; padding-right: 2px"></i>
-                        </a>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                </div>
-                {% if  comment.1|length  > 0 %}
-                    <div class="border rounded sub-comment"
-                         style="margin: 10px 3% 10px 12%; padding: 10px; background-color: rgb(255,255,255)">
-                        {% for subcomments in comment.1 %}
-                            <div class="{% if not forloop.last %}border-bottom{% endif %}" style="margin: 5px">
-                                <div>
-                                    <div style="font-weight:bolder; font-size:1em;">
-                                        {{ subcomments.user }}
-                                        回复
-                                        {% if subcomments.reply_to %}
-                                            {{ subcomments.reply_to }}
-                                        {% endif %}
-                                    </div>
-                                    <div style="font-size:0.9em; margin: 5px">
-                                        {{ subcomments.content | safe }}
-                                    </div>
-                                </div>
-                                <div class="d-flex"
-                                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:0.9em">
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        {{ subcomments.created | date:"Y-m-d H:i:s" }}
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
-                                           data-target="#ModalComment"
-                                           style="text-decoration: none; color: black;"
-                                           onclick="f({{ subcomments.user.id }}, {{ comment.0.id }})">
-                                            <i class="fa fa-commenting"
-                                               style="margin-left: 5px; padding-right: 2px"></i>
-                                        </a>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <br/><br/><br/><br/><br/><br/><br/>
     </div>
+{% endblock %}
+{% block script %}
 {% endblock %}

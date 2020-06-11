@@ -96,3 +96,7 @@ def settings(request):
     permissions = Permission.objects.filter(SenderID=userid)
     return render(request, "space/settings.html", locals())
     '''
+
+
+def FriendList(request):
+    return render(request, 'space/FriendList.html', locals())
