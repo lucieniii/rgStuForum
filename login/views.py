@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from . import models
 from . import forms
 import hashlib
+
+
 # Create your views here.
 
 
@@ -95,6 +97,7 @@ def register(request):
                 new_user.email = email
                 new_user.sex = sex
                 new_user.avatar = avatar
+                new_user.level = 1
                 new_user.save()
 
                 return redirect('/login/')
