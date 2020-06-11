@@ -1,5 +1,6 @@
 from . import models
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
+from django.http import JsonResponse
 import markdown
 from django.shortcuts import render, get_object_or_404
 from .form import PostForm, CommentForm
@@ -300,16 +301,16 @@ def post_list(request):
     return render(request, 'base/post_list.html', context)
 
 
-def post_safe_delete(request, id):
-    is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
-    user = User.objects.get(id=user_id)
-    if request.method == 'POST':
-        post = Post.objects.get(id=id)
-        post.delete()
-        return redirect('/index/', locals())
-    else:
-        return HttpResponse("仅允许post请求")
+# def post_safe_delete(request, id):
+#   is_login = get_login_status(request)
+#   user_id = request.session.get('user_id', None)
+#   user = User.objects.get(id=user_id)
+#   if request.method == 'POST':
+#       post = Post.objects.get(id=id)
+#       post.delete()
+#       return redirect('/index/', locals())
+#   else:
+#       return HttpResponse("仅允许post请求")
 
 
 def post_rank(request):
@@ -328,3 +329,14 @@ def post_rank(request):
 # 拉黑
 def black(request):
     pass
+
+
+def thumb(request):
+    request.GET.get("type", None)
+    request.GET.get("id", None)
+    data = {
+        "isThumb": False
+    }
+
+    return JsonResponse(data)
+

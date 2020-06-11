@@ -16,6 +16,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
     reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE, related_name='replyToComment')
+    absoluteUps = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('created',)
@@ -41,6 +42,7 @@ class Post(models.Model):
     views = models.PositiveIntegerField(default=0)
     is_top = models.BooleanField(default=False)
     comment_count = models.IntegerField(default=0)
+    absoluteUps = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('-create_time',)
