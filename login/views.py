@@ -76,8 +76,6 @@ def register(request):
             password1 = register_form.cleaned_data.get('password1')
             password2 = register_form.cleaned_data.get('password2')
             email = register_form.cleaned_data.get('email')
-            sex = register_form.cleaned_data.get('sex')
-            avatar = register_form.cleaned_data.get('avatar')
             if password1 != password2:
                 message = '两次输入的密码不同！'
                 return render(request, 'login/register.html', locals())
@@ -95,8 +93,8 @@ def register(request):
                 new_user.name = username
                 new_user.password = hash_code(password1)
                 new_user.email = email
-                new_user.sex = sex
-                new_user.avatar = avatar
+                # new_user.sex = sex
+                # new_user.avatar = avatar
                 new_user.level = 1
                 new_user.save()
 
