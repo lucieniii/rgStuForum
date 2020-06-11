@@ -1,11 +1,15 @@
-{% extends "base/base.html" %}
+{% extends "forum/index.html" %}
 {% load staticfiles %}
 {% load static %}
 <!-- 写入 base.html 中定义的 title -->
 {% block title %}
     文章详情
 {% endblock title %}
-
+{% block main2border %}
+    border
+{% endblock %}
+{% block main2-margintop %}
+{% endblock %}
 {% block main1border %}
 {% endblock %}
 {% block main1 %}
@@ -15,25 +19,29 @@
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
     <script type="text/javascript" src="{% static "prism/prism.js" %}"></script>
-    <div class="container">
+    <div class="container" style="padding: 10px;">
         <div class="row">
             <div class="col-12">
                 <br>
                 <form method="post" action=".">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="title">文章标题</label>
+                        <div for="title" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章标题</div>
                         <!-- 在 value 属性中指定文本框的初始值为旧的内容，即 post 对象中的 title 字段 -->
                         <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}">
                     </div>
                     <div class="form-group">
-                        <label for="body">文章正文</label>
+                        <div for="title" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章正文</div>
                         <!-- 文本域不需要 value 属性，直接在标签体中嵌入数据即可 -->
                         <textarea name="editor1" id="editor1" rows="10" cols="80">
                             {{ post.content }}
                         </textarea>
                         <script>
-                            CKEDITOR.replace( 'editor1' );
+                            // Replace the <textarea id="editor1"> with a CKEditor
+                            // instance, using default configuration.
+                            CKEDITOR.replace('editor1', {
+                                'height': '250px',
+                            });
                         </script>
                     </div>
                     <button type="submit" class="btn btn-primary">完成</button>
