@@ -81,7 +81,7 @@
                 <i class="fa fa-times" id="ban"
                    style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
             </span>
-            </div>
+        </div>
         {% endif %}
     </div>
 {% endblock %}
@@ -249,6 +249,7 @@
         </div>
     </div>
     <script>
+
         // 删除文章的函数
         {#function confirm_delete() {#}
         {#    // 调用layer弹窗组件#}
@@ -281,6 +282,13 @@
         }
     </script>
 
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block initParaInHtml %}
