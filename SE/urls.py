@@ -40,6 +40,7 @@ urlpatterns = [
     path('space/', view_space.space, name='space'),
     path('settings/', view_space.settings, name='settings'),
     path('FriendList/', view_space.FriendList, name='FriendList'),
+    path('BlackList/', view_space.BlackList, name='BlackList'),
     # path('notice/', include('notice.urls', namespace='notice')),
     url(r'', include('ckeditor_uploader.urls')),
 ]

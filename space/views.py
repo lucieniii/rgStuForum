@@ -99,4 +99,16 @@ def settings(request):
 
 
 def FriendList(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
     return render(request, 'space/FriendList.html', locals())
+
+
+def BlackList(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    return render(request, 'space/BlackList.html', locals())
