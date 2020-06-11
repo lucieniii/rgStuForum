@@ -56,7 +56,10 @@ def settings(request):
             # form = UserInfo(request.POST)
             # 如果全部输入信息有效
             if form.is_valid():
-                form.save()
+                image = form.cleaned_data.get('avatar')
+                print(image)
+                # request.user.avatar = image
+                form.save(commit=True)
                 return HttpResponse("修改成功")
             else:
                 # 失败
