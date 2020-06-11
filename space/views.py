@@ -7,10 +7,12 @@ from login.views import get_login_status
 
 
 # Create your views here.
-def space(request):
+def space(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
+        is_owner = userid == id
+        print(is_owner)
         user = User.objects.get(id=userid)
         posts = Post.objects.filter(author=userid)
         comments = Comment.objects.filter(user=userid)
@@ -103,6 +105,8 @@ def FriendList(request):
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
+    else:
+        return redirect('/index/', locals())
     return render(request, 'space/FriendList.html', locals())
 
 
@@ -111,4 +115,6 @@ def BlackList(request):
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
+    else:
+        return redirect('/index/', locals())
     return render(request, 'space/BlackList.html', locals())

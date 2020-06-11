@@ -25,12 +25,12 @@ def index_old(request):
 
 def index(request):
     is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    # 限定显示30个字符
     top_posts = Post.objects.filter(is_top=True)
     hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
-    if is_login:
-        user = User.objects.get(id=user_id)
-    # 限定显示30个字符
     for i in top_posts:
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
@@ -53,15 +53,21 @@ def forumBoard(request, id):
     else:
         return HttpResponse("不存在这个板块")
     is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
-    normal_posts = Post.objects.order_by("create_time")
     if is_login:
-        user = User.objects.get(id=user_id)
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    normal_posts = Post.objects.order_by("create_time")
     return render(request, 'forum/ForumBoard.html', locals())
 
 
 def followUser(request):
-    return render(request, 'forum/FollowUser.html')
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'forum/FollowUser.html', locals())
 
 
 def mention_old(request):
@@ -103,18 +109,28 @@ def followPost_old(request):
 
 
 def followPost(request):
-    return render(request, 'forum/FollowPost.html')
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'forum/FollowPost.html', locals())
 
 
 def PostContent(request, s):
     is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    else:
+        return redirect('/index/', locals())
     comment_form = CommentForm(request.POST)
     ls = s.split("&")
     if not is_login:
         return redirect("/index/", locals())
     else:
-        user = User.objects.get(id=user_id)
+        user = User.objects.get(id=userid)
     if request.method == 'GET':
         if len(ls) > 1:
             return redirect("/index/", locals())
@@ -167,11 +183,12 @@ def post_update(request, id):
     GET方法进入初始表单页面
     id： 文章的 id
     """
-    is_login = True
-    if not is_login:
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    else:
         return redirect('/index/', locals())
-    user_id = request.session.get('user_id', None)
-    user = User.objects.get(id=user_id)
     # 获取需要修改的具体文章对象
     post = Post.objects.get(id=id)
     # 判断用户是否为 POST 提交表单数据
@@ -202,10 +219,11 @@ def post_update(request, id):
 
 def post_create(request):
     is_login = get_login_status(request)
-    if not is_login:
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+    else:
         return redirect('/index/', locals())
-    user_id = request.session.get('user_id', None)
-    user = User.objects.get(id=user_id)
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
         post_form = PostForm(data=request.POST)
