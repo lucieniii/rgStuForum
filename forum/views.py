@@ -175,7 +175,7 @@ def post_create(request):
             # 将新文章保存到数据库中
             new_post.save()
             # 完成后返回到文章列表
-            return redirect("post_list")
+            return redirect("index")
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")

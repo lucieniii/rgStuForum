@@ -82,7 +82,7 @@
                style="background-color: rgb(255,255,255);font-size: 0;">
                 <!--Avatar-->
                 {% block avatar %}
-                    {% if is_login and user.avtar%}
+                    {% if is_login %}
                         <img class="border rounded-circle"
                              src="{{ user.avatar.url }}"
                              style="width:40px; height: 40px;">
