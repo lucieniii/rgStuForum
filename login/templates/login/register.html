@@ -2,9 +2,9 @@
 {% block form %}
     <div>
         <div class="col">
-            <form class="form-register" action="/register/" method="post" , enctype="multipart/form-data">
+            <form class="form-register" action="{% url 'register' %}" method="post"  enctype="multipart/form-data">
                 {% csrf_token %}
-                <h3 class="text-center">欢迎注册</h3>
+                <!--h3 class="text-center">欢迎注册</h3-->
 
                 <div class="form-group">
                     {{ register_form.username.label_tag }}

@@ -67,9 +67,9 @@ def register(request):
     if request.session.get('is_login', None):
         is_login = True
         return redirect('/index/')
-
+    print(1)
     if request.method == 'POST':
-        register_form = forms.RegisterForm(request.POST, request.FILES)
+        register_form = forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
         if register_form.is_valid():
             username = register_form.cleaned_data.get('username')
