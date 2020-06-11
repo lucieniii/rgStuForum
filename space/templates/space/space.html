@@ -19,12 +19,13 @@
 
 {% block main1 %}
 
-    <img src="{% static 'space/images/head.png' %}" style="width: 100%">
+    <img src="{% static 'space/images/head.png' %}">
 
 {% endblock %}
 {% block side1_content %}
     <div class="d-flex flex-column align-items-center" style="height: 100%; width: 100%">
-        <img class="font border rounded-circle" src="{{ user.avatar.url }}" style="height: 60%; width: 60%">
+        <img class="font border rounded-circle" src="{{ user.avatar.url }}" style="width: 150px; height: 150px;">
+
         <div style="margin:5px; font-size: 2em; font-weight: bolder">
             {{ user.name }}
         </div>
