@@ -32,6 +32,7 @@ urlpatterns = [
     # re_path(r'^PostContent/(?P<s>[0-9]+(&[0-9]+)*)/$', view_forum.PostContent, name='PostContent'),
     path('PostContent/<str:s>/', view_forum.PostContent, name='PostContent'),
     path('login/', view_login.login, name='login'),
+    path('post_create/', view_forum.post_create, name='post_create'),
     path('register/', view_login.register, name='register'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
