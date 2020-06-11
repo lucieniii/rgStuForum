@@ -1,3 +1,6 @@
+from django.contrib import messages
+
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -62,11 +65,12 @@ def settings(request, id):
             # form = UserInfo(request.POST)
             # 如果全部输入信息有效
             if form.is_valid():
-                image = form.cleaned_data.get('avatar')
-                print(image)
+                # image = form.cleaned_data.get('avatar')
+                # print(image)
                 # request.user.avatar = image
                 form.save(commit=True)
-                return HttpResponse("修改成功")
+                messages.success(request, "修改成功")
+                return render(request, "space/space.html", locals())
             else:
                 # 失败
                 # 打印输入的信息
