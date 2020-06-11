@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from space.forms import userInfo
@@ -7,14 +7,17 @@ from login.models import *
 from forum.models import *
 from login.views import get_login_status
 
+_fake_follow = False
+_fake_black = False
+
 
 def get_space_status(request, userid, ownerid):
     is_login = get_login_status(request)
     is_owner = (str(userid) == str(ownerid))
     space_owner = User.objects.get(id=ownerid)
     user = User.objects.get(id=userid)
-    is_Following = True
-    is_Ban = True
+    is_Following = _fake_follow
+    is_Ban = _fake_black
     return is_login, is_owner, space_owner, user, is_Following, is_Ban
 
 
@@ -170,3 +173,31 @@ def blackList(request, id):
         return redirect('/index/', locals())
     return render(request, 'space/BlackList.html', locals())
 
+
+def follow(request):
+    global _fake_follow
+    request.GET.get("userId", None)
+    request.GET.get("targetId", None)
+    if _fake_follow:
+        _fake_follow = False
+    else:
+        _fake_follow = True
+    data = {
+        "isFollowing": _fake_follow
+    }
+    return JsonResponse(data)
+
+
+def black(request):
+    global _fake_black
+    request.GET.get("userId", None)
+    request.GET.get("targetId", None)
+    if _fake_black:
+        _fake_black = False
+    else:
+        _fake_black = True
+    data = {
+        "isBlacking": _fake_black
+    }
+    # print(data)
+    return JsonResponse(data)

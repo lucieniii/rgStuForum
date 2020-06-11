@@ -44,6 +44,8 @@ urlpatterns = [
     path('FriendList/<int:id>', view_space.friendList, name='FriendList'),
     path('BlackList/<int:id>', view_space.blackList, name='BlackList'),
     path('ajax/thumb/', view_forum.thumb, name='thumb'),
+    path('ajax/follow/', view_space.follow, name='follow'),
+    path('ajax/black/', view_space.black, name='black'),
     # path('notice/', include('notice.urls', namespace='notice')),
     url(r'', include('ckeditor_uploader.urls')),
 ]

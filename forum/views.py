@@ -337,6 +337,5 @@ def thumb(request):
     data = {
         "isThumb": False
     }
-
     return JsonResponse(data)
 

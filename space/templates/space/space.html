@@ -33,17 +33,55 @@
             </div>
         </div>
         {% if not is_owner %}
-        <div class="d-flex justify-content-center"
-             style="margin-top: 15px; width: 100%; font-size: 1.8em;">
+            <div class="d-flex justify-content-center"
+                 style="margin-top: 15px; width: 100%; font-size: 1.8em;">
             <span>
-                <i class="fa fa-star" id="follow"
-                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
-                <i class="fa fa-ban" id="black"
-                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
+                <i class="fa fa-star" id="follow" onclick="followFunc({{ userid }}, {{ space_owner.id }})"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
+                <script type="text/javascript">
+                    function followFunc(userId, targetId) {
+                        $.ajax({
+                            url: '/ajax/follow/',
+                            data: {
+                                "userId": userId,
+                                "targetId": targetId,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isFollowing) {
+                                    document.getElementById("follow").style.color = "#e6db74";
+                                } else {
+                                    document.getElementById("follow").style.color = "darkgrey";
+                                }
+                            }
+                        })
+                    }
+                </script>
+                <i class="fa fa-ban" id="black" onclick="blackFunc({{ userid }}, {{ space_owner.id }})"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
+                <script type="text/javascript">
+                    function blackFunc(userId, targetId) {
+                        $.ajax({
+                            url: '/ajax/black/',
+                            data: {
+                                "userId": userId,
+                                "targetId": targetId,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isBlacking) {
+                                    document.getElementById("black").style.color = "red";
+                                } else {
+                                    document.getElementById("black").style.color = "darkgrey";
+                                }
+                            }
+                        })
+                    }
+                </script>
                 <i class="fa fa-times" id="ban"
-                   style="margin-right: 10px; margin-left: 10px; color: darkgrey;"></i>
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
             </span>
-        </div>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
@@ -85,13 +123,13 @@
         </a>
     </div>
 
-        <div>
-            <a href="{% url 'space' space_owner.id %}">
-                <button class="button" type="button" data-hover="管理我的私信" style="color: #06a2ec;">
-                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
-                </button>
-            </a>
-        </div>
+    <div>
+        <a href="{% url 'space' space_owner.id %}">
+            <button class="button" type="button" data-hover="管理我的私信" style="color: #06a2ec;">
+                <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
+            </button>
+        </a>
+    </div>
 {% endblock %}
 
 
@@ -135,7 +173,7 @@
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 修改文章
                             </a>
-                             <a href='#' onclick="confirm_delete()">删除文章</a>
+                            <a href='#' onclick="confirm_delete()">删除文章</a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
                             {{ post.content | safe }}
@@ -225,6 +263,7 @@
         {#            location.href='{% url "post_safe_delete" post.id %}'#}
         {#        },#}
         {#    })#}
+
         function f() {
             isf = {{ is_Following }};
             isb =  {{ is_Ban }};
@@ -241,25 +280,6 @@
             }
         }
     </script>
-    <script>
-        function thumbs(type, id, divid) {
-            $.ajax({
-                url: '/ajax/thumb/',
-                data: {
-                    "type": type,
-                    "id": id,
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (data.isThumb) {
-                        document.getElementById(divid).className = "fa fa-thumbs-o-up";
-                    } else {
-                        document.getElementById(divid).className = "fa fa-thumbs-up";
-                    }
-                }
-            })
-        }
-    </script>
 
 {% endblock %}
 
@@ -271,13 +291,16 @@
     isf = {% if is_Following %}true{% else %}false{% endif %};
     isb = {% if is_Ban %}true{% else %}false{% endif %};
     if (isf) {
-        document.getElementById("follow").style.color = "#e6db74";
+    document.getElementById("follow").style.color = "#e6db74";
     } else {
-        document.getElementById("follow").style.color = "darkgrey";
+    document.getElementById("follow").style.color = "darkgrey";
     }
     if (isb) {
-        document.getElementById("black").style.color = "red";
+    document.getElementById("black").style.color = "red";
     } else {
-        document.getElementById("black").style.color = "darkgrey";
+    document.getElementById("black").style.color = "darkgrey";
     }
+{% endblock %}
+{% block morescript %}
+
 {% endblock %}
