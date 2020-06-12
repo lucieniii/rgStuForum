@@ -41,6 +41,7 @@ class Post(models.Model):
         (4, "资源区"),
     )
     section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
+    level_restriction = models.IntegerField(verbose_name="等级限制", default=0)
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
     # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
