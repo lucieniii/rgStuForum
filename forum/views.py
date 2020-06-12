@@ -335,6 +335,7 @@ def thumb(request):
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
     data = {
+        "totalThumb": 0,
         "isThumb": False
     }
 
@@ -349,10 +350,12 @@ def thumb(request):
             post.absoluteUps -= 1
             post.save()
             data["isThumb"] = True
+            data["totalThumb"] = post.absoluteUps
         except UpAndDown.DoesNotExist:
             UpAndDown.objects.create(user=user, post=post)  # 没有点过赞
             post.absoluteUps += 1
             post.save()
+            data["totalThumb"] = post.absoluteUps
     else:  # 评论
         comment = Comment.objects.get(id=id)
         try:
@@ -361,8 +364,10 @@ def thumb(request):
             comment.absoluteUps -= 1
             comment.save()
             data["isThumb"] = True
+            data["totalThumb"] = comment.absoluteUps
         except UpAndDown.DoesNotExist:
             UpAndDown.objects.create(user=user, comment=comment)  # 没有点过赞
             comment.absoluteUps += 1
             comment.save()
+            data["totalThumb"] = comment.absoluteUps
     return JsonResponse(data)
