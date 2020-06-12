@@ -89,10 +89,13 @@ def settings(request, id):
             # 如果全部输入信息有效
             if form.is_valid():
                 value = form.cleaned_data['name']
-                if User.objects.get(name=value) and now_name != value:
+                print(space_owner.name)
+                print(value)
+                if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
                     return render(request, "space/space.html", locals())
+                print(1)
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return render(request, "space/space.html", locals())
