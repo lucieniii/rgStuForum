@@ -20,8 +20,7 @@ def get_space_status(request, userid, ownerid):
     user = User.objects.get(id=userid)
     is_Following = _fake_follow
     is_Ban = _fake_black
-    level = level_cal(space_owner)
-    return is_login, is_owner, space_owner, user, is_Following, is_Ban, level
+    return is_login, is_owner, space_owner, user, is_Following, is_Ban
 
 
 # Create your views here.
@@ -260,6 +259,28 @@ def black(request):
         "isBlacking": _fake_black
     }
     # print(data)
+    return JsonResponse(data)
+
+
+def ban(request):
+    userid = request.session.get('user_id', None)
+    ownerid = request.GET.get("id", None)
+    space_owner = User.objects.get(id=ownerid)
+    user = User.objects.get(id=userid)
+    data = {'is_ban': space_owner.is_ban}
+    # type = request.GET.get("type", None)
+    # id = request.GET.get("id", None)
+
+    # 访客是管理员且被访问者不是管理员
+    if user.is_admin and not space_owner.is_admin:
+        if user.is_ban:
+            user.is_ban = False
+            data['is_ban'] = False
+        else:
+            user.is_ban = True
+            data['is_ban'] = True
+        user.save()
+
     return JsonResponse(data)
 
 

@@ -49,6 +49,7 @@ urlpatterns = [
     path('ajax/thumb/', view_forum.thumb, name='thumb'),
     path('ajax/follow/', view_space.follow, name='follow'),
     path('ajax/black/', view_space.black, name='black'),
+    path('ajax/ban', view_space.ban, name='ban'),
     # path('notice/', include('notice.urls', namespace='notice')),
     url(r'', include('ckeditor_uploader.urls')),
 ]

@@ -25,6 +25,7 @@ class User(models.Model):
     c_time = models.DateTimeField(verbose_name='注册时间', auto_now_add=True)
     exp = models.IntegerField(verbose_name='经验值', default=0)
     level = models.IntegerField(verbose_name='等级', default=1)
+    is_ban = models.BooleanField(verbose_name='禁言', default=False)
 
     def save(self):
         if int(self.exp) < 0:

@@ -86,3 +86,5 @@ class UpAndDown(models.Model):
 #     tar_user_id = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
 #     post_id = models.ForeignKey(to='forum.Post', to_field='id', on_delete=models.CASCADE)
 #     comment_id = models.ForeignKey(to='forum.Comment', to_field='id', on_delete=models.CASCADE)
+
+
