@@ -4,12 +4,11 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, HttpResponse, reverse
 from django.shortcuts import render
-
 from login.models import User
 from login.views import get_login_status
 from . import models
 from .form import PostForm, CommentForm
-from .models import Post, Comment
+from .models import Post, Comment, UpAndDown
 
 
 # from django.contrib.auth.models import User
@@ -333,17 +332,37 @@ def black(request):
 
 
 def thumb(request):
-    type = request.GET.get("type", None)
-    id = request.GET.get("id", None)
-    if type == '0':  # 文章
-        post = Post.objects.get(id=id)
-        post.absoluteUps += 1
-        post.save()
-    else:
-        comment = Comment.objects.get(id=id)
-        comment.absoluteUps += 1
-        comment.save()
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
     data = {
         "isThumb": False
     }
+
+    type = request.GET.get("type", None)
+    id = request.GET.get("id", None)
+
+    if type == '0':  # 文章
+        post = Post.objects.get(id=id)
+        try:
+            up_and_down = UpAndDown.objects.get(user=user, post=post)  # 已经点过赞了
+            up_and_down.delete()
+            post.absoluteUps -= 1
+            post.save()
+            data["isThumb"] = True
+        except UpAndDown.DoesNotExist:
+            UpAndDown.objects.create(user=user, post=post)  # 没有点过赞
+            post.absoluteUps += 1
+            post.save()
+    else:  # 评论
+        comment = Comment.objects.get(id=id)
+        try:
+            up_and_down = UpAndDown.objects.get(user=user, comment=comment)  # 已经点过赞了
+            up_and_down.delete()
+            comment.absoluteUps -= 1
+            comment.save()
+            data["isThumb"] = True
+        except UpAndDown.DoesNotExist:
+            UpAndDown.objects.create(user=user, comment=comment)  # 没有点过赞
+            comment.absoluteUps += 1
+            comment.save()
     return JsonResponse(data)

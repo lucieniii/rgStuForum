@@ -15,7 +15,8 @@ class Comment(models.Model):
     content = RichTextUploadingField(max_length=1024)  # 富文本编辑器
     created = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
-    reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE, related_name='replyToComment')
+    reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE,
+                                         related_name='replyToComment')
     absoluteUps = models.IntegerField(default=0)
 
     class Meta:
@@ -74,11 +75,8 @@ class Section(models.Model):
 # 点赞点踩
 class UpAndDown(models.Model):
     user = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
-    post = models.ForeignKey(to='Post', to_field='id', on_delete=models.CASCADE)
-    is_up = models.BooleanField()  # True表示点赞，False表示点踩
-
-    class Meta:
-        unique_together = (('user', 'post'),)  # 用户只能点赞或点踩
+    post = models.ForeignKey(to='Post', to_field='id', on_delete=models.CASCADE, null=True)
+    comment = models.ForeignKey(to='Comment', to_field='id', on_delete=models.CASCADE, null=True)
 
 # 提及
 # class Mention(models.Model):
