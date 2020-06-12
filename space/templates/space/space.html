@@ -18,7 +18,7 @@
     <div class="d-flex flex-column align-items-center" style="height: 100%; width: 100%">
         <img class="font border rounded-circle" src="{{ space_owner.avatar.url }}" style="width: 150px; height: 150px;">
 
-        <div style="margin:5px; font-size: 2em; font-weight: bolder">
+        <div style="margin:5px; font-size: 2em; font-weight: bolder; {% if space_owner.is_admin %}color: red;{% endif %}">
             {{ space_owner.name }}
         </div>
         <div class="font d-flex flex-column" style="font-weight: bolder">
