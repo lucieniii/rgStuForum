@@ -8,6 +8,7 @@ from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 class userInfo(ModelForm):
     class Meta:
         model = User
+        # fields = ["avatar"]
         exclude = ('is_admin', 'c_time', 'password')
         widgets = {
         }

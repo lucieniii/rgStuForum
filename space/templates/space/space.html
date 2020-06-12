@@ -16,10 +16,10 @@
 {% endblock %}
 {% block side1_content %}
     <div class="d-flex flex-column align-items-center" style="height: 100%; width: 100%">
-        <img class="font border rounded-circle" src="{{ user.avatar.url }}" style="width: 150px; height: 150px;">
+        <img class="font border rounded-circle" src="{{ space_owner.avatar.url }}" style="width: 150px; height: 150px;">
 
         <div style="margin:5px; font-size: 2em; font-weight: bolder">
-            {{ user.name }}
+            {{ space_owner.name }}
         </div>
         <div class="font d-flex flex-column" style="font-weight: bolder">
             <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
@@ -32,46 +32,99 @@
                 </span>
             </div>
         </div>
+        {% if not is_owner %}
+            <div class="d-flex justify-content-center"
+                 style="margin-top: 15px; width: 100%; font-size: 1.8em;">
+            <span>
+                <i class="fa fa-star" id="follow" onclick="followFunc({{ userid }}, {{ space_owner.id }})"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
+                <script type="text/javascript">
+                    function followFunc(userId, targetId) {
+                        $.ajax({
+                            url: '/ajax/follow/',
+                            data: {
+                                "userId": userId,
+                                "targetId": targetId,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isFollowing) {
+                                    document.getElementById("follow").style.color = "#e6db74";
+                                } else {
+                                    document.getElementById("follow").style.color = "darkgrey";
+                                }
+                            }
+                        })
+                    }
+                </script>
+                <i class="fa fa-ban" id="black" onclick="blackFunc({{ userid }}, {{ space_owner.id }})"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
+                <script type="text/javascript">
+                    function blackFunc(userId, targetId) {
+                        $.ajax({
+                            url: '/ajax/black/',
+                            data: {
+                                "userId": userId,
+                                "targetId": targetId,
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isBlacking) {
+                                    document.getElementById("black").style.color = "red";
+                                } else {
+                                    document.getElementById("black").style.color = "darkgrey";
+                                }
+                            }
+                        })
+                    }
+                </script>
+                <i class="fa fa-times" id="ban"
+                   style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
+            </span>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block side2_content %}
+
     <div>
-        <a href="{% url 'space' userid %}">
+        <a href="{% url 'space' space_owner.id %}">
             <button class="button" type="button" data-hover="进入个人空间" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf015</i>个人空间</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'settings' %}">
+        <a href="{% url 'settings' space_owner.id %}">
             <button class="button" type="button" data-hover="管理个人信息" style="color: #06a2ec;">
                 <span><i style="padding-right: 10px;" class="fa">&#xf022</i>个人信息</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'BlackList' %}">
+        <a href="{% url 'BlackList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理黑名单" style="color: #06a2ec;">
                 <span><i style="padding-right:10px ;" class="fa">&#xf119</i>黑名单</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'BlogList' %}">
+        <a href="{% url 'BlogList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注帖子" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
         </a>
     </div>
     <div>
-        <a href="{% url 'FriendList' %}">
+        <a href="{% url 'FriendList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注用户" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf2ba</i>关注用户</span>
             </button>
         </a>
     </div>
+
     <div>
-        <a href="{% url 'space' userid %}">
+        <a href="{% url 'space' space_owner.id %}">
             <button class="button" type="button" data-hover="管理我的私信" style="color: #06a2ec;">
                 <span><i class="fa fa-comments" style="padding-right: 10px"></i>我的私信</span>
             </button>
@@ -120,9 +173,11 @@
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 修改文章
                             </a>
+                            <a href='#' onclick="confirm_delete()">删除文章</a>
+
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                            {{ post.content }}
+                            {{ post.content | safe }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
@@ -137,12 +192,12 @@
                     </div>
                     <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                         <div class="d-sm-flex align-items-sm-center flex-shrink-1">
-                            <a href="{% url 'space' user.id %}">
-                                <img class="rounded-circle" src="{{ user.avatar.url }}"
+                            <a href="{% url 'space' space_owner.id %}">
+                                <img class="rounded-circle" src="{{ space_owner.avatar.url }}"
                                      style="width: 25px; height: 25px"/>
                             </a>
                             <span class="font"
-                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ user.name }}</span>
+                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ space_owner.name }}</span>
                         </div>
                         <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                             <time style="font-size: 14px; font-weight:600;">
@@ -194,6 +249,67 @@
             {% endfor %}
         </div>
     </div>
+    <script>
 
+        // 删除文章的函数
+        {#function confirm_delete() {#}
+        {#    // 调用layer弹窗组件#}
+        {#    layer.open({#}
+        {#        // 弹窗标题#}
+        {#        title: "确认删除",#}
+        {#        // 正文#}
+        {#        content: "确认删除这篇文章吗？",#}
+        {#        // 点击确定按钮后调用的回调函数#}
+        {#        yes: function(index, layero) {#}
+        {#            // 指定应当前往的 url#}
+        {#            location.href='{% url "post_safe_delete" post.id %}'#}
+        {#        },#}
+        {#    })#}
+
+        function f() {
+            isf = {{ is_Following }};
+            isb =  {{ is_Ban }};
+
+            if (isf) {
+                document.getElementById("follow").style.color = "#e6db74";
+            } else {
+                document.getElementById("follow").style.color = "darkgrey";
+            }
+            if (isb) {
+                document.getElementById("follow").style.color = "red";
+            } else {
+                document.getElementById("follow").style.color = "darkgrey";
+            }
+        }
+    </script>
+
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}
+
+{% block initParaInHtml %}
+{% endblock %}
+{% block initParaInFunc %}
+{% endblock %}
+{% block moreOnloadFunc %}
+    isf = {% if is_Following %}true{% else %}false{% endif %};
+    isb = {% if is_Ban %}true{% else %}false{% endif %};
+    if (isf) {
+    document.getElementById("follow").style.color = "#e6db74";
+    } else {
+    document.getElementById("follow").style.color = "darkgrey";
+    }
+    if (isb) {
+    document.getElementById("black").style.color = "red";
+    } else {
+    document.getElementById("black").style.color = "darkgrey";
+    }
+{% endblock %}
+{% block morescript %}
 
 {% endblock %}

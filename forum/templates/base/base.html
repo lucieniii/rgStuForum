@@ -21,7 +21,7 @@
     </style>
 </head>
 
-<body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;" onload="init()">
+<body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;" onload="init({% block initParaInHtml %}{% endblock %})">
 {% block head %}
 {% endblock %}
 {% block navAttr %}
@@ -65,7 +65,7 @@
                         <i class="fa fa-search" style="font-size: 20px;"></i>
                     </a>
                     {% block searchMenu %}
-                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                        <div class="dropdown-menu" role="menu" style="margin-top: 8px; width: 50px!important;">
                             <a class="dropdown-item" role="presentation" href="{% url 'post_list' %}?order=views&search={{ search }}">搜贴</a>
                             <a class="dropdown-item" role="presentation" href="#">搜人</a>
                         </div>
@@ -206,7 +206,6 @@
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="{% static 'jquery/jquery-3.3.1.js' %}"></script>
 <script src="{% static 'layer/layer.js' %}"></script>
 {% block script %}
     <script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
@@ -214,7 +213,7 @@
 {% block morescript %}
 {% endblock %}
 <script>
-    function init() {
+    function init({% block initParaInFunc %}{% endblock %}) {
         {% block moreOnloadFunc %}
         {% endblock %}
         document.body.style.height = Number(window.innerHeight).toString() + "px";
