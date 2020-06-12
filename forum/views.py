@@ -12,7 +12,6 @@ from .models import Post, Comment, UpAndDown
 
 UP_AND_DOWN_EXP = 40
 CREATE_POST_EXP = 70
-REGISTER_EXP = 20
 COMMENT_EXP = 20
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
@@ -170,6 +169,8 @@ def PostContent(request, s):
             if ls[2] != '0':
                 new_comment.reply_to_comment_id = int(ls[2])
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
+            user.exp += COMMENT_EXP  # 发评论加经验
+            user.save()
             new_comment.save()
             return redirect(reverse('PostContent', args=str(post.id)), locals())
         else:
@@ -237,6 +238,8 @@ def post_create(request):
             # 此时请重新创建用户，并传入此用户的id
             new_post.author = user
             # 将新文章保存到数据库中
+            user.exp += CREATE_POST_EXP  # 发文章加经验
+            user.save()
             new_post.save()
             # 完成后返回到文章列表
             return redirect('/index/', locals())

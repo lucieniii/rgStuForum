@@ -4,7 +4,7 @@ from . import models
 from . import forms
 import hashlib
 from login.models import User
-
+REGISTER_EXP = 20
 
 # Create your views here.
 
@@ -54,6 +54,8 @@ def login(request):
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
                 is_login = True
+                user.exp += REGISTER_EXP
+                user.save()
                 return redirect('/index/', locals())
             else:
                 message = '密码不正确！'
