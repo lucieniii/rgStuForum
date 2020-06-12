@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from space.forms import userInfo
+from space.forms import *
 from space.models import *
 from login.models import *
 from forum.models import *
@@ -60,6 +60,16 @@ def space(request, id):
         return redirect('/index/', locals())
 
 
+def myInfo(request, id):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        return render(request, "space/myInfo.html", locals())
+
+    return render(request, "space/settings.html")
+
+
 def settings(request, id):
     # 定制化提示信息，
     is_login = get_login_status(request)
@@ -68,8 +78,8 @@ def settings(request, id):
         is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
 
         if request.method == "POST":
-            form = userInfo(request.POST, request.FILES, instance=user)
-            # form = UserInfo(request.POST)
+            form = userInfo_all(request.POST, request.FILES, instance=space_owner)
+
             # 如果全部输入信息有效
             if form.is_valid():
                 # image = form.cleaned_data.get('avatar')
@@ -81,26 +91,45 @@ def settings(request, id):
             else:
                 # 失败
                 # 打印输入的信息
-                print("---", form.cleaned_data)  # 得到一个字典
-                print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
-                print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
-
-                g_error = form.errors.get("__all__")
-                print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
-                if g_error:
-                    g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
+                # print("---", form.cleaned_data)  # 得到一个字典
+                # print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
+                # print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
+                #
+                # g_error = form.errors.get("__all__")
+                # print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
+                # if g_error:
+                #     g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
 
                 return render(request, "space/settings.html", locals())
 
         else:
-            # email = user.email
-            # username = user.name
-            # # age = user.age
-            # data = {'username': username, 'age': 18, 'email': email}
-            # form = UserInfo(data)
-            form = userInfo(initial={'name': user.name, 'sex': user.sex, 'age': user.age,
-                                     'school': user.school, 'major': user.major,
-                                     'exp': user.exp, 'email': user.email, 'avatar': user.avatar}, instance=user)
+
+            # form = userInfo(instance=space_owner)
+            form = userInfo_all(initial={'name': space_owner.name, 'sex': space_owner.sex, 'age': space_owner.age,
+                                     'school': space_owner.school, 'major': space_owner.major,
+                                     'exp': space_owner.exp, 'email': space_owner.email, 'avatar': space_owner.avatar},
+                            instance=space_owner)
+            # 访问者是自己，除了经验值都能改
+            if is_owner:
+                form.fields['exp'].widget.attrs['readonly'] = True
+                # form.fields['exp'].disabled = True
+            # 访问者不是自己但是是管理员，只能改经验值
+            elif user.is_admin:
+                for i in form.fields.values():
+                    i.widget.attrs['readonly'] = True
+                    # i.disabled = True
+                    # i.required = False
+                form.fields['exp'].disabled = False
+            # 什么也不能改
+            else:
+                for i in form.fields.values():
+                    i.widget.attrs['readonly'] = True
+                    # i.disabled = True
+                    # i.required = False
+                form.fields['avatar'].widget.attrs['disabled'] = True
+                form.fields['sex'].widget.attrs['disabled'] = True
+            # form = UserInfo(request.POST)
+
             return render(request, "space/settings.html", locals())
 
     return render(request, "space/settings.html")

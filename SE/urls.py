@@ -45,6 +45,7 @@ urlpatterns = [
     path('FriendList/<int:id>', view_space.friendList, name='FriendList'),
     path('BlackList/<int:id>', view_space.blackList, name='BlackList'),
     path('BlogList/<int:id>', view_space.BlogList, name='BlogList'),
+    path('myInfo/<int:id>', view_space.myInfo, name='myInfo'),
     path('ajax/thumb/', view_forum.thumb, name='thumb'),
     path('ajax/follow/', view_space.follow, name='follow'),
     path('ajax/black/', view_space.black, name='black'),

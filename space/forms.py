@@ -5,7 +5,7 @@ from django.forms import widgets
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
 
-class userInfo(ModelForm):
+class userInfo_all(ModelForm):
     class Meta:
         model = User
         # fields = ["avatar"]
@@ -13,6 +13,10 @@ class userInfo(ModelForm):
         widgets = {
         }
 
+class userInfo_admin(ModelForm):
+    class Meta:
+        model = User
+        fields = ['exp']
 
 # class UserInfo(forms.Form):
 #     username = forms.CharField(
