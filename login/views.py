@@ -4,7 +4,7 @@ from . import models
 from . import forms
 import hashlib
 from login.models import User
-
+REGISTER_EXP = 20
 
 # Create your views here.
 
@@ -48,12 +48,14 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'login/login.html', locals())
 
-            if user.password == hash_code(password):
+            if user.password == password:
             # if user.password == password:
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
                 is_login = True
+                user.exp += REGISTER_EXP
+                user.save()
                 return redirect('/index/', locals())
             else:
                 message = '密码不正确！'
@@ -94,7 +96,7 @@ def register(request):
 
                 new_user = models.User()
                 new_user.name = username
-                new_user.password = hash_code(password1)
+                new_user.password = password1
                 new_user.email = email
                 # new_user.sex = sex
                 # new_user.avatar = avatar

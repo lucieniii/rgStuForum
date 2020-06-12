@@ -11,7 +11,9 @@ from . import models
 from .form import PostForm, CommentForm
 from .models import Post, Comment, UpAndDown
 
-
+UP_AND_DOWN_EXP = 40
+CREATE_POST_EXP = 70
+COMMENT_EXP = 20
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -168,6 +170,8 @@ def PostContent(request, s):
             if ls[2] != '0':
                 new_comment.reply_to_comment_id = int(ls[2])
             # 最终将评论数据保存进数据库，调用模型实例的 save 方法
+            user.exp += COMMENT_EXP  # 发评论加经验
+            user.save()
             new_comment.save()
             return redirect(reverse('PostContent', args=str(post.id)), locals())
         else:
@@ -235,6 +239,8 @@ def post_create(request):
             # 此时请重新创建用户，并传入此用户的id
             new_post.author = user
             # 将新文章保存到数据库中
+            user.exp += CREATE_POST_EXP  # 发文章加经验
+            user.save()
             new_post.save()
             # 完成后返回到文章列表
             return redirect('/index/', locals())
@@ -346,29 +352,37 @@ def thumb(request):
     if type == '0':  # 文章
         post = Post.objects.get(id=id)
         try:
-            up_and_down = UpAndDown.objects.get(user=user, post=post)  # 已经点过赞了
+            up_and_down = UpAndDown.objects.get(user=user, post=post)  # 已经点过赞了, 将要被取消点赞
             up_and_down.delete()
             post.absoluteUps -= 1
+            post.author.exp -= UP_AND_DOWN_EXP  # 减少经验值
+            post.author.save()
             post.save()
             data["isThumb"] = True
             data["totalThumb"] = post.absoluteUps
         except UpAndDown.DoesNotExist:
-            UpAndDown.objects.create(user=user, post=post)  # 没有点过赞
+            UpAndDown.objects.create(user=user, post=post)  # 没有点过赞, 将要被点赞
             post.absoluteUps += 1
+            post.author.exp += UP_AND_DOWN_EXP
+            post.author.save()
             post.save()
             data["totalThumb"] = post.absoluteUps
     else:  # 评论
         comment = Comment.objects.get(id=id)
         try:
-            up_and_down = UpAndDown.objects.get(user=user, comment=comment)  # 已经点过赞了
+            up_and_down = UpAndDown.objects.get(user=user, comment=comment)  # 已经点过赞了, 将要被取消点赞
             up_and_down.delete()
             comment.absoluteUps -= 1
+            comment.user.exp -= UP_AND_DOWN_EXP
+            comment.user.save()
             comment.save()
             data["isThumb"] = True
             data["totalThumb"] = comment.absoluteUps
         except UpAndDown.DoesNotExist:
             UpAndDown.objects.create(user=user, comment=comment)  # 没有点过赞
             comment.absoluteUps += 1
+            comment.user.exp -= UP_AND_DOWN_EXP
+            comment.user.save()
             comment.save()
             data["totalThumb"] = comment.absoluteUps
     return JsonResponse(data)
