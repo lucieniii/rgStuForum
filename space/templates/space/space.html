@@ -155,7 +155,7 @@
         </li>
     </ul>
 {% endblock %}
-{% block main2-margintop %}
+{% block main2-margintop %} 
 {% endblock %}
 {% block main2 %}
     <div class="tab-content" id="myTabContent">
@@ -169,24 +169,39 @@
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 {{ post.title }}
                             </a>
-                            <a href="{% url 'post_update' post.id %}"
-                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                                修改文章
-                            </a>
-                            <a href="{% url 'post_safe_delete' post.id %}" onclick="confirm_delete()">删除文章</a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
                             {{ post.content | safe }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
-                        <span class="font rounded"
-                              style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                            &nbsp;{{ post.section.name }}&nbsp;
-                        </span>
+                            <span class="font rounded"
+                                  style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                                &nbsp;{{ post.section.name }}&nbsp;
+                            </span>
                             <span class="font"
-                                  style="font-size: 14px; font-weight:600;">
-                            <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comment_count }})
-                        </span>
+                                      style="font-size: 14px; font-weight:600; margin-right: 10px;">
+                                <i class="fa fa-comments-o" style="padding-right: 2px;"></i>评论({{ post.comment_count }})
+                            </span>
+                            {% if  is_owner %}
+                                <a href="{% url 'post_update' post.id %}" style="text-decoration: none; color: black;">
+                                    <span style="font-size: 14px; font-weight:600; margin-right: 10px;">
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                                <span style="font-size: 14px; font-weight:600;">
+                                    <i class="fa fa-trash" aria-hidden="true" data-toggle="modal" data-target="#deleteModal"
+                                    style="cursor: pointer;" onclick="setDeletePostId({{ post.id }})"></i>
+                                </span>
+                                <script>
+                                    var deletePostID = 0
+                                    function setDeletePostId(id) {
+                                        deletePostID = id;
+                                    }
+                                    function deletePost() {
+                                        window.location.href = "/post_safe_delete/" + deletePostID +"/";
+                                    }
+                                </script>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
@@ -231,21 +246,44 @@
                             {{ comment.content }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
-                        <span class="font rounded"
-                              style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                            &nbsp;{{ comment.post.section.name }}&nbsp;
-                        </span>
+                            <span class="font rounded"
+                                  style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                                &nbsp;{{ comment.post.section.name }}&nbsp;
+                            </span>
                             <span class="flex-shrink-1 align-center"
                                   style="margin-top: 2px; padding-left: 4px; color: #636363;">
-                            <time style="font-size: 14px; font-weight:600;">
-                                <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                                {{ comment.created }}
-                            </time>
-                        </span>
+                                <time style="font-size: 14px; font-weight:600;">
+                                    <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                                    {{ comment.created }}
+                                </time>
+                            </span>
                         </div>
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    确认删除帖子？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="deletePost()">删除</button>
+                </div>
+            </div>
         </div>
     </div>
     <script>
@@ -268,7 +306,6 @@
         function f() {
             isf = {{ is_Following }};
             isb =  {{ is_Ban }};
-
             if (isf) {
                 document.getElementById("follow").style.color = "#e6db74";
             } else {
@@ -290,6 +327,7 @@
         </script>
     {% endif %}
 {% endblock %}
+
 
 {% block initParaInHtml %}
 {% endblock %}

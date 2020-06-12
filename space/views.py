@@ -68,7 +68,7 @@ def myInfo(request, id):
         is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
 
-    return render(request, "space/settings.html")
+    return redirect('index', locals())
 
 
 def settings(request, id):
@@ -90,7 +90,7 @@ def settings(request, id):
             
             if form.is_valid():
                 value = form.cleaned_data['name']
-                if User.objects.get(name=value) and now_name != value:
+                if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
                     return render(request, "space/space.html", locals())

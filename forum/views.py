@@ -336,7 +336,7 @@ def post_safe_delete(request, id):
     post = Post.objects.get(id=id)
     post.delete()
     context = {'is_login': is_login, 'user': user}
-    return redirect('/index/', context)
+    return redirect(reverse('space', args=str(userid)), context)
 
 
 def post_rank(request):
@@ -358,6 +358,7 @@ def black(request):
 
 
 def thumb(request):
+
     type = request.GET.get("type", None)
     id = request.GET.get("id", None)
     if type == '0':  # 文章
