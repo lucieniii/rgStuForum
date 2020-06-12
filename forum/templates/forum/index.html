@@ -100,7 +100,7 @@
                     </a>
                 </div>
                 <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                    {{ post.content }}
+                    {{ post.content | safe}}
                 </div>
                 <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
@@ -109,7 +109,7 @@
                     </span>
                         <span class="font"
                               style="font-size: 14px; font-weight:600;">
-                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comments.count}})
+                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comments.count }})
                     </span>
                 </div>
             </div>

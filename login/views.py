@@ -46,8 +46,8 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'login/login.html', locals())
 
-            if user.password == hash_code(password):
-            # if user.password == password:
+            # if user.password == hash_code(password):
+            if user.password == password:
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
@@ -68,7 +68,6 @@ def register(request):
     if request.session.get('is_login', None):
         is_login = True
         return redirect('/index/')
-    print(1)
     if request.method == 'POST':
         register_form = forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
@@ -92,13 +91,12 @@ def register(request):
 
                 new_user = models.User()
                 new_user.name = username
-                new_user.password = password1
+                new_user.password = hash_code(password1)
                 new_user.email = email
                 # new_user.sex = sex
                 # new_user.avatar = avatar
                 new_user.level = 1
                 new_user.save()
-                print(2)
                 return redirect('/login/')
         else:
             return render(request, 'login/register.html', locals())

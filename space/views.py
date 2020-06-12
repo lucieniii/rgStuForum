@@ -1,3 +1,5 @@
+from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -7,15 +9,28 @@ from login.models import *
 from forum.models import *
 from login.views import get_login_status
 
+_fake_follow = False
+_fake_black = False
+
+
+def get_space_status(request, userid, ownerid):
+    is_login = get_login_status(request)
+    is_owner = (str(userid) == str(ownerid))
+    space_owner = User.objects.get(id=ownerid)
+    user = User.objects.get(id=userid)
+    is_Following = _fake_follow
+    is_Ban = _fake_black
+    return is_login, is_owner, space_owner, user, is_Following, is_Ban
+
 
 # Create your views here.
 def space(request, id):
+
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_owner = userid == id
-        # print(is_owner)
-        user = User.objects.get(id=id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
         for post in posts:
@@ -45,19 +60,24 @@ def space(request, id):
         return redirect('/index/', locals())
 
 
-def settings(request):
+def settings(request, id):
     # 定制化提示信息，
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         if request.method == "POST":
             form = userInfo(request.POST, request.FILES, instance=user)
             # form = UserInfo(request.POST)
             # 如果全部输入信息有效
             if form.is_valid():
-                form.save()
-                return HttpResponse("修改成功")
+                # image = form.cleaned_data.get('avatar')
+                # print(image)
+                # request.user.avatar = image
+                form.save(commit=True)
+                messages.success(request, "修改成功")
+                return render(request, "space/space.html", locals())
             else:
                 # 失败
                 # 打印输入的信息
@@ -133,24 +153,66 @@ def settings(request):
     '''
 
 
-def friendList(request):
+def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         follows = Follow.objects.filter(FollowerID=userid)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/FriendList.html', locals())
 
 
-def blackList(request):
+def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+
         blackLists = BlackList.objects.filter(BlockerID=userid)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlackList.html', locals())
+
+
+def BlogList(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        follow_posts = Post.objects.filter(favoritepost=userid)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'space/BlogList.html', locals())
+
+
+def follow(request):
+    global _fake_follow
+    request.GET.get("userId", None)
+    request.GET.get("targetId", None)
+    if _fake_follow:
+        _fake_follow = False
+    else:
+        _fake_follow = True
+    data = {
+        "isFollowing": _fake_follow
+    }
+    return JsonResponse(data)
+
+
+def black(request):
+    global _fake_black
+    request.GET.get("userId", None)
+    request.GET.get("targetId", None)
+    if _fake_black:
+        _fake_black = False
+    else:
+        _fake_black = True
+    data = {
+        "isBlacking": _fake_black
+    }
+    # print(data)
+    return JsonResponse(data)
 

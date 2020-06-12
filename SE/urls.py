@@ -36,12 +36,23 @@ urlpatterns = [
     path('post_update/<int:id>/', view_forum.post_update, name='post_update'),
     path('post_list/', view_forum.post_list, name='post_list'),
     path('register/', view_login.register, name='register'),
+    # path('post_safe_delete/<int:id>/', view_forum.post_safe_delete, name='post_safe_delete'),
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
     path('space/<int:id>/', view_space.space, name='space'),
+<<<<<<< HEAD
     path('settings/', view_space.settings, name='settings'),
     path('FriendList/', view_space.friendList, name='FriendList'),
     path('BlackList/', view_space.blackList, name='BlackList'),
+    path('BlogList/', view_space.BlogList, name='BlogList'),
+=======
+    path('settings/<int:id>', view_space.settings, name='settings'),
+    path('FriendList/<int:id>', view_space.friendList, name='FriendList'),
+    path('BlackList/<int:id>', view_space.blackList, name='BlackList'),
+    path('ajax/thumb/', view_forum.thumb, name='thumb'),
+    path('ajax/follow/', view_space.follow, name='follow'),
+    path('ajax/black/', view_space.black, name='black'),
+>>>>>>> 26438383c1da452b093766b1bd7bc756c3037a60
     # path('notice/', include('notice.urls', namespace='notice')),
     url(r'', include('ckeditor_uploader.urls')),
 ]
