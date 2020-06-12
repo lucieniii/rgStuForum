@@ -81,7 +81,7 @@
                 <i class="fa fa-times" id="ban"
                    style="margin-right: 10px; margin-left: 10px; color: darkgrey; cursor: pointer;"></i>
             </span>
-        </div>
+            </div>
         {% endif %}
     </div>
 {% endblock %}
@@ -173,7 +173,7 @@
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 修改文章
                             </a>
-                            <a href='#' onclick="confirm_delete()">删除文章</a>
+                            <a href="{% url 'post_safe_delete' post.id %}" onclick="confirm_delete()">删除文章</a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
                             {{ post.content | safe }}
@@ -250,7 +250,7 @@
     </div>
     <script>
 
-        // 删除文章的函数
+        {#// 删除文章的函数#}
         {#function confirm_delete() {#}
         {#    // 调用layer弹窗组件#}
         {#    layer.open({#}
@@ -259,11 +259,12 @@
         {#        // 正文#}
         {#        content: "确认删除这篇文章吗？",#}
         {#        // 点击确定按钮后调用的回调函数#}
-        {#        yes: function(index, layero) {#}
+        {#        yes: function (index, layero) {#}
         {#            // 指定应当前往的 url#}
-        {#            location.href='{% url "post_safe_delete" post.id %}'#}
+        {#            location.href = '{% url "post_safe_delete" post.id %}'#}
         {#        },#}
         {#    })#}
+        {#}#}
 
         function f() {
             isf = {{ is_Following }};

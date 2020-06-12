@@ -1,14 +1,15 @@
-from . import models
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
-from django.http import JsonResponse
 import markdown
-from django.shortcuts import render, get_object_or_404
-from .form import PostForm, CommentForm
-from .models import Post, Section, Comment
-from login.models import User
 from django.core.paginator import Paginator
-from login.views import get_login_status
 from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import redirect, HttpResponse, reverse
+from django.shortcuts import render
+
+from login.models import User
+from login.views import get_login_status
+from . import models
+from .form import PostForm, CommentForm
+from .models import Post, Comment
 
 
 # from django.contrib.auth.models import User
@@ -301,16 +302,14 @@ def post_list(request):
     return render(request, 'base/post_list.html', context)
 
 
-# def post_safe_delete(request, id):
-#   is_login = get_login_status(request)
-#   user_id = request.session.get('user_id', None)
-#   user = User.objects.get(id=user_id)
-#   if request.method == 'POST':
-#       post = Post.objects.get(id=id)
-#       post.delete()
-#       return redirect('/index/', locals())
-#   else:
-#       return HttpResponse("仅允许post请求")
+def post_safe_delete(request, id):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    user = User.objects.get(id=user_id)
+    post = Post.objects.get(id=id)
+    post.delete()
+    context = {'is_login': is_login, 'user': user}
+    return redirect('/index/', context)
 
 
 def post_rank(request):
@@ -338,4 +337,3 @@ def thumb(request):
         "isThumb": False
     }
     return JsonResponse(data)
-
