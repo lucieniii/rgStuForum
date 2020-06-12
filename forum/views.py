@@ -277,12 +277,12 @@ def post_list(request):
             # 用 Q对象 进行联合搜索
             article_list = Post.objects.filter(
                 Q(title__icontains=search) |
-                Q(body__icontains=search)
+                Q(content__icontains=search)
             ).order_by('-total_views')
         else:
             article_list = Post.objects.filter(
                 Q(title__icontains=search) |
-                Q(body__icontains=search)
+                Q(content__icontains=search)
             )
     else:
         # 将 search 参数重置为空
@@ -300,6 +300,31 @@ def post_list(request):
     context = {'posts': posts, 'order': order, 'search': search, 'user': user}
 
     return render(request, 'base/post_list.html', context)
+
+
+def user_list(request):
+    is_login = get_login_status(request)
+    user_id = request.session.get('user_id', None)
+    current_user = User.objects.get(id=user_id)
+    search = request.GET.get('search')
+    # 用户搜索逻辑
+    if search:
+        user_list = User.objects.filter(
+            Q(name__icontains=search)
+        )
+    else:
+        # 将 search 参数重置为空
+        search = ''
+        user_list = User.objects.all()
+
+    paginator = Paginator(user_list, 10)  # 分页工具
+    page = request.GET.get('page')
+    user_lists = paginator.get_page(page)
+
+    # 增加 search 到 context
+    context = {'user_lists': user_lists, 'search': search, 'user': current_user}
+
+    return render(request, 'base/user_list.html', context)
 
 
 def post_safe_delete(request, id):
