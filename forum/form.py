@@ -42,7 +42,7 @@ class PostForm(forms.ModelForm):
         # 指明数据模型来源
         model = Post
         # 定义表单包含的字段
-        fields = ('title', 'content')
+        fields = ('title', 'content', 'section', 'level_restriction')
 
 
 # 评论表单
