@@ -271,13 +271,13 @@ def ban(request):
 
     # 访客是管理员且被访问者不是管理员
     if user.is_admin and not space_owner.is_admin:
-        if user.is_ban:
-            user.is_ban = False
+        if space_owner.is_ban:
+            space_owner.is_ban = False
             data['is_ban'] = False
         else:
-            user.is_ban = True
+            space_owner.is_ban = True
             data['is_ban'] = True
-        user.save()
+        space_owner.save()
 
     return JsonResponse(data)
 

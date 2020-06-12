@@ -29,6 +29,8 @@ class User(models.Model):
     is_ban = models.BooleanField(verbose_name='禁言', default=False)
 
     def save(self):
+        if self.avatar is None:
+            self.avatar = 'avatar.png'
         if int(self.exp) < 0:
             self.exp = 0
         self.level = int(math.sqrt(int(self.exp)) // 10 + 1)
