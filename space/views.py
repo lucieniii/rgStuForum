@@ -68,7 +68,7 @@ def myInfo(request, id):
         is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
 
-    return redirect('index', locals())
+    return render(request, "space/settings.html")
 
 
 def settings(request, id):
@@ -87,13 +87,15 @@ def settings(request, id):
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             now_name = space_owner.name
             # 如果全部输入信息有效
-            
             if form.is_valid():
                 value = form.cleaned_data['name']
+                print(space_owner.name)
+                print(value)
                 if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
                     return render(request, "space/space.html", locals())
+                print(1)
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return render(request, "space/space.html", locals())

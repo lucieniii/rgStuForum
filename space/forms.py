@@ -13,6 +13,7 @@ class userInfo_all(ModelForm):
         widgets = {
         }
 
+
     ## 每个字段数据格式通过验证都会触发下面的对应的字段名字自定方法
     # def clean_name(self):
     #     value = self.cleaned_data['name']
@@ -22,8 +23,8 @@ class userInfo_all(ModelForm):
     #         return value
 
     def clean(self):
-        age = self.cleaned_data['age']
-        password = self.cleaned_data['password']
+        # age = self.cleaned_data['age']
+        # password = self.cleaned_data['password']
         exp = self.cleaned_data['exp']
         if exp < 0:
             raise ValidationError('经验值不得小于0')
