@@ -301,7 +301,7 @@ def post_list(request):
     # 增加 search 到 context
     context = {'posts': posts, 'order': order, 'search': search, 'user': user}
 
-    return render(request, 'base/post_list.html', context)
+    return render(request, 'base/PostList.html', context)
 
 
 def user_list(request):
@@ -326,7 +326,7 @@ def user_list(request):
     # 增加 search 到 context
     context = {'user_lists': user_lists, 'search': search, 'user': current_user}
 
-    return render(request, 'base/user_list.html', context)
+    return render(request, 'base/UserList.html', context)
 
 
 def post_safe_delete(request, id):
@@ -358,8 +358,16 @@ def black(request):
 
 
 def thumb(request):
-    request.GET.get("type", None)
-    request.GET.get("id", None)
+    type = request.GET.get("type", None)
+    id = request.GET.get("id", None)
+    if type == '0':  # 文章
+        post = Post.objects.get(id=id)
+        post.absoluteUps += 1
+        post.save()
+    else:
+        comment = Comment.objects.get(id=id)
+        comment.absoluteUps += 1
+        comment.save()
     data = {
         "isThumb": False
     }

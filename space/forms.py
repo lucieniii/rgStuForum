@@ -4,7 +4,7 @@ from django import forms
 from django.forms import widgets
 from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 
-
+# 除了等级都能改，专供管理员改自己
 class userInfo_all(ModelForm):
     class Meta:
         model = User
@@ -13,6 +13,23 @@ class userInfo_all(ModelForm):
         widgets = {
         }
 
+    ## 每个字段数据格式通过验证都会触发下面的对应的字段名字自定方法
+    # def clean_name(self):
+    #     value = self.cleaned_data['name']
+    #     if User.objects.filter(name=value):
+    #         raise ValidationError('用户已存在')
+    #     else:
+    #         return value
+
+    def clean(self):
+        age = self.cleaned_data['age']
+        password = self.cleaned_data['password']
+        exp = self.cleaned_data['exp']
+        if exp < 0:
+            raise ValidationError('经验值不得小于0')
+        return self.cleaned_data
+
+# 除了经验和等级都能改
 class userInfo_user(ModelForm):
     class Meta:
         model = User
@@ -20,6 +37,14 @@ class userInfo_user(ModelForm):
         widgets = {
         }
 
+    # def clean_name(self):
+    #     value = self.cleaned_data['name']
+    #     if User.objects.filter(name=value):
+    #         raise ValidationError('用户已存在')
+    #     else:
+    #         return value
+
+# 只能改经验值
 class userInfo_admin(ModelForm):
     class Meta:
         model = User
@@ -27,6 +52,18 @@ class userInfo_admin(ModelForm):
         widgets = {
         }
 
+    # def clean_name(self):
+    #     value = self.cleaned_data['name']
+    #     if User.objects.filter(name=value):
+    #         raise ValidationError('用户已存在')
+    #     else:
+    #         return value
+
+    def clean(self):
+        exp = self.cleaned_data['exp']
+        if exp < 0:
+            raise ValidationError('经验值不得小于0')
+        return self.cleaned_data
 
 # class UserInfo(forms.Form):
 #     username = forms.CharField(
