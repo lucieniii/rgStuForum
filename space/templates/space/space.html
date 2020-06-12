@@ -353,7 +353,8 @@
 {% endblock %}
 {% block moreOnloadFunc %}
     isf = {% if is_Following %}true{% else %}false{% endif %};
-    isb = {% if is_Ban %}true{% else %}false{% endif %};
+    isb = {% if is_Black %}true{% else %}false{% endif %};
+    isban = {% if space_owner.is_ban %}true{% else %}false{% endif %}
     if (isf) {
     document.getElementById("follow").style.color = "#e6db74";
     } else {
@@ -363,6 +364,11 @@
     document.getElementById("black").style.color = "red";
     } else {
     document.getElementById("black").style.color = "darkgrey";
+    }
+    if (isban) {
+    document.getElementById("ban").style.color = "black";
+    } else {
+    document.getElementById("ban").style.color = "darkgrey";
     }
 {% endblock %}
 {% block morescript %}
