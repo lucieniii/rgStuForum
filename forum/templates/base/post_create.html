@@ -49,9 +49,11 @@
                             });
                         </script>
                         <div class="form-group">
-                            <div for="section" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章板块</div>
+                            <!--div for="section" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章板块</div-->
                             <!-- 文本框 -->
-                            <input type="text" class="form-control" id="section" name="section">
+                            <!--select type="text" class="form-control" id="section" name="section"></select-->
+                            {{ post_form.section.label }}
+                            {{ post_form.section }}
                         </div>
                     </div>
                     <!-- 提交按钮 -->
