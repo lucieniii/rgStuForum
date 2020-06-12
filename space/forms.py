@@ -10,7 +10,7 @@ class userInfo_all(ModelForm):
     class Meta:
         model = User
         # fields = ["avatar"]
-        exclude = ('is_admin', 'c_time', 'level')
+        exclude = ('is_admin', 'c_time', 'level', 'is_ban')
         widgets = {
         }
 
@@ -47,11 +47,11 @@ class userInfo_all(ModelForm):
         return self.cleaned_data
 
 
-# 除了经验和等级都能改
+# 除了经验、等级、禁言都能改
 class userInfo_user(ModelForm):
     class Meta:
         model = User
-        exclude = ('is_admin', 'c_time', 'exp', 'level')
+        exclude = ('is_admin', 'c_time', 'exp', 'level', 'is_ban')
         widgets = {
         }
 

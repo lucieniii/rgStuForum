@@ -1,5 +1,6 @@
 import markdown
 from django.core.paginator import Paginator
+from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, HttpResponse, reverse
@@ -236,7 +237,7 @@ def post_create(request):
     else:
         return redirect('/index/', locals())
     if user.is_ban:
-        messages = "您已经被禁言，暂时不能发帖"
+        messages.success(request, "您已经被禁言，暂时不能发帖")
         return redirect('/index/', locals())
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中

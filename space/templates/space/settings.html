@@ -29,7 +29,7 @@
                  {% for field in form %}
                     <div class="myInfo">
                         <div class="">
-                          {{field.name}}:{{   field }}
+                          {{field.name }} : {{   field }}
                         </div>
                     </div>
                  {% endfor %}
@@ -67,6 +67,6 @@
 </div>
 {% endblock %}
 
-<!--{% block moreOnloadFunc %}-->
-<!--    document.getElementById("avatar-clear_id").style.display="none";-->
-<!--{% endblock %}-->
+{% block moreOnloadFunc %}
+    document.getElementById("avatar-clear_id").style.display="none";
+{% endblock %}

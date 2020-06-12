@@ -20,7 +20,7 @@ class Comment(models.Model):
     absoluteUps = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created',)
 
     def __str__(self):
         return self.content[:20]
