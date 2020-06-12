@@ -243,9 +243,7 @@
 
     $("#search").bind('keypress', function (event) {
         if (event.keyCode === 13) {
-            var req = new XMLHttpRequest();
-            req.open("GET", "/search/?search=" + $('#search').val() + "&searchPost=" + searchPost, true);
-            req.send();
+            window.location.href = "/search/?search=" + $('#search').val() + "&searchPost=" + searchPost;
         }
     })
 
