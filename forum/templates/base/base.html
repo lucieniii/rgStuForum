@@ -58,7 +58,7 @@
         </div>
     </div>
     <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
-        <form class="form-inline mr-auto" target="_self">
+        <div class="form-inline mr-auto">
             <div class="form-group"
                  style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
                 <div class="dropdown" style="font-size: 20px;">
@@ -78,11 +78,11 @@
                 </div>
                 <input class="border rounded form-control search-field"
                        type="search" id="search"
-                       name="search" onkeydown="onKeyDown(event)"
+                       name="search"
                        style="width: 250px;margin-left: 12px;"
                        placeholder="搜索帖子">
             </div>
-        </form>
+        </div>
         <div class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
                style="background-color: rgb(255,255,255);font-size: 0;">
@@ -135,6 +135,8 @@
                             {% block side1_content %}
                                 <a href="{% url 'post_create' %}" style="text-decoration: none;">
                                     <div class="
+
+
 
                                             {% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
                                          style="width: 200px;">
@@ -236,21 +238,18 @@
     function toggleSearchUser() {
         searchPost = false;
         document.getElementById("search").setAttribute("placeholder", "搜索用户")
+        console.log("http://" + window.location.host + "/search?search=");
     }
 
-    function onKeyDown(event) {
-        var e = event || window.event || arguments.callee.caller.arguments[0];
-        if (e && e.keyCode === 13) { // enter 键
+    $("#search").bind('keypress', function (event) {
+        if (event.keyCode === 13) {
             var req = new XMLHttpRequest();
-            keyword = $("#search").val();
-            host = window.location.host;
-            console.log(host)
-            //req.setRequestHeader("search", "?search=" + keyword);
-            req.open("GET", "http://localhost/search?search=" + keyword + "/" , true);
+            req.open("GET", "/search/?search=" + $('#search').val() + "&searchPost=" + searchPost, true);
             req.send();
-            //alert("此处回车触发搜索事件");
         }
-    }
+    })
+
+
 
 </script>
 </body>

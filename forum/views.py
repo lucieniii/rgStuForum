@@ -271,7 +271,9 @@ def post_list(request):
     user = User.objects.get(id=userid)
     search = request.GET.get('search')
     order = request.GET.get('order')
+    searchPost = request.GET.get('searchPost')
     # 用户搜索逻辑
+    print(search, searchPost)
     if search:
         if order == 'views':
             # 用 Q对象 进行联合搜索
