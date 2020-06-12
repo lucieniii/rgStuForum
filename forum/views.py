@@ -10,7 +10,10 @@ from . import models
 from .form import PostForm, CommentForm
 from .models import Post, Comment, UpAndDown
 
-
+UP_AND_DOWN_EXP = 40
+CREATE_POST_EXP = 70
+REGISTER_EXP = 20
+COMMENT_EXP = 20
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -345,29 +348,37 @@ def thumb(request):
     if type == '0':  # 文章
         post = Post.objects.get(id=id)
         try:
-            up_and_down = UpAndDown.objects.get(user=user, post=post)  # 已经点过赞了
+            up_and_down = UpAndDown.objects.get(user=user, post=post)  # 已经点过赞了, 将要被取消点赞
             up_and_down.delete()
             post.absoluteUps -= 1
+            post.author.exp -= UP_AND_DOWN_EXP  # 减少经验值
+            post.author.save()
             post.save()
             data["isThumb"] = True
             data["totalThumb"] = post.absoluteUps
         except UpAndDown.DoesNotExist:
-            UpAndDown.objects.create(user=user, post=post)  # 没有点过赞
+            UpAndDown.objects.create(user=user, post=post)  # 没有点过赞, 将要被点赞
             post.absoluteUps += 1
+            post.author.exp += UP_AND_DOWN_EXP
+            post.author.save()
             post.save()
             data["totalThumb"] = post.absoluteUps
     else:  # 评论
         comment = Comment.objects.get(id=id)
         try:
-            up_and_down = UpAndDown.objects.get(user=user, comment=comment)  # 已经点过赞了
+            up_and_down = UpAndDown.objects.get(user=user, comment=comment)  # 已经点过赞了, 将要被取消点赞
             up_and_down.delete()
             comment.absoluteUps -= 1
+            comment.user.exp -= UP_AND_DOWN_EXP
+            comment.user.save()
             comment.save()
             data["isThumb"] = True
             data["totalThumb"] = comment.absoluteUps
         except UpAndDown.DoesNotExist:
             UpAndDown.objects.create(user=user, comment=comment)  # 没有点过赞
             comment.absoluteUps += 1
+            comment.user.exp -= UP_AND_DOWN_EXP
+            comment.user.save()
             comment.save()
             data["totalThumb"] = comment.absoluteUps
     return JsonResponse(data)
