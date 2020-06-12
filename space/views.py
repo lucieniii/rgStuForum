@@ -177,6 +177,17 @@ def blackList(request, id):
     return render(request, 'space/BlackList.html', locals())
 
 
+def BlogList(request):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        follow_posts = Post.objects.filter(favoritepost=userid)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'space/BlogList.html', locals())
+
+
 def follow(request):
     global _fake_follow
     request.GET.get("userId", None)
@@ -204,3 +215,4 @@ def black(request):
     }
     # print(data)
     return JsonResponse(data)
+

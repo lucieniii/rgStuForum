@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% load staticfiles %}
+
 {% block newCSS %}
     <link rel="stylesheet" href="{% static 'space/css/welcome.css' %}"/> <!-- !important 优先级最高 -->
 {% endblock %}
@@ -109,7 +109,7 @@
         </a>
     </div>
     <div>
-        <a href="{% url 'space' space_owner.id %}">
+        <a href="{% url 'BlogList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注帖子" style="color: #06a2ec;">
                 <span><i style="padding-right:10px;" class="fa">&#xf1ea</i>关注帖子</span>
             </button>
@@ -173,7 +173,12 @@
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
                                 修改文章
                             </a>
+<<<<<<< HEAD
                             <a href="{% url 'post_safe_delete' post.id %}" onclick="confirm_delete()">删除文章</a>
+=======
+                            <a href='#' onclick="confirm_delete()">删除文章</a>
+
+>>>>>>> 04939b191645d3de630c4fc69913f62890abffe6
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
                             {{ post.content | safe }}
