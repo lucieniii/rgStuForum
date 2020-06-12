@@ -34,11 +34,11 @@ class Zone(models.Model):
 # 帖子表
 class Post(models.Model):
     sections = (
-        (0, "讨论区"),
-        (1, "刷题区"),
-        (2, "校园区"),
-        (3, "课程推荐区"),
-        (4, "资源区"),
+        (1, "讨论区"),
+        (2, "刷题区"),
+        (3, "校园区"),
+        (4, "课程推荐区"),
+        (5, "资源区"),
     )
     section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
     level_restriction = models.IntegerField(verbose_name="等级限制", default=0)
