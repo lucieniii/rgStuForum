@@ -30,7 +30,7 @@ def space(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
 
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
