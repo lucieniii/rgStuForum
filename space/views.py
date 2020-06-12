@@ -64,7 +64,7 @@ def myInfo(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban= get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
 
     return render(request, "space/settings.html")
@@ -75,7 +75,7 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
 
         if request.method == "POST":
             if is_owner and user.is_admin:
@@ -202,7 +202,7 @@ def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban= get_space_status(request, userid, id)
 
         follows = Follow.objects.filter(FollowerID=userid)
     else:
@@ -214,7 +214,7 @@ def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
 
         blackLists = BlackList.objects.filter(BlockerID=userid)
     else:
