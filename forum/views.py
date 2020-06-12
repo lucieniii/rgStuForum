@@ -270,63 +270,38 @@ def post_list(request):
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
     search = request.GET.get('search')
-    order = request.GET.get('order')
     searchPost = request.GET.get('searchPost')
     # 用户搜索逻辑
     print(search, searchPost)
     if search:
-        if order == 'views':
+        if searchPost == 'true':
             # 用 Q对象 进行联合搜索
-            article_list = Post.objects.filter(
+            post_list = Post.objects.filter(
                 Q(title__icontains=search) |
                 Q(content__icontains=search)
-            ).order_by('-total_views')
+            ).order_by('-views')
         else:
-            article_list = Post.objects.filter(
-                Q(title__icontains=search) |
-                Q(content__icontains=search)
+            # 将 search 参数重置为空
+            user_list = User.objects.filter(
+                Q(name__icontains=search)
             )
     else:
-        # 将 search 参数重置为空
+        print('hh')
         search = ''
-        if order == 'total_views':
-            article_list = Post.objects.all().order_by('views')
+        if searchPost:
+            post_list = Post.objects.all().order_by('-views')
         else:
-            article_list = Post.objects.all()
+            user_list = User.objects.all()
 
-    paginator = Paginator(article_list, 3)  # 分页工具
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
-
-    # 增加 search 到 context
-    context = {'posts': posts, 'order': order, 'search': search, 'user': user}
-
-    return render(request, 'base/PostList.html', context)
-
-
-def user_list(request):
-    is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
-    current_user = User.objects.get(id=user_id)
-    search = request.GET.get('search')
-    # 用户搜索逻辑
-    if search:
-        user_list = User.objects.filter(
-            Q(name__icontains=search)
-        )
+    if searchPost == 'true':
+        # print('in search post')
+        context = {'posts': post_list, 'search': search, 'user': user, 'is_login': True, 'userid': userid}
+        return render(request, 'base/PostList.html', context)
     else:
-        # 将 search 参数重置为空
-        search = ''
-        user_list = User.objects.all()
-
-    paginator = Paginator(user_list, 10)  # 分页工具
-    page = request.GET.get('page')
-    user_lists = paginator.get_page(page)
-
-    # 增加 search 到 context
-    context = {'user_lists': user_lists, 'search': search, 'user': current_user}
-
-    return render(request, 'base/UserList.html', context)
+        # print('in search user')
+        print(user_list)
+        context = {'users': user_list, 'search': search, 'user': user, 'is_login': True, 'userid': userid}
+        return render(request, 'base/UserList.html', context)
 
 
 def post_safe_delete(request, id):
