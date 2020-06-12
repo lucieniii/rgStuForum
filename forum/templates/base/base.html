@@ -245,12 +245,11 @@
             keyword = $("#search").val();
             host = window.location.host;
             console.log(host)
-            req.setRequestHeader("search", "?search=" + keyword);
-            //req.open("GET", host + "/search?search=" + keyword, true);
+            //req.setRequestHeader("search", "?search=" + keyword);
+            req.open("GET", "http://localhost/search?search=" + keyword + "/" , true);
             req.send();
             //alert("此处回车触发搜索事件");
         }
-
     }
 
 </script>

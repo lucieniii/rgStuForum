@@ -4,4 +4,10 @@
 {% endblock %}
 
 {% block main2nav %}
+    <div>
+        {{ space_owner.name }}
+    </div>
+    <a href="{% url 'settings' space_owner.id %}">
+        <button>修改个人信息</button>
+    </a>
 {% endblock %}
