@@ -27,6 +27,8 @@ class User(models.Model):
     level = models.IntegerField(verbose_name='等级', default=1)
 
     def save(self):
+        if int(self.exp) < 0:
+            self.exp = 0
         self.level = int(math.sqrt(int(self.exp)) // 10 + 1)
         super(User, self).save()
 

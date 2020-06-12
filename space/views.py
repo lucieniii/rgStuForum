@@ -76,7 +76,7 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
 
         if request.method == "POST":
             if is_owner and user.is_admin:
@@ -85,8 +85,14 @@ def settings(request, id):
                 form = userInfo_user(request.POST, request.FILES, instance=space_owner)
             elif not is_owner and user.is_admin:
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
+            now_name = space_owner.name
             # 如果全部输入信息有效
             if form.is_valid():
+                value = form.cleaned_data['name']
+                if User.objects.get(name=value) and now_name != value:
+                    space_owner.name = now_name
+                    messages.success(request, "用户名已存在")
+                    return render(request, "space/space.html", locals())
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return render(request, "space/space.html", locals())
