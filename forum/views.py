@@ -358,8 +358,16 @@ def black(request):
 
 
 def thumb(request):
-    request.GET.get("type", None)
-    request.GET.get("id", None)
+    type = request.GET.get("type", None)
+    id = request.GET.get("id", None)
+    if type == '0':  # 文章
+        post = Post.objects.get(id=id)
+        post.absoluteUps += 1
+        post.save()
+    else:
+        comment = Comment.objects.get(id=id)
+        comment.absoluteUps += 1
+        comment.save()
     data = {
         "isThumb": False
     }
