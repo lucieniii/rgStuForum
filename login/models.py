@@ -12,7 +12,6 @@ class User(models.Model):
         ('male', "男"),
         ('female', "女"),
     )
-
     # zone = models.OneToOneField(to='forum.Zone', to_field='id', null=True, on_delete=models.CASCADE)
     avatar = ProcessedImageField(verbose_name='头像', upload_to='user_avatar/', blank=True, null=False, default='avatar.png', processors=[ResizeToFill(150,150)])
     name = models.CharField(verbose_name='用户名', max_length=128, unique=True)

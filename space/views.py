@@ -268,7 +268,7 @@ def ban(request):
     data = {'is_ban': space_owner.is_ban}
     # type = request.GET.get("type", None)
     # id = request.GET.get("id", None)
-    
+
     # 访客是管理员且被访问者不是管理员
     if user.is_admin and not space_owner.is_admin:
         if user.is_ban:
