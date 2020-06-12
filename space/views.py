@@ -87,6 +87,7 @@ def settings(request, id):
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             now_name = space_owner.name
             # 如果全部输入信息有效
+            
             if form.is_valid():
                 value = form.cleaned_data['name']
                 if User.objects.get(name=value) and now_name != value:
