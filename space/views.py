@@ -224,8 +224,8 @@ def BlogList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
-        follow_posts = Post.objects.filter(favoritepost=id)
+        user = User.objects.get(id=userid)
+        follow_posts = Post.objects.filter(favoritepost=userid)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlogList.html', locals())
@@ -268,7 +268,7 @@ def ban(request):
     data = {'is_ban': space_owner.is_ban}
     # type = request.GET.get("type", None)
     # id = request.GET.get("id", None)
-    
+
     # 访客是管理员且被访问者不是管理员
     if user.is_admin and not space_owner.is_admin:
         if user.is_ban:

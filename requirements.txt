@@ -4,3 +4,4 @@ django-notifications-hq~=1.6.0
 django-mptt~=0.11.0
 django-ckeditor~=5.9.0
 django-crispy-forms
+django-imagekit
