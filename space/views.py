@@ -100,6 +100,7 @@ def settings(request, id):
                 messages.success(request, "修改成功")
                 return render(request, "space/space.html", locals())
             else:
+                print("error")
                 # 失败
                 # 打印输入的信息
                 # print("---", form.cleaned_data)  # 得到一个字典
