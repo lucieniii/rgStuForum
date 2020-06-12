@@ -267,7 +267,7 @@ def post_detail(request, id):
 # 文章详情页面的视图函数
 def post_list(request):
     is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
+    userid = request.session.get('user_id', None)
     user = User.objects.get(id=user_id)
     search = request.GET.get('search')
     order = request.GET.get('order')
@@ -304,7 +304,7 @@ def post_list(request):
 
 def post_safe_delete(request, id):
     is_login = get_login_status(request)
-    user_id = request.session.get('user_id', None)
+    userid = request.session.get('user_id', None)
     user = User.objects.get(id=user_id)
     post = Post.objects.get(id=id)
     post.delete()

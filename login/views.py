@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from . import models
 from . import forms
 import hashlib
+from login.models import User
 
 
 # Create your views here.
@@ -29,10 +30,11 @@ def get_login_status(request):
 
 
 def login(request):
-    print(3)
     is_login = get_login_status(request)
     if is_login:
-        return render(request, 'forum/index.html', locals())
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        return redirect('/index/', locals())
     if request.method == 'POST':
         login_form = forms.UserForm(request.POST)
         message = '请检查填写的内容！'
@@ -46,8 +48,8 @@ def login(request):
                 message = '用户不存在！'
                 return render(request, 'login/login.html', locals())
 
-            # if user.password == hash_code(password):
-            if user.password == password:
+            if user.password == hash_code(password):
+            # if user.password == password:
                 request.session['is_login'] = True
                 request.session['user_id'] = user.id
                 request.session['user_name'] = user.name
@@ -64,10 +66,11 @@ def login(request):
 
 
 def register(request):
-    is_login = False
-    if request.session.get('is_login', None):
-        is_login = True
-        return redirect('/index/')
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        user = User.objects.get(id=userid)
+        return redirect('/index/', locals())
     if request.method == 'POST':
         register_form = forms.RegisterForm(request.POST)
         message = "请检查填写的内容！"
