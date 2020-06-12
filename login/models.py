@@ -1,3 +1,5 @@
+import math
+
 from django.db import models
 from django.urls import reverse
 
@@ -22,7 +24,11 @@ class User(models.Model):
     is_admin = models.BooleanField(verbose_name='管理员', default=False)
     c_time = models.DateTimeField(verbose_name='注册时间', auto_now_add=True)
     exp = models.IntegerField(verbose_name='经验值', default=0)
+    level = models.IntegerField(verbose_name='等级', default=1)
 
+    def save(self):
+        self.level = int(math.sqrt(int(self.exp)) // 10 + 1)
+        super(User, self).save()
 
     def __str__(self):
         return self.name

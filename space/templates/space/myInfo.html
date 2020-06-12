@@ -5,9 +5,21 @@
 
 {% block main2nav %}
     <div>
+        <img class="rounded-circle" src="{{ space_owner.avatar.url }}"
+                                     style="width: 25px; height: 25px"/>
+    </div>
+    <div>
         {{ space_owner.name }}
     </div>
+    <div>
+        {{ space_owner.email }}
+    </div>
+    <div>
+        {{ space_owner.school }}
+    </div>
+    {% if is_owner or user.is_admin %}
     <a href="{% url 'settings' space_owner.id %}">
         <button>修改个人信息</button>
     </a>
+    {% endif %}
 {% endblock %}

@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+import math
 from space.forms import *
 from space.models import *
 from login.models import *
@@ -20,7 +20,8 @@ def get_space_status(request, userid, ownerid):
     user = User.objects.get(id=userid)
     is_Following = _fake_follow
     is_Ban = _fake_black
-    return is_login, is_owner, space_owner, user, is_Following, is_Ban
+    level = level_cal(space_owner)
+    return is_login, is_owner, space_owner, user, is_Following, is_Ban, level
 
 
 # Create your views here.
@@ -29,7 +30,7 @@ def space(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
 
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
@@ -64,7 +65,7 @@ def myInfo(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
 
     return render(request, "space/settings.html")
@@ -75,16 +76,17 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
 
         if request.method == "POST":
-            form = userInfo_all(request.POST, request.FILES, instance=space_owner)
-
+            if is_owner and user.is_admin:
+                form = userInfo_all(request.POST, request.FILES, instance=space_owner)
+            elif is_owner:
+                form = userInfo_user(request.POST, request.FILES, instance=space_owner)
+            elif not is_owner and user.is_admin:
+                form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             # 如果全部输入信息有效
             if form.is_valid():
-                # image = form.cleaned_data.get('avatar')
-                # print(image)
-                # request.user.avatar = image
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return render(request, "space/space.html", locals())
@@ -103,32 +105,37 @@ def settings(request, id):
                 return render(request, "space/settings.html", locals())
 
         else:
-
-            # form = userInfo(instance=space_owner)
-            form = userInfo_all(initial={'name': space_owner.name, 'sex': space_owner.sex, 'age': space_owner.age,
-                                     'school': space_owner.school, 'major': space_owner.major,
-                                     'exp': space_owner.exp, 'email': space_owner.email, 'avatar': space_owner.avatar},
-                            instance=space_owner)
-            # 访问者是自己，除了经验值都能改
-            if is_owner:
-                form.fields['exp'].widget.attrs['readonly'] = True
-                # form.fields['exp'].disabled = True
-            # 访问者不是自己但是是管理员，只能改经验值
-            elif user.is_admin:
-                for i in form.fields.values():
-                    i.widget.attrs['readonly'] = True
-                    # i.disabled = True
-                    # i.required = False
-                form.fields['exp'].disabled = False
-            # 什么也不能改
-            else:
-                for i in form.fields.values():
-                    i.widget.attrs['readonly'] = True
-                    # i.disabled = True
-                    # i.required = False
-                form.fields['avatar'].widget.attrs['disabled'] = True
-                form.fields['sex'].widget.attrs['disabled'] = True
-            # form = UserInfo(request.POST)
+            if is_owner and user.is_admin:
+                form = userInfo_all(instance=space_owner)
+            elif is_owner:
+                form = userInfo_user(instance=space_owner)
+            elif not is_owner and user.is_admin:
+                form = userInfo_admin(instance=space_owner)
+            # # form = userInfo(instance=space_owner)
+            # form = userInfo_all(initial={'name': space_owner.name, 'sex': space_owner.sex, 'age': space_owner.age,
+            #                          'school': space_owner.school, 'major': space_owner.major,
+            #                          'exp': space_owner.exp, 'email': space_owner.email, 'avatar': space_owner.avatar},
+            #                 instance=space_owner)
+            # # 访问者是自己，除了经验值都能改
+            # if is_owner:
+            #     form.fields['exp'].widget.attrs['readonly'] = True
+            #     # form.fields['exp'].disabled = True
+            # # 访问者不是自己但是是管理员，只能改经验值
+            # elif user.is_admin:
+            #     for i in form.fields.values():
+            #         i.widget.attrs['readonly'] = True
+            #         # i.disabled = True
+            #         # i.required = False
+            #     form.fields['exp'].disabled = False
+            # # 什么也不能改
+            # else:
+            #     for i in form.fields.values():
+            #         i.widget.attrs['readonly'] = True
+            #         # i.disabled = True
+            #         # i.required = False
+            #     form.fields['avatar'].widget.attrs['disabled'] = True
+            #     form.fields['sex'].widget.attrs['disabled'] = True
+            # # form = UserInfo(request.POST)
 
             return render(request, "space/settings.html", locals())
 
@@ -186,7 +193,7 @@ def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
 
         follows = Follow.objects.filter(FollowerID=userid)
     else:
@@ -198,7 +205,7 @@ def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
 
         blackLists = BlackList.objects.filter(BlockerID=userid)
     else:
@@ -245,3 +252,6 @@ def black(request):
     # print(data)
     return JsonResponse(data)
 
+
+def level_cal(user):
+    return int(math.sqrt(int(user.exp)) // 10 + 1)

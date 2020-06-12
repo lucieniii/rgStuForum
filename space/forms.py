@@ -9,7 +9,14 @@ class userInfo_all(ModelForm):
     class Meta:
         model = User
         # fields = ["avatar"]
-        exclude = ('is_admin', 'c_time', 'password')
+        exclude = ('is_admin', 'c_time', 'level')
+        widgets = {
+        }
+
+class userInfo_user(ModelForm):
+    class Meta:
+        model = User
+        exclude = ('is_admin', 'c_time', 'exp', 'level')
         widgets = {
         }
 
@@ -17,6 +24,9 @@ class userInfo_admin(ModelForm):
     class Meta:
         model = User
         fields = ['exp']
+        widgets = {
+        }
+
 
 # class UserInfo(forms.Form):
 #     username = forms.CharField(
