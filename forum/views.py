@@ -162,7 +162,7 @@ def PostContent(request, s):
     elif request.method == 'POST':
         post = Post.objects.get(id=int(ls[0]))
         if user.is_ban:
-            message = "您已被禁言，暂时不能回复"
+            messages.success("您已被禁言，暂时不能回复")
             return redirect(reverse('PostContent', args=str(post.id)), locals())
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         if comment_form.is_valid():
@@ -200,7 +200,7 @@ def post_update(request, id):
         return redirect('/index/', locals())
     # 获取需要修改的具体文章对象
     if user.is_ban:
-        messages = "您已经被禁言，暂时不能修改帖子"
+        messages.success("您已经被禁言，暂时不能修改帖子")
         return redirect(reverse('space', args=str(user.id)), locals())
     post = Post.objects.get(id=id)
     # 判断用户是否为 POST 提交表单数据

@@ -9,23 +9,27 @@ from login.models import *
 from forum.models import *
 from login.views import get_login_status
 
-_fake_follow = False
-_fake_black = False
-
 
 def get_space_status(request, userid, ownerid):
     is_login = get_login_status(request)
     is_owner = (str(userid) == str(ownerid))
     space_owner = User.objects.get(id=ownerid)
     user = User.objects.get(id=userid)
-    is_Following = _fake_follow
-    is_Black = _fake_black
+    try:
+        BlackList.objects.get(BlockerID=userid, BlockedID=ownerid)
+        is_Black = True
+    except:
+        is_Black = False
+    try:
+        Follow.objects.get(FollowerID=userid, FollowedID=ownerid)
+        is_Following = True
+    except:
+        is_Following = False
     return is_login, is_owner, space_owner, user, is_Following, is_Black
 
 
 # Create your views here.
 def space(request, id):
-
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -93,23 +97,21 @@ def settings(request, id):
                 if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
-                    return render(request, "space/space.html", locals())
+                    return redirect(reverse('space', args=str(id)), locals())
                 print(1)
                 form.save(commit=True)
                 messages.success(request, "修改成功")
-                return render(request, "space/space.html", locals())
+                return redirect(reverse('space', args=str(id)), locals())
             else:
                 print("error")
                 # 失败
                 # 打印输入的信息
-                # print("---", form.cleaned_data)  # 得到一个字典
-                # print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
-                # print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
-                #
-                # g_error = form.errors.get("__all__")
-                # print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
-                # if g_error:
-                #     g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
+                print("---", form.cleaned_data)  # 得到一个字典
+                print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
+                print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
+
+                g_error = form.errors.get("__all__")
+                print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
 
                 return render(request, "space/settings.html", locals())
 
@@ -231,30 +233,53 @@ def BlogList(request, id):
     return render(request, 'space/BlogList.html', locals())
 
 
+# 关注
 def follow(request):
-    global _fake_follow
-    request.GET.get("userId", None)
-    request.GET.get("targetId", None)
-    if _fake_follow:
-        _fake_follow = False
-    else:
-        _fake_follow = True
+    is_follow = False
+    followerid = request.GET.get("userId", None)
+    follower = User.objects.get(id=followerid)
+    followedid = request.GET.get("targetId", None)
+    followed = User.objects.get(id=followedid)
+    # if Follow.objects.filter(FollowerID=followerid, FollowedID=followedid):
+    #     print(1)
+    # else: print(2)
+    try:
+        f = Follow.objects.get(FollowerID=followerid, FollowedID=followedid)
+        f.delete()
+        is_follow = False
+    except:
+        print(1)
+        new_follow = Follow()
+        new_follow.FollowerID = follower
+        new_follow.FollowedID = followed
+        new_follow.save()
+        is_follow = True
+
     data = {
-        "isFollowing": _fake_follow
+        "isFollowing": is_follow
     }
     return JsonResponse(data)
 
 
 def black(request):
-    global _fake_black
-    request.GET.get("userId", None)
-    request.GET.get("targetId", None)
-    if _fake_black:
-        _fake_black = False
-    else:
-        _fake_black = True
+    is_black = False
+    blockerid = request.GET.get("userId", None)
+    blocker = User.objects.get(id=blockerid)
+    blockedid = request.GET.get("targetId", None)
+    blocked = User.objects.get(id=blockedid)
+    try:
+        f = BlackList.objects.get(BlockerID=blockerid, BlockedID=blockedid)
+        f.delete()
+        is_black = False
+    except:
+        new_black = BlackList()
+        new_black.BlockerID = blocker
+        new_black.BlockedID = blocked
+        new_black.save()
+        is_black = True
+
     data = {
-        "isBlacking": _fake_black
+        "isBlacking": is_black
     }
     # print(data)
     return JsonResponse(data)
@@ -268,7 +293,7 @@ def ban(request):
     data = {'is_ban': space_owner.is_ban}
     # type = request.GET.get("type", None)
     # id = request.GET.get("id", None)
-    
+
     # 访客是管理员且被访问者不是管理员
     if user.is_admin and not space_owner.is_admin:
         if space_owner.is_ban:

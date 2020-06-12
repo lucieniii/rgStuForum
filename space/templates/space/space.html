@@ -229,7 +229,8 @@
                                      style="width: 25px; height: 25px"/>
                             </a>
                             <span class="font"
-                                  style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ space_owner.name }}</span>
+                                  style="margin-left: 5px; font-size: 14px; font-weight:600;
+                                  {% if space_owner.is_admin %}color: red;{% endif %}">{{ space_owner.name }}</span>
                         </div>
                         <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                             <time style="font-size: 14px; font-weight:600;">

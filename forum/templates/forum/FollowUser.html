@@ -33,7 +33,8 @@
             <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
                 <div class="d-sm-flex align-items-sm-center flex-shrink-1">
                     <a href="{% url 'space' post.author.id %}"><img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 25px; height: 25px" /></a>
-                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ post.author.name }}</span>
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
                 </div>
                 <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                     <time style="font-size: 14px; font-weight:600;">
