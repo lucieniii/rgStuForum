@@ -224,8 +224,8 @@ def BlogList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        follow_posts = Post.objects.filter(favoritepost=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        favoritePosts = FavoritePost.objects.filter(UserID=id)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlogList.html', locals())
