@@ -97,23 +97,21 @@ def settings(request, id):
                 if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
-                    return render(request, "space/space.html", locals())
+                    return redirect(reverse('space', args=str(id)), locals())
                 print(1)
                 form.save(commit=True)
                 messages.success(request, "修改成功")
-                return render(request, "space/space.html", locals())
+                return redirect(reverse('space', args=str(id)), locals())
             else:
                 print("error")
                 # 失败
                 # 打印输入的信息
-                # print("---", form.cleaned_data)  # 得到一个字典
-                # print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
-                # print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
-                #
-                # g_error = form.errors.get("__all__")
-                # print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
-                # if g_error:
-                #     g_error = g_error[0]  # 直接获取你自己的错误提示，即两次密码不一致
+                print("---", form.cleaned_data)  # 得到一个字典
+                print("???", form.errors)  # ErrorDict : {"校验错误的字段":["错误信息",]}
+                print("!!!", form.errors.get("email"))  # ErrorList ["错误信息",]
+
+                g_error = form.errors.get("__all__")
+                print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
 
                 return render(request, "space/settings.html", locals())
 

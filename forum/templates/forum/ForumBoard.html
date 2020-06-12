@@ -69,7 +69,8 @@
                     <a href="{{ post.author.get_absolute_url }}">
                         <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 20px; height: 20px" />
                     </a>
-                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ post.author.name }}</span>
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
                 </div>
                 <div class="d-sm-flex align-items-sm-center" style="padding-left: 4px; color: #636363; ">
                     <time style="font-size: 14px; font-weight:600;">
@@ -118,7 +119,8 @@
                     <a href="{{ post.author.get_absolute_url }}">
                         <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 25px; height: 25px" />
                     </a>
-                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;">{{ post.author.name }}</span>
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
                 </div>
                 <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                     <time style="font-size: 14px; font-weight:600;">

@@ -17,6 +17,9 @@
 
 {% block main2 %}
 <div class="container">
+<!--    {% if form.errors %}-->
+<!--    {{ form.errors }}-->
+<!--    {% endif %}-->
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
 
@@ -26,6 +29,7 @@
                  {% csrf_token %}
 <!--                 {{ form.as_p }}-->
 <!--                <input type="submit">-->
+
                  {% for field in form %}
                     <div class="myInfo">
                         <div class="">
