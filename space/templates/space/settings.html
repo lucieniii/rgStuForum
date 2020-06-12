@@ -1,7 +1,11 @@
 {% extends 'space/space.html' %}
 {% load crispy_forms_filters %}
+
 {% load static %}
 {% block newCSS %}
+<!--    <script>-->
+<!--    $("#avatar-clear").hide();-->
+<!--    </script>-->
     <link rel="stylesheet" href="{% static 'space/css/myInfo.css' %}"/>
 {% endblock %}
 
@@ -22,36 +26,47 @@
                  {% csrf_token %}
 <!--                 {{ form.as_p }}-->
 <!--                <input type="submit">-->
-                <div class="myInfo">
-                    头像：{{ form.avatar }}
-                </div>
-                <div class="myInfo">
-                    用户名：{{ form.name }}
-                </div>
+                 {% for field in form %}
                     <div class="myInfo">
-                    年龄：{{ form.age }}
-                </div>
-                <div class="myInfo">
-                    密码：{{ form.password }}
-                </div>
-                <div class="myInfo">
-                    邮箱：{{ form.email }}
-                </div>
-                <div class="myInfo">
-                    性别：{{ form.sex }}
-                </div>
-                <div class="myInfo">
-                    学校：{{ form.school }}
-                </div>
-                <div class="myInfo">
-                    专业：{{ form.major }}
-                </div>
-                <div style="margin:10px  0  0  90px;">
-                    <input type="submit" class="btn btn-info changeButton">
-                </div>
+                        <div class="">
+                          {{field.name}}:{{   field }}
+                        </div>
+                    </div>
+                 {% endfor %}
+                 <input type="submit" class="btn btn-info changeButton">
+<!--                <div class="myInfo">-->
+<!--                    头像：{{ form.avatar }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    用户名：{{ form.name }}-->
+<!--                </div>-->
+<!--                    <div class="myInfo">-->
+<!--                    年龄：{{ form.age }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    密码：{{ form.password }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    邮箱：{{ form.email }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    性别：{{ form.sex }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    学校：{{ form.school }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    专业：{{ form.major }}-->
+<!--                </div>-->
+<!--                <div style="margin:10px  0  0  90px;">-->
+<!--                    <input type="submit" class="btn btn-info changeButton">-->
+<!--                </div>-->
              </form>
         </div>
     </div>
 </div>
 {% endblock %}
 
+<!--{% block moreOnloadFunc %}-->
+<!--    document.getElementById("avatar-clear_id").style.display="none";-->
+<!--{% endblock %}-->
