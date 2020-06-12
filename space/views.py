@@ -20,8 +20,7 @@ def get_space_status(request, userid, ownerid):
     user = User.objects.get(id=userid)
     is_Following = _fake_follow
     is_Ban = _fake_black
-    level = level_cal(space_owner)
-    return is_login, is_owner, space_owner, user, is_Following, is_Ban, level
+    return is_login, is_owner, space_owner, user, is_Following, is_Ban
 
 
 # Create your views here.
@@ -30,7 +29,7 @@ def space(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
 
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
@@ -65,7 +64,7 @@ def myInfo(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban= get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
 
     return render(request, "space/settings.html")
@@ -76,7 +75,7 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
 
         if request.method == "POST":
             if is_owner and user.is_admin:
@@ -203,9 +202,8 @@ def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level= get_space_status(request, userid, id)
-
-        follows = Follow.objects.filter(FollowerID=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban= get_space_status(request, userid, id)
+        follows = Follow.objects.filter(FollowerID=id)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/FriendList.html', locals())
@@ -215,20 +213,19 @@ def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Ban, level = get_space_status(request, userid, id)
-
-        blackLists = BlackList.objects.filter(BlockerID=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        blackLists = BlackList.objects.filter(BlockerID=id)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlackList.html', locals())
 
 
-def BlogList(request):
+def BlogList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        follow_posts = Post.objects.filter(favoritepost=userid)
+        is_login, is_owner, space_owner, user, is_Following, is_Ban = get_space_status(request, userid, id)
+        follow_posts = Post.objects.filter(favoritepost=id)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlogList.html', locals())
@@ -260,6 +257,28 @@ def black(request):
         "isBlacking": _fake_black
     }
     # print(data)
+    return JsonResponse(data)
+
+
+def ban(request):
+    userid = request.session.get('user_id', None)
+    ownerid = request.GET.get("id", None)
+    space_owner = User.objects.get(id=ownerid)
+    user = User.objects.get(id=userid)
+    data = {'is_ban': space_owner.is_ban}
+    # type = request.GET.get("type", None)
+    # id = request.GET.get("id", None)
+    print(1)
+    # 访客是管理员且被访问者不是管理员
+    if user.is_admin and not space_owner.is_admin:
+        if user.is_ban:
+            user.is_ban = False
+            data['is_ban'] = False
+        else:
+            user.is_ban = True
+            data['is_ban'] = True
+        user.save()
+
     return JsonResponse(data)
 
 

@@ -40,7 +40,6 @@ urlpatterns = [
     path('logout/', view_login.logout, name='logout'),
     path('base/', view_forum.base, name='base'),
     path('space/<int:id>/', view_space.space, name='space'),
-    path('BlogList/<int:id>', view_space.BlogList, name='BlogList'),
     path('settings/<int:id>', view_space.settings, name='settings'),
     path('FriendList/<int:id>', view_space.friendList, name='FriendList'),
     path('BlackList/<int:id>', view_space.blackList, name='BlackList'),
@@ -49,6 +48,7 @@ urlpatterns = [
     path('ajax/thumb/', view_forum.thumb, name='thumb'),
     path('ajax/follow/', view_space.follow, name='follow'),
     path('ajax/black/', view_space.black, name='black'),
+    path('ajax/ban/', view_space.ban, name='ban'),
     # path('notice/', include('notice.urls', namespace='notice')),
     url(r'', include('ckeditor_uploader.urls')),
 ]

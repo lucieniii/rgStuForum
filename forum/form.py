@@ -21,19 +21,19 @@ class CommentForm(forms.ModelForm):
 
 
 # 帖子表单
-class PostForm(forms.Form):
-    sections = (
-        (0, "讨论区"),
-        (1, "刷题区"),
-        (2, "校园区"),
-        (3, "课程推荐区"),
-        (4, "资源区"),
-    )
-    title = forms.CharField(label="标题", max_length=128, widget=forms.TextInput(
-         attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
-    content = forms.CharField(label="文章内容", max_length=1024, widget=forms.Textarea(
-         attrs={'class': 'form-control', 'placeholder': "content", 'autofocus': ''}))
-    section = forms.ChoiceField(label='文章标签', widget=forms.widgets.Select(choices=sections))
+class PostForm(forms.ModelForm):
+    # sections = (
+    #    (0, "讨论区"),
+    #    (1, "刷题区"),
+    #    (2, "校园区"),
+    #    (3, "课程推荐区"),
+    #    (4, "资源区"),
+    #)
+    #title = forms.CharField(label="标题", max_length=128, widget=forms.TextInput(
+    #     attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
+    #content = forms.CharField(label="文章内容", max_length=1024, widget=forms.Textarea(
+    #     attrs={'class': 'form-control', 'placeholder': "content", 'autofocus': ''}))
+    #section = forms.ChoiceField(label='文章标签', widget=forms.widgets.Select(choices=sections))
 
     # file = forms.FileField(label="文件上传")
     # image = forms.ImageField(label="图片上传")
@@ -42,11 +42,12 @@ class PostForm(forms.Form):
     # urf = forms.URLField(label="url格式")
     # data = forms.DateField(label="日期格式")
     # email = forms.EmailField(label="邮箱格式")
-    # class Meta:
+    class Meta:
         # 指明数据模型来源
-      #   model = Post
+         model = Post
         # 定义表单包含的字段
-      #   fields = ('title', 'content', 'section')
+         #fields = ('title', 'content', 'section', 'level_restriction')
+         fields = ('title', 'content')
 
 
 # 评论表单

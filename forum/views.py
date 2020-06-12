@@ -14,6 +14,8 @@ from .models import Post, Comment, UpAndDown
 UP_AND_DOWN_EXP = 40
 CREATE_POST_EXP = 70
 COMMENT_EXP = 20
+
+
 # from django.contrib.auth.models import User
 # from notifications.signals import notify
 
@@ -158,6 +160,9 @@ def PostContent(request, s):
         return render(request, 'forum/PostContent.html', locals())
     elif request.method == 'POST':
         post = Post.objects.get(id=int(ls[0]))
+        if user.is_ban:
+            message = "您已被禁言，暂时不能回复"
+            return redirect(reverse('PostContent', args=str(post.id)), locals())
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         if comment_form.is_valid():
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
@@ -193,6 +198,9 @@ def post_update(request, id):
     else:
         return redirect('/index/', locals())
     # 获取需要修改的具体文章对象
+    if user.is_ban:
+        messages = "您已经被禁言，暂时不能修改帖子"
+        return redirect(reverse('space', args=str(user.id)), locals())
     post = Post.objects.get(id=id)
     # 判断用户是否为 POST 提交表单数据
     if request.method == "POST":
@@ -226,6 +234,9 @@ def post_create(request):
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
     else:
+        return redirect('/index/', locals())
+    if user.is_ban:
+        messages = "您已经被禁言，暂时不能发帖"
         return redirect('/index/', locals())
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
