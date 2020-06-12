@@ -33,7 +33,14 @@ class Zone(models.Model):
 
 # 帖子表
 class Post(models.Model):
-    section = models.ForeignKey(to='Section', to_field='id', null=True, on_delete=models.CASCADE)
+    sections = (
+        (0, "讨论区"),
+        (1, "刷题区"),
+        (2, "校园区"),
+        (3, "课程推荐区"),
+        (4, "资源区"),
+    )
+    section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
     # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
@@ -65,12 +72,6 @@ class Post(models.Model):
 #     content = models.CharField(max_length=255)
 #     create_time = models.DateTimeField(auto_now_add=True)
 #     parent = models.ForeignKey(to='self', to_field='id', null=True, blank=True, on_delete=models.CASCADE)
-
-
-# 分类表
-class Section(models.Model):
-    name = models.CharField(verbose_name='分类名称', max_length=16)
-
 
 # 点赞点踩
 class UpAndDown(models.Model):
