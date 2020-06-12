@@ -268,7 +268,7 @@ def post_detail(request, id):
 def post_list(request):
     is_login = get_login_status(request)
     userid = request.session.get('user_id', None)
-    user = User.objects.get(id=user_id)
+    user = User.objects.get(id=userid)
     search = request.GET.get('search')
     order = request.GET.get('order')
     # 用户搜索逻辑
@@ -305,7 +305,7 @@ def post_list(request):
 def post_safe_delete(request, id):
     is_login = get_login_status(request)
     userid = request.session.get('user_id', None)
-    user = User.objects.get(id=user_id)
+    user = User.objects.get(id=userid)
     post = Post.objects.get(id=id)
     post.delete()
     context = {'is_login': is_login, 'user': user}
