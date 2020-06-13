@@ -350,7 +350,6 @@ def post_list(request):
         return render(request, 'base/PostList.html', context)
     else:
         # print('in search user')
-        print(user_list)
         context = {'users': user_list, 'search': search, 'user': user, 'is_login': True, 'userid': userid}
         return render(request, 'base/UserList.html', context)
 
