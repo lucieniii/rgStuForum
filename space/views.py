@@ -58,7 +58,7 @@ def space(request, id):
             dic = {'title': title, 'author': author, 'tag': tag}
             comments.append(dic)
         '''
-        # 限定显示100个字符
+        # 限定显示30个字符
         for i in posts:
             # print(i.comment_set.all().count)
             i.content = striptags(i.content)
@@ -68,7 +68,8 @@ def space(request, id):
             # print(i.comment_set.all().count)
             i.content = striptags(i.content)
             if len(i.content) > 30:
-                i.content = i.content[0:30] + "..."
+
+                i.content = '{}...'.format(str(i.content)[0:29])
         return render(request, "space/space.html", locals())
     else:
         return redirect('/index/', locals())
@@ -92,15 +93,17 @@ def settings(request, id):
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
 
         if request.method == "POST":
+            flag = 0
             if is_owner and user.is_admin:
                 form = userInfo_all(request.POST, request.FILES, instance=space_owner)
             elif is_owner:
                 form = userInfo_user(request.POST, request.FILES, instance=space_owner)
             elif not is_owner and user.is_admin:
+                flag = 1 # 因为这里没有name，特殊处理
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             now_name = space_owner.name
             # 如果全部输入信息有效
-            if form.is_valid():
+            if form.is_valid() and not flag:
                 value = form.cleaned_data['name']
                 print(space_owner.name)
                 print(value)
@@ -109,6 +112,10 @@ def settings(request, id):
                     messages.success(request, "用户名已存在")
                     return redirect(reverse('space', args=str(id)), locals())
                 print(1)
+                form.save(commit=True)
+                messages.success(request, "修改成功")
+                return redirect(reverse('space', args=str(id)), locals())
+            elif form.is_valid() and flag:
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return redirect(reverse('space', args=str(id)), locals())
