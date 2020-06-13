@@ -9,10 +9,10 @@ from django.template.defaultfilters import striptags
 
 from login.models import User
 from login.views import get_login_status
-from . import models
+# from . import models
 from .form import PostForm, CommentForm
 from .models import Post, Comment, UpAndDown
-from space.models import FavoritePost
+from space.models import *
 
 UP_AND_DOWN_EXP = 40
 CREATE_POST_EXP = 70
@@ -283,7 +283,7 @@ def post_create(request):
         # 判断提交的数据是否满足模型的要求
         if post_form.is_valid():
             # 保存数据，但暂时不提交到数据库中
-            new_post = models.Post()
+            new_post = Post()
             new_post.title = post_form.cleaned_data.get("title", None)
             new_post.content = post_form.cleaned_data.get("content", None)
             new_post.section = post_form.cleaned_data.get("section", None)
@@ -379,11 +379,11 @@ def post_rank(request):
     # 获取显示的文章id
     nid = request.GET.get('nid')
     # 获取文章
-    post_data = models.Post.objects.filter(id=nid).first()
+    post_data = Post.objects.filter(id=nid).first()
     # 获取到的文章调用increase_views方法
-    models.Post.increase_views(post_data)
+    Post.increase_views(post_data)
     # 根据自增的views字段进行排序，并获取最高的5条数据
-    hot_doc = models.Post.objects.order_by("-views")[0:5]
+    hot_doc = Post.objects.order_by("-views")[0:5]
     return render(request, "?????.html", {"post_data": post_data, 'hot_doc': hot_doc})  # TODO
 
 
@@ -471,6 +471,33 @@ def comment_list(request):
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
 
+# 没排序，没缩略，没渲染富文本！
+def followUser(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    follows = Follow.objects.filter(FollowerID=userid)
+    post_list = []
+    for follower in follows:
+        posts = Post.objects.filter(author=follower.FollowedID)
+        post_list.append(posts)
+    return render(request, 'forum/FollowUser.html', locals())
+
+def followPost(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    favorites = FavoritePost.objects.filter(UserID=userid)
+    post_list = []
+    for f in favorites:
+        posts = Post.objects.filter(id=f.PostID)
+        post_list.append(posts)
+
+    return render(request, 'forum/FollowPost.html', locals())
 
 def all_posts(request):
     is_login = get_login_status(request)
