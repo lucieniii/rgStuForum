@@ -10,7 +10,7 @@ class userInfo_all(ModelForm):
     class Meta:
         model = User
         # fields = ["avatar"]
-        exclude = ('is_admin', 'c_time', 'level', 'is_ban')
+        exclude = ('is_admin', 'c_time', 'level', 'is_ban', 'is_read', 'levelname')
         widgets = {
         }
 
@@ -51,7 +51,7 @@ class userInfo_all(ModelForm):
 class userInfo_user(ModelForm):
     class Meta:
         model = User
-        exclude = ('is_admin', 'c_time', 'exp', 'level', 'is_ban')
+        exclude = ('is_admin', 'c_time', 'exp', 'level', 'is_ban', 'is_read', 'levelname')
         widgets = {
         }
 
