@@ -551,7 +551,9 @@ def make_post_top(request):
     is_login = get_login_status(request)
     if not is_login:
         return redirect('index', locals())
+    print(1)
     userid = request.session.get('user_id', None)
+    print(2)
     user = User.objects.get(id=userid)
     if not user.is_admin:
         return redirect('index', locals())
@@ -560,6 +562,7 @@ def make_post_top(request):
         "isTop": False
     }
     post_id = request.GET.get("post_id", None)
+    print(post_id)
     post = Post.objects.get(id=post_id)
     if post.is_top:
         post.is_top = False

@@ -102,11 +102,35 @@
                     <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
                 </div>
                 {% if is_owner %}
-                <div class="d-sm-flex align-items-sm-center">
-                    <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
-                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                    </a>
-                </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
+                            <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                        </a>
+                    </div>
+                {% endif %}
+                {% if user.is_admin %}
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa {% if post.is_top %}fa-arrow-down{% else %}fa-arrow-up{% endif %}"
+                           onclick="top()" style="margin-left: 5px; padding-right: 2px; cursor: pointer;" id="top"></i>
+                    </div>
+                    <script>
+                        function top() {
+                            $.ajax({
+                                url: '/ajax/top/',
+                                data: {
+                                    "post_id": {{ post.id }},
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.isTop) {
+                                        document.getElementById("top").className = "fa fa-arrow-down";
+                                    } else {
+                                        document.getElementById("top").className = "fa fa-arrow-up";
+                                    }
+                                }
+                            })
+                        }
+                    </script>
                 {% endif %}
             </div>
         </div>
