@@ -52,23 +52,16 @@ def index(request):
 
 # 返回热帖hot_posts,以及普通帖子normal_posts
 def forumBoard(request, id):
-    if id == 1:  # 讨论区
-        hot_posts = Post.objects.filter(section=1).order_by("-views")[0:3]
-    elif id == 2:  # 课程推荐
-        hot_posts = Post.objects.filter(section=2).order_by("-views")[0:3]
-    elif id == 3:  # 刷题
-        hot_posts = Post.objects.filter(section=3).order_by("-views")[0:3]
-    elif id == 4:  # 校园周边
-        hot_posts = Post.objects.filter(section=4).order_by("-views")[0:3]
-    elif id == 5:  # 资源共享
-        hot_posts = Post.objects.filter(section=5).order_by("-views")[0:3]
-    else:
+    if id not in (1,2,3,4,5):
         return HttpResponse("不存在这个板块")
+    hot_posts = Post.objects.filter(section=str(id)).order_by("-views")[0:3]
+    normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
+    
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
-    normal_posts = Post.objects.order_by("create_time")
+
     for i in normal_posts:
         i.content = striptags(i.content)
         # print(i.content)
