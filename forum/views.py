@@ -211,7 +211,7 @@ def post_update(request, id):
         if post_form.is_valid():
             # 保存新写入的 title、body 数据并保存
             post.title = request.POST['title']
-            post.body = request.POST['body']
+            post.content = request.POST['content']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return render(request, 'forum/PostContent.html', locals())
