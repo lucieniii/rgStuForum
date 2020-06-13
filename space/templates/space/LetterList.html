@@ -1,0 +1,100 @@
+{% extends 'space/space.html' %}
+{% load static %}
+{% block main1 %}
+{% endblock %}
+
+{% block main2nav %}
+{% endblock %}
+{% block main2border %}
+{% endblock %}
+{% block main2 %}
+    <div style="width: 100%; font-size: 1.6em;">
+        <div class="d-flex align-items-center flex-column"
+             style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;"
+             id="titleWrapper">
+            {% for follow in follows %}
+            <div class="border-top" style="width: 90%;">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column align-items-center CommentAvatar"
+                         style="padding: 10px; width: 120px">
+                        <div style="width: 75%">
+                            <a href="#">
+                                <img src="{{ follow.FollowedID.avatar.url }}" class="border rounded-circle"
+                                 style="width: 100%"/>
+                            </a>
+                        </div>
+                        <div class="font d-flex flex-column" style="font-weight: bolder">
+                            <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                                <span style="text-align: center"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                        <div class="d-flex align-items-center" style="flex-grow: 1">
+                            <span class="font" style="font-size: 1.1em; font-weight: bolder;
+                            {% if follow.FollowedID.is_admin %}color: red;{% endif %}">{{ follow.FollowedID.name }}</span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="rounded d-flex align-items-center"
+                                 style="margin-right: 5px; display: block;
+                                  padding: 0 4px; text-align: center;
+                                   font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
+                                <span>lv 1 </span>
+                            </div>
+                            <span style="font-size: 0.8em; font-weight: bolder;">新手</span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center"
+                         style="max-width:100%; flex-direction:row; font-size:1.4em">
+                        <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
+                            <div class="d-sm-flex align-items-sm-center">
+                                <i class="fa fa-envelope" style="color: #5baaff; margin-left: 5px; padding-right: 2px"></i>
+<!--                                <i class="fa fa-star" style="color: #e6db74; margin-left: 5px; padding-right: 2px"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block morescript %}
+    <script>
+        function handler() {
+            const width = Number(window.innerWidth);
+            const commentAvatars = document.getElementsByClassName("CommentAvatar");
+            const bodyHeight = window.innerHeight;
+            const bodyWidth = window.innerWidth;
+            if (width >= 1440) {
+                Array.prototype.forEach.call(commentAvatars, function (el) {
+                    el.style.minWidth = "150px";
+                    el.style.maxWidth = "150px";
+                });
+                //document.getElementById("avatarBox").style.fontSize = "1rem";
+                document.getElementById("titleWrapper").style.fontSize = "1rem";
+            } else if (width < 375) {
+                Array.prototype.forEach.call(commentAvatars, function (el) {
+                    el.style.minWidth = "80px";
+                    el.style.maxWidth = "80px";
+                });
+                //document.getElementById("avatarBox").style.fontSize = "0.8rem";
+                document.getElementById("titleWrapper").style.fontSize = "0.8rem";
+            } else {
+                w = (width - 375) / 1065 * 70 + 80;
+                r = (width - 375) / 1065 * 0.2 + 0.8;
+                d = (width - 375) / 1065 * 20 + 40;
+                dr = (width - 375) / 1065 + 1;
+                Array.prototype.forEach.call(commentAvatars, function (el) {
+                    el.style.minWidth = w + "px";
+                    el.style.maxWidth = w + "px";
+                });
+                //document.getElementById("avatarBox").style.fontSize = r + "rem";
+                document.getElementById("titleWrapper").style.fontSize = r + "rem";
+            }
+            //console.log(windowStatus);
+        }
+        window.addEventListener("resize", handler);
+    </script>
+{% endblock %}

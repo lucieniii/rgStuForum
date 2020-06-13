@@ -211,6 +211,17 @@ def friendList(request, id):
     return render(request, 'space/FriendList.html', locals())
 
 
+def letterList(request, id):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        follows = Follow.objects.filter(FollowerID=id)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'space/LetterList.html', locals())
+
+
 def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
