@@ -145,6 +145,11 @@ def PostContent(request, s):
         if len(ls) > 1:
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
+
+        if post.level_restriction > user.level:
+            messages.success(request, "您等级不够，无法查看此帖！")
+            return redirect("/index/", locals())
+
         if post.id == MUST_READ_POST_ID and not user.is_read:
             user.is_read = True
             user.save()
