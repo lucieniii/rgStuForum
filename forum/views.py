@@ -413,3 +413,33 @@ def thumb(request):
             comment.save()
             data["totalThumb"] = comment.absoluteUps
     return JsonResponse(data)
+
+
+def comment_list(request):
+    is_login = get_login_status(request)
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    my_posts = Post.objects.filter(author=user)
+    my_comments = Comment.objects.filter(user=user)
+
+    my_posts_comments = []
+    for post in my_posts:
+        comments = Comment.objects.filter(post=post)
+        for comment in comments:
+            comment.content = striptags(comment.content)
+            if len(comment.content) > 30:
+                comment.content = comment.content[0:30] + "..."
+        my_posts_comments.extend(comments)
+
+    my_comments_comments = []
+    for my_comment in my_comments:
+        comments = Comment.objects.filter(reply_to_comment=my_comment)
+        for comment in comments:
+            comment.content = striptags(comment.content)
+            if len(comment.content) > 30:
+                comment.content = comment.content[0:30] + "..."
+        my_comments_comments.extend(comments)
+
+    context = {"posts_comments": my_posts_comments, "comments_comments": my_comments_comments, "userid": userid,
+               "user": user, "is_login": is_login}
+    return render(request, 'forum/Mention.html', context)
