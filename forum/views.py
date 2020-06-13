@@ -245,6 +245,7 @@ def post_update(request, id):
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
         post_form = PostForm(data=request.POST)
+        print(post_form)
         # 判断提交的数据是否满足模型的要求
         if post_form.is_valid():
             # 保存新写入的 title、body 数据并保存
