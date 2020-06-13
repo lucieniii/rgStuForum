@@ -1,6 +1,5 @@
 {% extends 'base/base.html' %}
 {% load static %}
-
 {% block newCSS %}
     <link rel="stylesheet" href="{% static 'space/css/welcome.css' %}"/> <!-- !important 优先级最高 -->
 {% endblock %}
@@ -194,7 +193,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                             <span class="font rounded"
                                   style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                                &nbsp;{{ post.section }}&nbsp;
+                                &nbsp;{{ post.get_section_display }}&nbsp;
                             </span>
                             <span class="font"
                                       style="font-size: 14px; font-weight:600; margin-right: 10px;">
@@ -267,7 +266,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                             <span class="font rounded"
                                   style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                                &nbsp;{{ comment.post.section }}&nbsp;
+                                &nbsp;{{ comment.post.get_section_display}}&nbsp;
                             </span>
                             <span class="flex-shrink-1 align-center"
                                   style="margin-top: 2px; padding-left: 4px; color: #636363;">
@@ -321,7 +320,6 @@
         {#            location.href = '{% url "post_safe_delete" post.id %}'#}
         {#        },#}
         {#    })#}
-
         function f() {
             isf = {{ is_Following }};
             isb =  {{ is_Ban }};

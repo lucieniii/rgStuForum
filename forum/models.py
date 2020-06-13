@@ -34,11 +34,11 @@ class Zone(models.Model):
 # 帖子表
 class Post(models.Model):
     sections = (
-        (1, "讨论区"),
-        (2, "刷题区"),
-        (3, "校园区"),
-        (4, "课程推荐区"),
-        (5, "资源区"),
+        ('1', "讨论区"),
+        ('2', "课程推荐"),
+        ('3', "刷题"),
+        ('4', "校园周边"),
+        ('5', "资源共享"),
     )
     # section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
     section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
