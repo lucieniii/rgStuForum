@@ -12,7 +12,7 @@ class Comment(models.Model):
     post = models.ForeignKey(to='forum.Post', to_field='id', on_delete=models.CASCADE, related_name='comments')
     # content = models.TextField()
     # content = RichTextField()  # 富文本编辑器
-    content = RichTextUploadingField(max_length=1024)  # 富文本编辑器
+    content = RichTextUploadingField(max_length=204800)  # 富文本编辑器
     created = models.DateTimeField(auto_now_add=True)
     reply_to = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='replyers')
     reply_to_comment = models.ForeignKey(to='Comment', to_field='id', null=True, blank=True, on_delete=models.CASCADE,
@@ -20,7 +20,7 @@ class Comment(models.Model):
     absoluteUps = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('-created',)
+        ordering = ('created',)
 
     def __str__(self):
         return self.content[:20]
@@ -46,7 +46,7 @@ class Post(models.Model):
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
     # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
-    content = RichTextUploadingField(max_length=2048)
+    content = RichTextUploadingField(max_length=204800)
     title = models.CharField(verbose_name='帖子标题', max_length=64)
     author = models.ForeignKey(to='login.User', to_field='id', on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
