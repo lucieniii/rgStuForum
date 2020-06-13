@@ -33,6 +33,18 @@ class Zone(models.Model):
 
 # 帖子表
 class Post(models.Model):
+    levels = (
+        ('1', "不设限制"),
+        ('2', "2"),
+        ('3', "3"),
+        ('4', "4"),
+        ('5', "5"),
+        ('6', "6"),
+        ('7', "7"),
+        ('8', "8"),
+        ('9', "9"),
+        ('10', "10"),
+    )
     sections = (
         ('1', "讨论区"),
         ('2', "课程推荐"),
@@ -42,7 +54,7 @@ class Post(models.Model):
     )
     # section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
     section = models.CharField(verbose_name='板块', max_length=32, choices=sections, default="讨论区")
-    level_restriction = models.IntegerField(verbose_name="等级限制", default=0)
+    level_restriction = models.CharField(verbose_name="等级限制", max_length=32, choices=levels, default='1')
     create_time = models.DateField(verbose_name='创建时间', default=timezone.now)
     last_edit = models.DateTimeField(verbose_name='最后一次更新时间', auto_now=True, auto_now_add=False)
     # photo = models.ImageField(verbose_name='图片', upload_to='img', null=True)
