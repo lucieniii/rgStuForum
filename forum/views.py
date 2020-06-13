@@ -148,17 +148,30 @@ def PostContent(request, s):
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
         comments = Comment.objects.filter(post=int(ls[0]))
+        try:
+            UpAndDown.objects.get(user=user, post=post)
+            is_thumbed_post = True
+        except:
+            is_thumbed_post = False
         # 将markdown语法渲染成html样式
         comments_lv1 = []
         for comment in comments:
             if not comment.reply_to_comment_id:
-                print(comment.reply_to_id)
-                comments_lv1.append([comment, []])
+                # print(comment.reply_to_id)
+                try:
+                    UpAndDown.objects.get(user=user, comment=comment)
+                    comments_lv1.append([comment, [], True])
+                except:
+                    comments_lv1.append([comment, [], False])
 
         for comment_list in comments_lv1:
             for comment in comments:
                 if comment.reply_to_comment_id == comment_list[0].id:
-                    comment_list[1].append(comment)
+                    try:
+                        UpAndDown.objects.get(user=user, comment=comment)
+                        comment_list[1].append([comment, True])
+                    except:
+                        comment_list[1].append([comment, False])
         # print(comments_lv1)
         # print(1)
         is_owner = (str(userid) == str(post.author.id))

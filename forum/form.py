@@ -61,7 +61,7 @@ class PostForm(forms.Form):
          attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
     content = forms.CharField(label="文章内容", max_length=204800, widget=CKEditorUploadingWidget())
     section = forms.ChoiceField(label='文章标签', choices=sections)
-    is_top = forms.BooleanField()
+    # is_top = forms.BooleanField()
 # 评论表单
 # 表单对应有一个数据库模型 用ModelForm
 # class CommentForm(forms.ModelForm):
