@@ -58,6 +58,7 @@ def forumBoard(request, id):
     normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
     
     is_login = get_login_status(request)
+
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
@@ -159,6 +160,7 @@ def PostContent(request, s):
                     comment_list[1].append(comment)
         # print(comments_lv1)
         # print(1)
+        is_owner = (str(userid) == str(post.author.id))
         return render(request, 'forum/PostContent.html', locals())
     elif request.method == 'POST':
         post = Post.objects.get(id=int(ls[0]))

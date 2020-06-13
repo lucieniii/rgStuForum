@@ -13,6 +13,7 @@
         ul.errorlist {
             display: none;
         }
+
         .thumbsup {
             cursor: pointer;
         }
@@ -30,12 +31,12 @@
                     <div style="width: 75%">
                         <a href="{% url 'space' post.author.id %}">
                             <img src="{{ post.author.avatar.url }}" class="border rounded-circle"
-                             style="width: 100%"/>
+                                 style="width: 100%"/>
                         </a>
                     </div>
                     <div class="font d-flex flex-column" style="font-weight: bolder">
                         <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em;
-                        {% if post.author.is_admin %}color: red;{% endif %}">
+                                {% if post.author.is_admin %}color: red;{% endif %}">
                             <span style="text-align: center">{{ post.author.name }}</span>
                         </div>
                         <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
@@ -60,30 +61,56 @@
             </div>
         </div>
         <div class="d-flex"
-                 style="width:90%; flex-direction:row; justify-content: flex-end; font-size:1em">
-                <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
-                    <div class="d-sm-flex align-items-sm-center">
-                        {{ post.create_time | date:"Y-m-d" }}
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(0, {{ post.id }}, 'thumbupPost{{ post.id }}')">
-                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupPost{{ post.id }}"></i>
-                    </div>
-                    <!--div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div-->
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-star-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
-                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                        </a>
-                    </div>
+             style="width:90%; flex-direction:row; justify-content: flex-end; font-size:1em">
+            <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
+                <div class="d-sm-flex align-items-sm-center">
+                    {{ post.create_time | date:"Y-m-d" }}
                 </div>
+                <div class="d-sm-flex align-items-sm-center thumbsup"
+                     onclick="thumbs(0, {{ post.id }}, 'thumbupPost{{ post.id }}')">
+                    <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"
+                       id="thumbupPost{{ post.id }}"></i>
+                </div>
+                <!--div class="d-sm-flex align-items-sm-center">
+                    <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
+                </div-->
+                {% if not is_owner %}
+                <div class="d-sm-flex align-items-sm-center" onclick="favor()">
+                    <i class="fa fa-star-o" style="margin-left: 5px; padding-right: 2px; cursor: pointer;"
+                       id="PostFavorite"></i>
+                </div>
+                <script>
+                    function favor() {
+                        console.log(1);
+                        $.ajax({
+                            url: '/ajax/favorite/',
+                            data: {
+                                "post_id": {{ post.id }},
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isFavorite) {
+                                    document.getElementById("PostFavorite").className = "fa fa-star-o-up";
+                                } else {
+                                    document.getElementById("PostFavorite").className = "fa fa-star-up";
+                                }
+                            }
+                        })
+                    }
+                </script>
+                {% endif %}
+                <div class="d-sm-flex align-items-sm-center">
+                    <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
+                </div>
+                {% if is_owner %}
+                <div class="d-sm-flex align-items-sm-center">
+                    <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
+                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                    </a>
+                </div>
+                {% endif %}
             </div>
+        </div>
         {% for comment in comments_lv1 %}
             <div class="border-top" style="width: 90%;">
                 <div class="d-flex flex-row">
@@ -92,13 +119,13 @@
                         <div style="width: 75%">
                             <a href="{% url 'space' comment.0.user.id %}">
                                 <img src="{{ comment.0.user.avatar.url }}" class="border rounded-circle"
-                                 style="width: 100%"/>
+                                     style="width: 100%"/>
                             </a>
                         </div>
                         <div class="font d-flex flex-column" style="font-weight: bolder">
                             <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
                                 <span style="text-align: center;
-                                {% if comment.0.user.is_admin %}color: red;{% endif %}">{{ comment.0.user.name }}</span>
+                                        {% if comment.0.user.is_admin %}color: red;{% endif %}">{{ comment.0.user.name }}</span>
                             </div>
                             <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px;">
                             <span class="rounded align-middle"
@@ -121,14 +148,17 @@
                     <!--div class="d-sm-flex align-items-sm-center thumbsup">
                         <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
                     </div-->
-                    <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(1, {{ comment.0.id }}, 'thumbupComment{{ comment.0.id }}')">
-                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupComment{{ comment.0.id }}"></i>
+                    <div class="d-sm-flex align-items-sm-center thumbsup"
+                         onclick="thumbs(1, {{ comment.0.id }}, 'thumbupComment{{ comment.0.id }}')">
+                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"
+                           id="thumbupComment{{ comment.0.id }}"></i>
                     </div>
                     <!--div class="d-sm-flex align-items-sm-center">
                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
                     </div-->
                     <div class="d-sm-flex align-items-sm-center">
-                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal" data-target="#ModalComment"
+                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                           data-target="#ModalComment"
                            style="text-decoration: none; color: black;" onclick="f(0, {{ comment.0.id }})">
                             <i class="fa fa-commenting" style="margin-left: 5px; padding-right: 2px"></i>
                         </a>
@@ -150,13 +180,15 @@
                             <div class="{% if not forloop.last %}border-bottom{% endif %}" style="margin: 5px">
                                 <div>
                                     <div style="font-weight:bolder; font-size:1em;">
-                                        <i><a href="{% url 'space' subcomments.user.id %}" style="text-decoration: none;">
+                                        <i><a href="{% url 'space' subcomments.user.id %}"
+                                              style="text-decoration: none;">
                                             {{ subcomments.user }}
                                         </a></i>
                                         回复
                                         {% if subcomments.reply_to %}
-                                            <i><a href="{% url 'space' subcomments.reply_to.id %}" style="text-decoration: none;">
-                                            {{ subcomments.reply_to }}
+                                            <i><a href="{% url 'space' subcomments.reply_to.id %}"
+                                                  style="text-decoration: none;">
+                                                {{ subcomments.reply_to }}
                                             </a></i>
                                         {% endif %}
                                     </div>
@@ -169,16 +201,20 @@
                                     <div class="d-sm-flex align-items-sm-center">
                                         {{ subcomments.created | date:"Y-m-d H:i:s" }}
                                     </div>
-                                    
-                                    <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(1, {{ subcomments.id }}, 'thumbupComment{{ subcomments.id }}')">
-                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupComment{{ subcomments.id }}"></i>
+
+                                    <div class="d-sm-flex align-items-sm-center thumbsup"
+                                         onclick="thumbs(1, {{ subcomments.id }}, 'thumbupComment{{ subcomments.id }}')">
+                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"
+                                           id="thumbupComment{{ subcomments.id }}"></i>
                                     </div>
                                     <!--div class="d-sm-flex align-items-sm-center">
                                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
                                     </div-->
                                     <div class="d-sm-flex align-items-sm-center">
-                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal" data-target="#ModalComment"
-                                           style="text-decoration: none; color: black;" onclick="f({{ subcomments.user.id }}, {{ comment.0.id }})">
+                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                                           data-target="#ModalComment"
+                                           style="text-decoration: none; color: black;"
+                                           onclick="f({{ subcomments.user.id }}, {{ comment.0.id }})">
                                             <i class="fa fa-commenting"
                                                style="margin-left: 5px; padding-right: 2px"></i>
                                         </a>
@@ -301,6 +337,7 @@
 
 {% block moreOnloadFunc %}
     handler();
+
 {% endblock %}
 
 {% block funcShowSidebar %}
