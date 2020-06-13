@@ -139,10 +139,6 @@ def PostContent(request, s):
         return redirect('/index/', locals())
     comment_form = CommentForm(request.POST)
     ls = s.split("&")
-    if not is_login:
-        return redirect("/index/", locals())
-    else:
-        user = User.objects.get(id=userid)
     if request.method == 'GET':
         if len(ls) > 1:
             return redirect("/index/", locals())
@@ -345,7 +341,7 @@ def post_list(request):
         return render(request, 'base/PostList.html', context)
     else:
         # print('in search user')
-        print(user_list)
+        # print(user_list)
         context = {'users': user_list, 'search': search, 'user': user, 'is_login': True, 'userid': userid}
         return render(request, 'base/UserList.html', context)
 
