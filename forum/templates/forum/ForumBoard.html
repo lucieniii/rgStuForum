@@ -48,7 +48,7 @@
     </a>
     {% endblock %}
 
-<-置顶帖-->!-
+<-热帖-->!-
 {% block main1border %}
     border-left border-right
 {% endblock %}
@@ -63,6 +63,9 @@
                         {{ post.title }}
                     </a>
                 </div>
+                <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                    {{ post.content | safe}}
+                </div>
             </div>
             <div class="d-sm-flex " style="width: 100%; margin: 10px 0 0 0; align-items:center; justify-content:flex-end;" id="top-userInfo">
                 <div class="d-sm-flex align-items-sm-center">
@@ -75,7 +78,7 @@
                 <div class="d-sm-flex align-items-sm-center" style="padding-left: 4px; color: #636363; ">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        {{ post.create_time }}
+                        {{ post.last_edit }}
                     </time>
                 </div>
             </div>
@@ -86,7 +89,7 @@
 
 
 
-<!--热贴-->
+<!--普通帖-->
 {% block main2border %}
     border-left border-right
 {% endblock %}
@@ -101,7 +104,7 @@
                     </a>
                 </div>
                 <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                    {{ post.content }}
+                    {{ post.content | safe}}
                 </div>
                 <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
@@ -125,7 +128,7 @@
                 <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        {{ post.create_time }}
+                        {{ post.last_edit }}
                     </time>
                 </div>
             </div>

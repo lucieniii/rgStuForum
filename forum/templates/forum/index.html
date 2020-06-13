@@ -37,7 +37,7 @@
         </button>
     </a>
     <a href="{% url 'Mention' %}">
-        <button class="button" type="button" data-hover="查看回复和@" style="color: #06a2ec;">
+        <button class="button" type="button" data-hover="查看回复我的" style="color: #06a2ec;">
             <span><i class="fa fa-envelope" style="padding-right: 10px"></i>回复我的</span>
         </button>
     </a>
@@ -63,6 +63,9 @@
                         {{ post.title }}
                     </a>
                 </div>
+                <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                    {{ post.content | safe}}
+                </div>
             </div>
             <div class="d-sm-flex " style="width: 100%; margin: 10px 0 0 0; align-items:center; justify-content:flex-end;" id="top-userInfo">
                 <div class="d-sm-flex align-items-sm-center">
@@ -75,7 +78,7 @@
                 <div class="d-sm-flex align-items-sm-center" style="padding-left: 4px; color: #636363; ">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        {{ post.create_time }}
+                        {{ post.last_edit }}
                     </time>
                 </div>
             </div>
@@ -125,7 +128,7 @@
                 <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
                     <time style="font-size: 14px; font-weight:600;">
                         <i class="fa fa-clock-o" style="padding-right: 2px"></i>
-                        {{ post.create_time }}
+                        {{ post.last_edit }}
                     </time>
                 </div>
             </div>

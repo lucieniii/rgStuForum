@@ -10,7 +10,7 @@ from django.template.defaultfilters import striptags
 from login.models import User
 from login.views import get_login_status
 # from . import models
-from .form import PostForm, CommentForm
+from .form import PostForm, CommentForm, UpdatePostForm
 from .models import Post, Comment, UpAndDown
 from space.models import *
 
@@ -43,11 +43,18 @@ def index(request):
     # 限定显示30个字符
     top_posts = Post.objects.filter(is_top=True)
     hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
+
     for i in hot_posts:
         i.content = striptags(i.content)
         # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
+
+    for i in hot_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 100:
+            i.content = i.content[0:100] + "..."
 
     return render(request, "forum/index.html", locals())
 
@@ -57,7 +64,7 @@ def forumBoard(request, id):
     if id not in (1, 2, 3, 4, 5):
         return HttpResponse("不存在这个板块")
     hot_posts = Post.objects.filter(section=str(id)).order_by("-views")[0:3]
-    normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
+    normal_posts = Post.objects.filter(section=str(id)).order_by("-last_edit")
 
     is_login = get_login_status(request)
 
@@ -65,11 +72,17 @@ def forumBoard(request, id):
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
 
-    for i in normal_posts:
+    for i in hot_posts:
         i.content = striptags(i.content)
         # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
+
+    for i in normal_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 100:
+            i.content = i.content[0:100] + "..."
     return render(request, 'forum/ForumBoard.html', locals())
 
 
@@ -244,13 +257,13 @@ def post_update(request, id):
     # 判断用户是否为 POST 提交表单数据
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
-        post_form = PostForm(data=request.POST)
-        print(post_form)
+        update_form = UpdatePostForm(data=request.POST)
         # 判断提交的数据是否满足模型的要求
-        if post_form.is_valid():
+        if update_form.is_valid():
             # 保存新写入的 title、body 数据并保存
             post.title = request.POST['title']
             post.content = request.POST['content']
+            post.section = request.POST['section']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
@@ -288,6 +301,7 @@ def post_create(request):
             new_post.title = post_form.cleaned_data.get("title", None)
             new_post.content = post_form.cleaned_data.get("content", None)
             new_post.section = post_form.cleaned_data.get("section", None)
+            new_post.level_restriction = post_form.cleaned_data.get("level_restriction", None)
             # new_post = post_form.save(commit=False)
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
@@ -472,7 +486,8 @@ def comment_list(request):
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
 
-# 没排序，没缩略，没渲染富文本！
+
+# 没排序，没缩略，没渲染富文本！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def followUser(request):
     is_login = get_login_status(request)
     if not is_login:
@@ -483,8 +498,13 @@ def followUser(request):
     post_list = []
     for follower in follows:
         posts = Post.objects.filter(author=follower.FollowedID)
-        post_list.append(posts)
+        post_list.extend(posts)
+    for post in post_list:
+        post.content = striptags(post.content)
+        if len(post.content) > 100:
+            post.content = post.content[0:100] + "..."
     return render(request, 'forum/FollowUser.html', locals())
+
 
 def followPost(request):
     is_login = get_login_status(request)
@@ -495,10 +515,11 @@ def followPost(request):
     favorites = FavoritePost.objects.filter(UserID=userid)
     post_list = []
     for f in favorites:
-        posts = Post.objects.filter(id=f.PostID)
+        posts = Post.objects.filter(id=f.PostID.id)
         post_list.append(posts)
 
     return render(request, 'forum/FollowPost.html', locals())
+
 
 def all_posts(request):
     is_login = get_login_status(request)
