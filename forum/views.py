@@ -214,7 +214,7 @@ def post_update(request, id):
             post.content = request.POST['content']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
-            return render(request, 'forum/PostContent.html', locals())
+            return redirect(reverse('PostContent', args=str(post.id)), locals())
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")
