@@ -68,7 +68,6 @@ def space(request, id):
             # print(i.comment_set.all().count)
             i.content = striptags(i.content)
             if len(i.content) > 30:
-
                 i.content = '{}...'.format(str(i.content)[0:29])
         return render(request, "space/space.html", locals())
     else:
@@ -95,15 +94,17 @@ def settings(request, id):
         if request.method == "POST":
             flag = 0
             if is_owner and user.is_admin:
+                flag = -1
                 form = userInfo_all(request.POST, request.FILES, instance=space_owner)
             elif is_owner:
+                flag = 0
                 form = userInfo_user(request.POST, request.FILES, instance=space_owner)
             elif not is_owner and user.is_admin:
-                flag = 1 # 因为这里没有name，特殊处理
+                flag = 1  # 因为这里没有name，特殊处理
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             now_name = space_owner.name
             # 如果全部输入信息有效
-            if form.is_valid() and not flag:
+            if form.is_valid() and flag != 1:
                 value = form.cleaned_data['name']
                 print(space_owner.name)
                 print(value)
@@ -115,11 +116,17 @@ def settings(request, id):
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return redirect(reverse('space', args=str(id)), locals())
-            elif form.is_valid() and flag:
+            elif form.is_valid():  # 无name字段
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return redirect(reverse('space', args=str(id)), locals())
             else:
+                if flag == -1:
+                    messages.success(request, "修改失败！注意年龄/经验值不得小于0, 密码长度需要在4~16之间，使用合法邮箱格式")
+                elif flag == 0:
+                    messages.success(request, "修改失败！注意年龄不得小于0，密码长度需要在4~16之间，使用合法邮箱格式")
+                else:
+                    messages.success(request, "修改失败！经验值不得小于0")
                 print("error")
                 # 失败
                 # 打印输入的信息
@@ -130,7 +137,7 @@ def settings(request, id):
                 g_error = form.errors.get("__all__")
                 print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
 
-                return render(request, "space/settings.html", locals())
+                return redirect(reverse('space', args=str(id)), locals())
 
         else:
             if is_owner and user.is_admin:
