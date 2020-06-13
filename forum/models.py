@@ -67,7 +67,7 @@ class Post(models.Model):
     absoluteUps = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ('-create_time',)
+        ordering = ('-last_edit',)
 
     def __str__(self):
         return self.title

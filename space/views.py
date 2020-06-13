@@ -388,3 +388,5 @@ def favorite(request):
         data["isFavorite"] = True
 
     return JsonResponse(data)
+
+

@@ -78,6 +78,7 @@ def followUser(request):
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
+        # follow_list =
     else:
         return redirect('/index/', locals())
     return render(request, 'forum/FollowUser.html', locals())
@@ -146,9 +147,7 @@ def PostContent(request, s):
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
 
-        if post.level_restriction > user.level:
-            messages.success(request, "您等级不够，无法查看此帖！")
-            return redirect("/index/", locals())
+
 
         if post.id == MUST_READ_POST_ID and not user.is_read:
             user.is_read = True
@@ -157,6 +156,9 @@ def PostContent(request, s):
             messages.success(request, "您没有看新手上路帖！")
             return redirect('/index/', locals())
 
+        if int(post.level_restriction) > user.level and not user.is_admin:
+            messages.success(request, "您等级不够，无法查看此帖！")
+            return redirect("/index/", locals())
         comments = Comment.objects.filter(post=int(ls[0]))
         try:
             UpAndDown.objects.get(user=user, post=post)
@@ -212,6 +214,8 @@ def PostContent(request, s):
             user.exp += COMMENT_EXP  # 发评论加经验
             user.save()
             new_comment.save()
+            post.last_edit = new_comment.created
+            post.save()
             return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
@@ -466,6 +470,7 @@ def comment_list(request):
     context = {"posts_comments": my_posts_comments, "comments_comments": my_comments_comments, "userid": userid,
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
+
 
 
 def all_posts(request):
