@@ -11,6 +11,12 @@ from space.models import *
 from login.models import *
 from forum.models import *
 from login.views import get_login_status
+# add for letter
+from forum.form import PostForm, CommentForm
+from forum.models import Post, Comment, UpAndDown
+UP_AND_DOWN_EXP = 40
+CREATE_POST_EXP = 70
+COMMENT_EXP = 20
 
 
 def get_space_status(request, userid, ownerid):
@@ -244,6 +250,17 @@ def letterList(request, id):
     else:
         return redirect('/index/', locals())
     return render(request, 'space/LetterList.html', locals())
+
+
+def letter(request, id):
+    is_login = get_login_status(request)
+    if is_login:
+        userid = request.session.get('user_id', None)
+        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        follows = Follow.objects.filter(FollowerID=id)
+    else:
+        return redirect('/index/', locals())
+    return render(request, 'space/Letter.html', locals())
 
 
 def blackList(request, id):

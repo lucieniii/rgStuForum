@@ -26,6 +26,8 @@ class User(models.Model):
     exp = models.IntegerField(verbose_name='经验值', default=0)
     level = models.IntegerField(verbose_name='等级', default=1)
     is_ban = models.BooleanField(verbose_name='禁言', default=False)
+    is_read = models.BooleanField(verbose_name='已阅读新手教程', default=False)
+    levelname = models.CharField(verbose_name='称号', default='新手', max_length=128)
 
     def save(self):
         if self.avatar is None:
@@ -33,6 +35,22 @@ class User(models.Model):
         if int(self.exp) < 0:
             self.exp = 0
         self.level = int(math.sqrt(int(self.exp)) // 10 + 1)
+        if self.level <= 2:
+            self.levelname = '新手'
+        elif self.level <= 4:
+            self.levelname = '咸鱼'
+        elif self.level <= 6:
+            self.levelname = '熟练'
+        elif self.level <= 8:
+            self.levelname = '高手'
+        elif self.level <= 10:
+            self.levelname = '水怪'
+        else:
+            self.levelname = '水怪'
+            self.level = 10
+        if self.is_admin:
+            self.is_read = True
+
         super(User, self).save()
 
     def __str__(self):

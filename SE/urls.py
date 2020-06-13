@@ -43,6 +43,7 @@ urlpatterns = [
     path('settings/<int:id>', view_space.settings, name='settings'),
     path('FriendList/<int:id>', view_space.friendList, name='FriendList'),
     path('LetterList/<int:id>', view_space.letterList, name='LetterList'),
+    path('Letter/<int:id>', view_space.letter, name='Letter'),
     path('BlackList/<int:id>', view_space.blackList, name='BlackList'),
     path('BlogList/<int:id>', view_space.BlogList, name='BlogList'),
     path('myInfo/<int:id>', view_space.myInfo, name='myInfo'),
