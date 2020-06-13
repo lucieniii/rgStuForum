@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, HttpResponse, reverse
 from django.shortcuts import render
+from django.template.defaultfilters import striptags
 
 from login.models import User
 from login.views import get_login_status
@@ -40,7 +41,9 @@ def index(request):
     # 限定显示30个字符
     top_posts = Post.objects.filter(is_top=True)
     hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
-    for i in top_posts:
+    for i in hot_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
 
@@ -66,6 +69,11 @@ def forumBoard(request, id):
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
     normal_posts = Post.objects.order_by("create_time")
+    for i in normal_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 30:
+            i.content = i.content[0:30] + "..."
     return render(request, 'forum/ForumBoard.html', locals())
 
 

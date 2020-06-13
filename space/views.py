@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import math
+
+from django.template.defaultfilters import striptags
+
 from space.forms import *
 from space.models import *
 from login.models import *
@@ -58,6 +61,12 @@ def space(request, id):
         # 限定显示100个字符
         for i in posts:
             # print(i.comment_set.all().count)
+            i.content = striptags(i.content)
+            if len(i.content) > 30:
+                i.content = i.content[0:30] + "..."
+        for i in comments:
+            # print(i.comment_set.all().count)
+            i.content = striptags(i.content)
             if len(i.content) > 30:
                 i.content = i.content[0:30] + "..."
         return render(request, "space/space.html", locals())

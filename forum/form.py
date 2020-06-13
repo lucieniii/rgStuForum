@@ -51,11 +51,11 @@ class CommentForm(forms.ModelForm):
 
 class PostForm(forms.Form):
     sections = (
-       (0, "讨论区"),
-       (1, "刷题区"),
-       (2, "校园区"),
-       (3, "课程推荐区"),
-       (4, "资源区"),
+        (1, "讨论区"),
+        (2, "刷题区"),
+        (3, "校园区"),
+        (4, "课程推荐区"),
+        (5, "资源区"),
     )
     title = forms.CharField(label="标题", max_length=128, widget=forms.TextInput(
          attrs={'class': 'form-control', 'placeholder': "Title", 'autofocus': ''}))
