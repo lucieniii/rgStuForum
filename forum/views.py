@@ -471,6 +471,7 @@ def comment_list(request):
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
 
+
 # 没排序，没缩略，没渲染富文本！
 def followUser(request):
     is_login = get_login_status(request)
@@ -485,6 +486,7 @@ def followUser(request):
         post_list.append(posts)
     return render(request, 'forum/FollowUser.html', locals())
 
+
 def followPost(request):
     is_login = get_login_status(request)
     if not is_login:
@@ -494,10 +496,11 @@ def followPost(request):
     favorites = FavoritePost.objects.filter(UserID=userid)
     post_list = []
     for f in favorites:
-        posts = Post.objects.filter(id=f.PostID)
+        posts = Post.objects.filter(id=f.PostID.id)
         post_list.append(posts)
 
     return render(request, 'forum/FollowPost.html', locals())
+
 
 def all_posts(request):
     is_login = get_login_status(request)
