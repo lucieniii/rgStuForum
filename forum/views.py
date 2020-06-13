@@ -147,8 +147,6 @@ def PostContent(request, s):
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
 
-
-
         if post.id == MUST_READ_POST_ID and not user.is_read:
             user.is_read = True
             user.save()
@@ -160,6 +158,8 @@ def PostContent(request, s):
             messages.success(request, "您等级不够，无法查看此帖！")
             return redirect("/index/", locals())
         comments = Comment.objects.filter(post=int(ls[0]))
+        post.views += 1
+        post.save()
         try:
             UpAndDown.objects.get(user=user, post=post)
             is_thumbed_post = True
@@ -470,7 +470,6 @@ def comment_list(request):
     context = {"posts_comments": my_posts_comments, "comments_comments": my_comments_comments, "userid": userid,
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
-
 
 
 def all_posts(request):
