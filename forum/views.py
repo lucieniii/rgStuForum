@@ -521,7 +521,7 @@ def followPost(request):
     return render(request, 'forum/FollowPost.html', locals())
 
 
-def all_posts(request):
+def all_lists(request):
     is_login = get_login_status(request)
     if not is_login:
         return redirect('index', locals())
@@ -530,21 +530,11 @@ def all_posts(request):
     if not user.is_admin:
         return redirect('index', locals())
     post_list = Post.objects.all()
-    context = {'posts': post_list, 'user': user, 'is_login': is_login, 'userid': userid}
-    return render(request, '????.html', context)
-
-
-def all_users(request):
-    is_login = get_login_status(request)
-    if not is_login:
-        return redirect('index', locals())
-    userid = request.session.get('user_id', None)
-    user = User.objects.get(id=userid)
-    if not user.is_admin:
-        return redirect('index', locals())
     user_list = User.objects.all()
-    context = {'users': user_list, 'user': user, 'is_login': is_login, 'userid': userid}
-    return render(request, '????.html', context)
+
+    context = {"posts": post_list, "users": user_list, "userid": userid,
+               "user": user, "is_login": is_login}
+    return render(request, 'forum/AllList.html', context)
 
 
 def make_post_top(request):
