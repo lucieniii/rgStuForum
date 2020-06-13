@@ -189,7 +189,7 @@
                             </a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                            {{ post.content | safe }}
+                            {{ post.content }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <span class="font rounded"
@@ -290,12 +290,12 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">删除帖子</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="font-size: 1.4em;">
                     确认删除帖子？
                 </div>
                 <div class="modal-footer">

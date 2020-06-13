@@ -163,7 +163,7 @@ def PostContent(request, s):
         post = Post.objects.get(id=int(ls[0]))
         if user.is_ban:
             messages.success("您已被禁言，暂时不能回复")
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         if comment_form.is_valid():
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
@@ -179,7 +179,7 @@ def PostContent(request, s):
             user.exp += COMMENT_EXP  # 发评论加经验
             user.save()
             new_comment.save()
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
     # print(1)
@@ -201,7 +201,8 @@ def post_update(request, id):
     # 获取需要修改的具体文章对象
     if user.is_ban:
         messages.success("您已经被禁言，暂时不能修改帖子")
-        return redirect(reverse('space', args=str(user.id)), locals())
+        # return redirect(reverse('space', args=str(user.id)), locals())
+        return redirect(reverse('space', kwargs={"id": str(user.id)}), locals())
     post = Post.objects.get(id=id)
     # 判断用户是否为 POST 提交表单数据
     if request.method == "POST":
@@ -214,7 +215,7 @@ def post_update(request, id):
             post.content = request.POST['content']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            return redirect(reverse('PostContent', kwargs={"s":str(post.id)}), locals())
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")
@@ -222,7 +223,7 @@ def post_update(request, id):
     # 如果用户 GET 请求获取数据
     else:
         # 创建表单类实例
-        post_form = PostForm()
+        post_form = PostForm(initial={'title': post.title, 'content': post.content, 'section': post.section})
         # 赋值上下文，将 article 文章对象也传递进去，以便提取旧的内容
         context = {'post': post, 'post_form': post_form}
         # 将响应返回到模板中
@@ -245,7 +246,11 @@ def post_create(request):
         # 判断提交的数据是否满足模型的要求
         if post_form.is_valid():
             # 保存数据，但暂时不提交到数据库中
-            new_post = post_form.save(commit=False)
+            new_post = models.Post()
+            new_post.title = post_form.cleaned_data.get("title", None)
+            new_post.content = post_form.cleaned_data.get("content", None)
+            new_post.section = post_form.cleaned_data.get("section", None)
+            # new_post = post_form.save(commit=False)
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
             # 此时请重新创建用户，并传入此用户的id
@@ -329,7 +334,7 @@ def post_safe_delete(request, id):
     post = Post.objects.get(id=id)
     post.delete()
     context = {'is_login': is_login, 'user': user}
-    return redirect(reverse('space', args=str(userid)), context)
+    return redirect(reverse('space', kwargs={"id": str(userid)}), context)
 
 
 def post_rank(request):

@@ -39,6 +39,7 @@ def space(request, id):
         comments = Comment.objects.filter(user=id)
         for post in posts:
             post.comment_count = len(Comment.objects.filter(post=post))
+            # print(post.get_absolute_url())
         # Comment表里没有post的title属性，故在本地进行查询
         # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
 

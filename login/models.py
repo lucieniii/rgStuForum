@@ -42,4 +42,5 @@ class User(models.Model):
         ordering = ["-c_time"]
 
     def get_absolute_url(self):
-        return reverse('space', args=str(self.id))
+        # return reverse('space', args=str(self.id))
+        return reverse('space', kwargs={"id": str(self.id)})

@@ -31,31 +31,44 @@
                         <!-- 标签 -->
                         <div for="title" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章标题</div>
                         <!-- 文本框 -->
-                        <input type="text" class="form-control" id="title" name="title">
+                        {{ article_post_form.title }}
+                        <!--input type="text" class="form-control" id="title" name="title"-->
                     </div>
                     <!-- 文章正文 -->
                     <div class="form-group">
                         <div for="content" style="font-size: 1.8em; font-weight: bolder; margin-bottom: 10px;">文章正文
                         </div>
                         <!-- 文本区域 -->
-                        <textarea name="content" id="content" rows="10" cols="80">
+                        {{ article_post_form.media }}
+                        {{ article_post_form.content }}
+                        <!--textarea name="content" id="content" rows="10" cols="80">
                             开始编辑您的文章
-                        </textarea>
-                        <script>
+                        </textarea-->
+                        <!--script>
                             // Replace the <textarea id="editor1"> with a CKEditor
                             // instance, using default configuration.
                             CKEDITOR.replace('content', {
                                 'height': '400px',
                             });
-                        </script>
-                        <div class="form-group">
+                        </script-->
+
+                    </div>
+                    <div class="form-group">
                             <!--div for="section" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章板块</div-->
                             <!-- 文本框 -->
                             <!--select type="text" class="form-control" id="section" name="section"></select-->
-                            {{ post_form.section.label }}
-                            {{ post_form.section }}
+                            <div style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">
+                                <span style="margin-right: 10px;">{{ article_post_form.section.label }}</span>
+                                <span>{{ article_post_form.section }}</span>
+                            </div>
+
                         </div>
-                    </div>
+                    <style>
+                        .django-ckeditor-widget{
+                            width:100%!important;
+                        }
+
+                    </style>
                     <!-- 提交按钮 -->
                     <button type="submit" class="btn btn-primary">完成</button>
                 </form>
@@ -63,3 +76,7 @@
         </div>
     </div>
 {% endblock main2 %}
+
+{% block moreOnloadFunc %}
+    document.getElementById("id_content").value = "开始编辑您的文章";
+{% endblock %}
