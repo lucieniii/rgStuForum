@@ -10,7 +10,7 @@ from django.template.defaultfilters import striptags
 from login.models import User
 from login.views import get_login_status
 # from . import models
-from .form import PostForm, CommentForm
+from .form import PostForm, CommentForm, UpdatePostForm
 from .models import Post, Comment, UpAndDown
 from space.models import *
 
@@ -43,11 +43,18 @@ def index(request):
     # 限定显示30个字符
     top_posts = Post.objects.filter(is_top=True)
     hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
+
     for i in hot_posts:
         i.content = striptags(i.content)
         # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
+
+    for i in hot_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 100:
+            i.content = i.content[0:100] + "..."
 
     return render(request, "forum/index.html", locals())
 
@@ -65,11 +72,17 @@ def forumBoard(request, id):
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
 
-    for i in normal_posts:
+    for i in hot_posts:
         i.content = striptags(i.content)
         # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
+
+    for i in normal_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 100:
+            i.content = i.content[0:100] + "..."
     return render(request, 'forum/ForumBoard.html', locals())
 
 
@@ -244,12 +257,13 @@ def post_update(request, id):
     # 判断用户是否为 POST 提交表单数据
     if request.method == "POST":
         # 将提交的数据赋值到表单实例中
-        post_form = PostForm(data=request.POST)
+        update_form = UpdatePostForm(data=request.POST)
         # 判断提交的数据是否满足模型的要求
-        if post_form.is_valid():
+        if update_form.is_valid():
             # 保存新写入的 title、body 数据并保存
             post.title = request.POST['title']
             post.content = request.POST['content']
+            post.section = request.POST['section']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
