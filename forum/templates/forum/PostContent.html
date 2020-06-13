@@ -41,7 +41,7 @@
                         <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
                             <span class="rounded align-middle"
                                   style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
-                                lv 1
+                                lv {{ post.author.level }}
                             </span>
                             <span style="font-size: 0.8em">新手</span>
                         </div>
@@ -102,14 +102,14 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px;">
                             <span class="rounded align-middle"
-                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv 1</span>
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">lv {{ comment.0.user.level }}</span>
                                 <span style="font-size: 0.8em">新手</span>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
                         <div class="d-flex align-items-center" style="flex-grow: 1">
-                            <span class="font" style="font-size: 1.1em;">{{ comment.0.content|safe }}</span>
+                            <span class="font" style="font-size: 1.1em;">{{ comment.0.content | safe }}</span>
                         </div>
                     </div>
                 </div>
@@ -118,8 +118,11 @@
                     <div class="d-sm-flex align-items-sm-center">
                         {{ comment.0.created | date:"Y-m-d H:i:s" }}
                     </div>
-                    <div class="d-sm-flex align-items-sm-center thumbsup">
+                    <!--div class="d-sm-flex align-items-sm-center thumbsup">
                         <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div-->
+                    <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(1, {{ comment.0.id }}, 'thumbupComment{{ comment.0.id }}')">
+                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupComment{{ comment.0.id }}"></i>
                     </div>
                     <!--div class="d-sm-flex align-items-sm-center">
                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
@@ -166,8 +169,9 @@
                                     <div class="d-sm-flex align-items-sm-center">
                                         {{ subcomments.created | date:"Y-m-d H:i:s" }}
                                     </div>
-                                    <div class="d-sm-flex align-items-sm-center thumbsup">
-                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
+                                    
+                                    <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(1, {{ subcomments.id }}, 'thumbupComment{{ subcomments.id }}')">
+                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupComment{{ subcomments.id }}"></i>
                                     </div>
                                     <!--div class="d-sm-flex align-items-sm-center">
                                         <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>

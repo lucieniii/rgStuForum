@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import math
+
+from django.template.defaultfilters import striptags
+
 from space.forms import *
 from space.models import *
 from login.models import *
@@ -45,6 +48,7 @@ def space(request, id):
         comments = Comment.objects.filter(user=id)
         for post in posts:
             post.comment_count = len(Comment.objects.filter(post=post))
+            # print(post.get_absolute_url())
         # Comment表里没有post的title属性，故在本地进行查询
         # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
 
@@ -60,11 +64,17 @@ def space(request, id):
             dic = {'title': title, 'author': author, 'tag': tag}
             comments.append(dic)
         '''
-        # 限定显示100个字符
+        # 限定显示30个字符
         for i in posts:
             # print(i.comment_set.all().count)
+            i.content = striptags(i.content)
             if len(i.content) > 30:
                 i.content = i.content[0:30] + "..."
+        for i in comments:
+            # print(i.comment_set.all().count)
+            i.content = striptags(i.content)
+            if len(i.content) > 30:
+                i.content = '{}...'.format(str(i.content)[0:29])
         return render(request, "space/space.html", locals())
     else:
         return redirect('/index/', locals())
@@ -76,8 +86,8 @@ def myInfo(request, id):
         userid = request.session.get('user_id', None)
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
-
-    return render(request, "space/settings.html")
+    # return redirect(reverse('settings', kwargs={'id': id}), locals())
+    return render(request, "forum/index.html", locals())
 
 
 def settings(request, id):
@@ -88,15 +98,19 @@ def settings(request, id):
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
 
         if request.method == "POST":
+            flag = 0
             if is_owner and user.is_admin:
+                flag = -1
                 form = userInfo_all(request.POST, request.FILES, instance=space_owner)
             elif is_owner:
+                flag = 0
                 form = userInfo_user(request.POST, request.FILES, instance=space_owner)
             elif not is_owner and user.is_admin:
+                flag = 1  # 因为这里没有name，特殊处理
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
             now_name = space_owner.name
             # 如果全部输入信息有效
-            if form.is_valid():
+            if form.is_valid() and flag != 1:
                 value = form.cleaned_data['name']
                 print(space_owner.name)
                 print(value)
@@ -108,7 +122,17 @@ def settings(request, id):
                 form.save(commit=True)
                 messages.success(request, "修改成功")
                 return redirect(reverse('space', args=str(id)), locals())
+            elif form.is_valid():  # 无name字段
+                form.save(commit=True)
+                messages.success(request, "修改成功")
+                return redirect(reverse('space', args=str(id)), locals())
             else:
+                if flag == -1:
+                    messages.success(request, "修改失败！注意年龄/经验值不得小于0, 密码长度需要在4~16之间，使用合法邮箱格式")
+                elif flag == 0:
+                    messages.success(request, "修改失败！注意年龄不得小于0，密码长度需要在4~16之间，使用合法邮箱格式")
+                else:
+                    messages.success(request, "修改失败！经验值不得小于0")
                 print("error")
                 # 失败
                 # 打印输入的信息
@@ -119,7 +143,7 @@ def settings(request, id):
                 g_error = form.errors.get("__all__")
                 print("+++", g_error)  # <ul class="errorlist nonfield"><li>两次密码不一致</li></ul>
 
-                return render(request, "space/settings.html", locals())
+                return redirect(reverse('space', args=str(id)), locals())
 
         else:
             if is_owner and user.is_admin:
@@ -156,7 +180,7 @@ def settings(request, id):
 
             return render(request, "space/settings.html", locals())
 
-    return render(request, "space/settings.html")
+    return render(request, "space/settings.html", locals())
 
     '''
     is_login = get_login_status(request)
@@ -337,3 +361,20 @@ def ban(request):
 
 def level_cal(user):
     return int(math.sqrt(int(user.exp)) // 10 + 1)
+
+
+def favorite(request):
+    userid = request.session.get('user_id', None)
+    data = {
+        "isFavorite": False
+    }
+
+    post_id = request.GET.get("post_id", None)
+    try:
+        favor = FavoritePost.objects.get(UserID=userid, PostId=post_id)  # 已经关注了，将要取消关注
+        favor.delete()
+    except FavoritePost.DoesNotExist:
+        FavoritePost.objects.create(UserID=userid, PostId=post_id)  # 没有关注，将要关注
+        data["isFavorite"] = True
+
+    return JsonResponse(data)

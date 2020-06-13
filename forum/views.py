@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import redirect, HttpResponse, reverse
 from django.shortcuts import render
+from django.template.defaultfilters import striptags
 
 from login.models import User
 from login.views import get_login_status
@@ -40,7 +41,9 @@ def index(request):
     # 限定显示30个字符
     top_posts = Post.objects.filter(is_top=True)
     hot_posts = Post.objects.filter(is_top=False).order_by("-views")[0:5]
-    for i in top_posts:
+    for i in hot_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
         if len(i.content) > 30:
             i.content = i.content[0:30] + "..."
 
@@ -49,23 +52,21 @@ def index(request):
 
 # 返回热帖hot_posts,以及普通帖子normal_posts
 def forumBoard(request, id):
-    if id == 1:  # 讨论区
-        hot_posts = Post.objects.filter(section=1).order_by("-views")[0:3]
-    elif id == 2:  # 课程推荐
-        hot_posts = Post.objects.filter(section=2).order_by("-views")[0:3]
-    elif id == 3:  # 刷题
-        hot_posts = Post.objects.filter(section=3).order_by("-views")[0:3]
-    elif id == 4:  # 校园周边
-        hot_posts = Post.objects.filter(section=4).order_by("-views")[0:3]
-    elif id == 5:  # 资源共享
-        hot_posts = Post.objects.filter(section=5).order_by("-views")[0:3]
-    else:
+    if id not in (1,2,3,4,5):
         return HttpResponse("不存在这个板块")
+    hot_posts = Post.objects.filter(section=str(id)).order_by("-views")[0:3]
+    normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
+    
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
-    normal_posts = Post.objects.order_by("create_time")
+
+    for i in normal_posts:
+        i.content = striptags(i.content)
+        # print(i.content)
+        if len(i.content) > 30:
+            i.content = i.content[0:30] + "..."
     return render(request, 'forum/ForumBoard.html', locals())
 
 
@@ -162,8 +163,8 @@ def PostContent(request, s):
     elif request.method == 'POST':
         post = Post.objects.get(id=int(ls[0]))
         if user.is_ban:
-            messages.success("您已被禁言，暂时不能回复")
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            messages.success(request, "您已被禁言，暂时不能回复")
+            return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         # 当调用 form.is_valid() 方法时，Django 自动帮我们检查表单的数据是否符合格式要求。
         if comment_form.is_valid():
             # commit=False 的作用是仅仅利用表单的数据生成 Comment 模型类的实例，但还不保存评论数据到数据库。
@@ -179,7 +180,7 @@ def PostContent(request, s):
             user.exp += COMMENT_EXP  # 发评论加经验
             user.save()
             new_comment.save()
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         else:
             return HttpResponse("表单内容有误，请重新填写。")
     # print(1)
@@ -200,8 +201,9 @@ def post_update(request, id):
         return redirect('/index/', locals())
     # 获取需要修改的具体文章对象
     if user.is_ban:
-        messages.success("您已经被禁言，暂时不能修改帖子")
-        return redirect(reverse('space', args=str(user.id)), locals())
+        messages.success(request, "您已经被禁言，暂时不能修改帖子")
+        # return redirect(reverse('space', args=str(user.id)), locals())
+        return redirect(reverse('PostContent', kwargs={"id": str(user.id)}), locals())
     post = Post.objects.get(id=id)
     # 判断用户是否为 POST 提交表单数据
     if request.method == "POST":
@@ -214,7 +216,7 @@ def post_update(request, id):
             post.content = request.POST['content']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
-            return redirect(reverse('PostContent', args=str(post.id)), locals())
+            return redirect(reverse('PostContent', kwargs={"s":str(post.id)}), locals())
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")
@@ -222,7 +224,7 @@ def post_update(request, id):
     # 如果用户 GET 请求获取数据
     else:
         # 创建表单类实例
-        post_form = PostForm()
+        post_form = PostForm(initial={'title': post.title, 'content': post.content, 'section': post.section})
         # 赋值上下文，将 article 文章对象也传递进去，以便提取旧的内容
         context = {'post': post, 'post_form': post_form}
         # 将响应返回到模板中
@@ -245,7 +247,11 @@ def post_create(request):
         # 判断提交的数据是否满足模型的要求
         if post_form.is_valid():
             # 保存数据，但暂时不提交到数据库中
-            new_post = post_form.save(commit=False)
+            new_post = models.Post()
+            new_post.title = post_form.cleaned_data.get("title", None)
+            new_post.content = post_form.cleaned_data.get("content", None)
+            new_post.section = post_form.cleaned_data.get("section", None)
+            # new_post = post_form.save(commit=False)
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
             # 此时请重新创建用户，并传入此用户的id
@@ -329,7 +335,7 @@ def post_safe_delete(request, id):
     post = Post.objects.get(id=id)
     post.delete()
     context = {'is_login': is_login, 'user': user}
-    return redirect(reverse('space', args=str(userid)), context)
+    return redirect(reverse('space', kwargs={"id": str(userid)}), context)
 
 
 def post_rank(request):
