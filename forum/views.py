@@ -145,6 +145,11 @@ def PostContent(request, s):
         if len(ls) > 1:
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
+
+        if post.level_restriction > user.level:
+            messages.success(request, "您等级不够，无法查看此帖！")
+            return redirect("/index/", locals())
+
         if post.id == MUST_READ_POST_ID and not user.is_read:
             user.is_read = True
             user.save()
@@ -461,3 +466,29 @@ def comment_list(request):
     context = {"posts_comments": my_posts_comments, "comments_comments": my_comments_comments, "userid": userid,
                "user": user, "is_login": is_login}
     return render(request, 'forum/Mention.html', context)
+
+
+def all_posts(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    if not user.is_admin:
+        return redirect('index', locals())
+    post_list = Post.objects.all()
+    context = {'posts': post_list, 'user': user, 'is_login': is_login, 'userid': userid}
+    return render(request, '????.html', context)
+
+
+def all_users(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    if not user.is_admin:
+        return redirect('index', locals())
+    user_list = User.objects.all()
+    context = {'users': user_list, 'user': user, 'is_login': is_login, 'userid': userid}
+    return render(request, '????.html', context)

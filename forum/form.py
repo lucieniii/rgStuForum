@@ -54,7 +54,7 @@ class PostForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'class': 'form-control', 'placeholder': "Title"})
 
-        
+
     class Meta:
         model = Post
         fields = ["title", "content", "section", "level_restriction"]
