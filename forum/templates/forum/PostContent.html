@@ -41,7 +41,7 @@
                         <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
                             <span class="rounded align-middle"
                                   style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
-                                lv {{post.author.level}}
+                                lv {{ post.author.level }}
                             </span>
                             <span style="font-size: 0.8em">新手</span>
                         </div>
@@ -169,9 +169,7 @@
                                     <div class="d-sm-flex align-items-sm-center">
                                         {{ subcomments.created | date:"Y-m-d H:i:s" }}
                                     </div>
-                                    <div class="d-sm-flex align-items-sm-center thumbsup">
-                                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
+                                    
                                     <div class="d-sm-flex align-items-sm-center thumbsup" onclick="thumbs(1, {{ subcomments.id }}, 'thumbupComment{{ subcomments.id }}')">
                                         <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px" id="thumbupComment{{ subcomments.id }}"></i>
                                     </div>
