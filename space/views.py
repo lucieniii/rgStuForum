@@ -80,8 +80,8 @@ def myInfo(request, id):
         userid = request.session.get('user_id', None)
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
         return render(request, "space/myInfo.html", locals())
-
-    return render(request, "space/settings.html")
+    # return redirect(reverse('settings', kwargs={'id': id}), locals())
+    return render(request, "forum/index.html", locals())
 
 
 def settings(request, id):
@@ -160,7 +160,7 @@ def settings(request, id):
 
             return render(request, "space/settings.html", locals())
 
-    return render(request, "space/settings.html")
+    return render(request, "space/settings.html", locals())
 
     '''
     is_login = get_login_status(request)
