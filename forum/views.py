@@ -287,6 +287,7 @@ def post_create(request):
             new_post.title = post_form.cleaned_data.get("title", None)
             new_post.content = post_form.cleaned_data.get("content", None)
             new_post.section = post_form.cleaned_data.get("section", None)
+            new_post.level_restriction = post_form.cleaned_data.get("level_restriction", None)
             # new_post = post_form.save(commit=False)
             # 指定数据库中 id=1 的用户为作者
             # 如果你进行过删除数据表的操作，可能会找不到id=1的用户
