@@ -81,7 +81,6 @@
                 </div>
                 <script>
                     function favor() {
-                        console.log(1);
                         $.ajax({
                             url: '/ajax/favorite/',
                             data: {
@@ -90,9 +89,9 @@
                             dataType: 'json',
                             success: function (data) {
                                 if (data.isFavorite) {
-                                    document.getElementById("PostFavorite").className = "fa fa-star-o-up";
+                                    document.getElementById("PostFavorite").className = "fa fa-star";
                                 } else {
-                                    document.getElementById("PostFavorite").className = "fa fa-star-up";
+                                    document.getElementById("PostFavorite").className = "fa fa-star-o";
                                 }
                             }
                         })
@@ -337,7 +336,13 @@
 
 {% block moreOnloadFunc %}
     handler();
-
+    isfav = {% if is_favourite %}true{% else %}false{% endif %};
+    console.log(isfav);
+    if(isfav){
+        document.getElementById("PostFavorite").setAttribute("class", "fa fa-star")
+    } else {
+        document.getElementById("PostFavorite").setAttribute("class", "fa fa-star-o")
+    }
 {% endblock %}
 
 {% block funcShowSidebar %}

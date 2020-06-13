@@ -12,6 +12,7 @@ from login.views import get_login_status
 from . import models
 from .form import PostForm, CommentForm
 from .models import Post, Comment, UpAndDown
+from space.models import FavoritePost
 
 UP_AND_DOWN_EXP = 40
 CREATE_POST_EXP = 70
@@ -161,6 +162,12 @@ def PostContent(request, s):
         # print(comments_lv1)
         # print(1)
         is_owner = (str(userid) == str(post.author.id))
+        try:
+            FavoritePost.objects.get(UserID=user, PostID=post)
+            print(1)
+            is_favourite = True
+        except:
+            is_favourite = False
         return render(request, 'forum/PostContent.html', locals())
     elif request.method == 'POST':
         post = Post.objects.get(id=int(ls[0]))

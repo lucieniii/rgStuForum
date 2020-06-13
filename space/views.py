@@ -348,16 +348,19 @@ def level_cal(user):
 
 def favorite(request):
     userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
     data = {
         "isFavorite": False
     }
 
     post_id = request.GET.get("post_id", None)
+    post = Post.objects.get(id=post_id)
     try:
-        favor = FavoritePost.objects.get(UserID=userid, PostId=post_id)  # 已经关注了，将要取消关注
+        favor = FavoritePost.objects.get(UserID=user, PostID=post)  # 已经关注了，将要取消关注
         favor.delete()
     except FavoritePost.DoesNotExist:
-        FavoritePost.objects.create(UserID=userid, PostId=post_id)  # 没有关注，将要关注
+        print(1)
+        FavoritePost.objects.create(UserID=user, PostID=post)  # 没有关注，将要关注
         data["isFavorite"] = True
 
     return JsonResponse(data)
