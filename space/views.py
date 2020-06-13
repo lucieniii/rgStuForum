@@ -43,7 +43,9 @@ def space(request, id):
     if is_login:
         userid = request.session.get('user_id', None)
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
-
+        if not is_owner and not user.is_admin and not user.is_read:
+            messages.success(request, "您没有看新手上路帖！")
+            return redirect('/index/', locals())
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
         for post in posts:

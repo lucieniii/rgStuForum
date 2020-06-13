@@ -17,6 +17,7 @@ from space.models import FavoritePost
 UP_AND_DOWN_EXP = 40
 CREATE_POST_EXP = 70
 COMMENT_EXP = 20
+MUST_READ_POST_ID = 1
 
 
 # from django.contrib.auth.models import User
@@ -53,11 +54,11 @@ def index(request):
 
 # 返回热帖hot_posts,以及普通帖子normal_posts
 def forumBoard(request, id):
-    if id not in (1,2,3,4,5):
+    if id not in (1, 2, 3, 4, 5):
         return HttpResponse("不存在这个板块")
     hot_posts = Post.objects.filter(section=str(id)).order_by("-views")[0:3]
     normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
-    
+
     is_login = get_login_status(request)
 
     if is_login:
@@ -139,14 +140,18 @@ def PostContent(request, s):
         return redirect('/index/', locals())
     comment_form = CommentForm(request.POST)
     ls = s.split("&")
-    if not is_login:
-        return redirect("/index/", locals())
-    else:
-        user = User.objects.get(id=userid)
+
     if request.method == 'GET':
         if len(ls) > 1:
             return redirect("/index/", locals())
         post = Post.objects.get(id=int(ls[0]))
+        if post.id == MUST_READ_POST_ID and not user.is_read:
+            user.is_read = True
+            user.save()
+        if not user.is_read and not user.is_admin:
+            messages.success(request, "您没有看新手上路帖！")
+            return redirect('/index/', locals())
+
         comments = Comment.objects.filter(post=int(ls[0]))
         try:
             UpAndDown.objects.get(user=user, post=post)
@@ -238,7 +243,7 @@ def post_update(request, id):
             post.content = request.POST['content']
             post.save()
             # 完成后返回到修改后的文章中。需传入文章的 id 值
-            return redirect(reverse('PostContent', kwargs={"s":str(post.id)}), locals())
+            return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         # 如果数据不合法，返回错误信息
         else:
             return HttpResponse("表单内容有误，请重新填写。")
