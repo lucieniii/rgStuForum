@@ -57,8 +57,8 @@ def space(request, id):
         # 限定显示100个字符
         for i in posts:
             # print(i.comment_set.all().count)
-            if len(i.content) > 100:
-                i.content = i.content[0:100] + "..."
+            if len(i.content) > 30:
+                i.content = i.content[0:30] + "..."
         return render(request, "space/space.html", locals())
     else:
         return redirect('/index/', locals())
@@ -216,7 +216,7 @@ def letterList(request, id):
     if is_login:
         userid = request.session.get('user_id', None)
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
-        follows = Follow.objects.filter(FollowerID=id)
+        messages = Message.objects.filter(ReceiverID=id)
     else:
         return redirect('/index/', locals())
     return render(request, 'space/LetterList.html', locals())
