@@ -29,14 +29,14 @@
                     <!-- 文章标题 -->
                     <div class="form-group">
                         <!-- 标签 -->
-                        <div for="title" style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章标题</div>
+                        <div  style="font-size: 1.8em; font-weight: bolder;  margin-bottom: 10px;">文章标题</div>
                         <!-- 文本框 -->
                         {{ article_post_form.title }}
                         <!--input type="text" class="form-control" id="title" name="title"-->
                     </div>
                     <!-- 文章正文 -->
                     <div class="form-group">
-                        <div for="content" style="font-size: 1.8em; font-weight: bolder; margin-bottom: 10px;">文章正文
+                        <div  style="font-size: 1.8em; font-weight: bolder; margin-bottom: 10px;">文章正文
                         </div>
                         <!-- 文本区域 -->
                         {{ article_post_form.media }}
@@ -61,14 +61,14 @@
                                 <span style="margin-right: 10px;">{{ article_post_form.section.label }}</span>
                                 <span>{{ article_post_form.section }}</span>
                             </div>
-
-                        </div>
+                    </div>
                     <style>
                         .django-ckeditor-widget{
                             width:100%!important;
                         }
 
                     </style>
+                    
                     <!-- 提交按钮 -->
                     <button type="submit" class="btn btn-primary">完成</button>
                 </form>

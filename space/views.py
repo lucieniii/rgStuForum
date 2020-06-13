@@ -280,6 +280,11 @@ def BlogList(request, id):
         userid = request.session.get('user_id', None)
         is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
         favoritePosts = FavoritePost.objects.filter(UserID=id)
+        for it in favoritePosts:
+            it.PostID.content = striptags(it.PostID.content)
+            # print(i.content)
+            if len(it.PostID.content) > 30:
+                it.PostID.content = it.PostID.content[0:30] + "..."
     else:
         return redirect('/index/', locals())
     return render(request, 'space/BlogList.html', locals())
