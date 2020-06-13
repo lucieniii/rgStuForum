@@ -1,5 +1,17 @@
 {% extends 'space/space.html' %}
 {% load static %}
+{% block newCSS %}
+    <link type="text/css" href="https://lab.morfans.cn/LiteWebChat_Frame/litewebchat.min.css" rel="stylesheet" />
+    <style type="text/css">
+        ul.errorlist {
+            display: none;
+        }
+        .thumbsup {
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'prism/prism.css' %}">
+{% endblock %}
 {% block main1 %}
 {% endblock %}
 
@@ -9,5 +21,57 @@
 {% endblock %}
 
 {% block main2 %}
+<div class="lite-chatbox">
+    <div class="cleft cmsg">
+        <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="./img/B.jpg" />
+        <span class="name">SuperPaxxs</span>
+        <span class="content">呜啦啦啦啦啦啦啦！</span>
+    </div>
+    <div class="cleft cmsg">
+        <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="./img/B.jpg" />
+        <span class="name">SuperPaxxs</span>
+        <span class="content">你说啥呢，兄弟？</span>
+    </div>
+    <div class="cright cmsg">
+        <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="./img/B.jpg" />
+        <span class="name">SuperPaxxs</span>
+        <span class="content">怎么了？</span>
+    </div>
+    <div class="cright cmsg">
+        <img class="headIcon radius" ondragstart="return false;"  oncontextmenu="return false;"  src="./img/B.jpg" />
+        <span class="name">SuperPaxxs</span>
+        <span class="content">啥啊，你说啥呢？</span>
+    </div>
+
+
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "prism/prism.js" %}"></script>
+    <div class="container" style="padding: 10px;">
+        <div class="row">
+            <div class="col-12">
+                <br>
+                <!-- 提交文章的表单 -->
+                <form method="post" action=".">
+                    <!-- Django中需要POST数据的地方都必须有csrf_token -->
+                    {% csrf_token %}
+                    <!-- 回复框 -->
+                    <div class="form-group" style="">
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <!-- 回复按钮 -->
+                    <div style="float:right;" >
+                        <div>
+                            <button type="submit" class="btn btn-primary">回复</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 {% endblock %}
