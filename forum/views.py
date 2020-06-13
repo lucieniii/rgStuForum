@@ -57,7 +57,7 @@ def forumBoard(request, id):
     if id not in (1, 2, 3, 4, 5):
         return HttpResponse("不存在这个板块")
     hot_posts = Post.objects.filter(section=str(id)).order_by("-views")[0:3]
-    normal_posts = Post.objects.filter(section=str(id)).order_by("create_time")
+    normal_posts = Post.objects.filter(section=str(id)).order_by("-last_edit")
 
     is_login = get_login_status(request)
 
