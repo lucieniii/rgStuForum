@@ -86,15 +86,15 @@ def forumBoard(request, id):
     return render(request, 'forum/ForumBoard.html', locals())
 
 
-def followUser(request):
-    is_login = get_login_status(request)
-    if is_login:
-        userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-        # follow_list =
-    else:
-        return redirect('/index/', locals())
-    return render(request, 'forum/FollowUser.html', locals())
+# def followUser(request):
+#    is_login = get_login_status(request)
+#    if is_login:
+#        userid = request.session.get('user_id', None)
+#        user = User.objects.get(id=userid)
+#        # follow_list =
+#    else:
+#        return redirect('/index/', locals())
+#    return render(request, 'forum/FollowUser.html', locals())
 
 
 def mention_old(request):
@@ -135,14 +135,14 @@ def followPost_old(request):
     return render(request, 'forum/FollowPost.html')
 
 
-def followPost(request):
-    is_login = get_login_status(request)
-    if is_login:
-        userid = request.session.get('user_id', None)
-        user = User.objects.get(id=userid)
-    else:
-        return redirect('/index/', locals())
-    return render(request, 'forum/FollowPost.html', locals())
+# def followPost(request):
+#     is_login = get_login_status(request)
+#     if is_login:
+#         userid = request.session.get('user_id', None)
+#         user = User.objects.get(id=userid)
+#     else:
+#         return redirect('/index/', locals())
+#     return render(request, 'forum/FollowPost.html', locals())
 
 
 def PostContent(request, s):
@@ -514,10 +514,14 @@ def followPost(request):
     user = User.objects.get(id=userid)
     favorites = FavoritePost.objects.filter(UserID=userid)
     post_list = []
+
     for f in favorites:
         posts = Post.objects.filter(id=f.PostID.id)
-        post_list.append(posts)
-
+        post_list.extend(posts)
+    for post in post_list:
+        post.content = striptags(post.content)
+        if len(post.content) > 100:
+            post.content = post.content[0:100] + "..."
     return render(request, 'forum/FollowPost.html', locals())
 
 
@@ -541,9 +545,7 @@ def make_post_top(request):
     is_login = get_login_status(request)
     if not is_login:
         return redirect('index', locals())
-    print(1)
     userid = request.session.get('user_id', None)
-    print(2)
     user = User.objects.get(id=userid)
     if not user.is_admin:
         return redirect('index', locals())
@@ -552,7 +554,6 @@ def make_post_top(request):
         "isTop": False
     }
     post_id = request.GET.get("post_id", None)
-    print(post_id)
     post = Post.objects.get(id=post_id)
     if post.is_top:
         post.is_top = False
