@@ -545,3 +545,26 @@ def all_users(request):
     user_list = User.objects.all()
     context = {'users': user_list, 'user': user, 'is_login': is_login, 'userid': userid}
     return render(request, '????.html', context)
+
+
+def make_post_top(request):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    if not user.is_admin:
+        return redirect('index', locals())
+
+    data = {
+        "isTop": False
+    }
+    post_id = request.GET.get("post_id", None)
+    post = Post.objects.get(id=post_id)
+    if post.is_top:
+        post.is_top = False
+    else:
+        post.is_top = True
+        data["isTop"] = True
+    post.save()
+    return JsonResponse(data)
