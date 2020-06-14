@@ -307,7 +307,6 @@ def follow(request):
         f.delete()
         is_follow = False
     except:
-        print(1)
         new_follow = Follow()
         new_follow.FollowerID = follower
         new_follow.FollowedID = followed
@@ -390,3 +389,23 @@ def favorite(request):
     return JsonResponse(data)
 
 
+def all_lists(request, id):
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('index', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+    if not user.is_admin:
+        return redirect('index', locals())
+    posts = Post.objects.all()
+    for post in posts:
+        post.content = striptags(post.content)
+        # print(i.content)
+        if len(post.content) > 100:
+            post.content = post.content[0:100] + "..."
+    users = User.objects.all()
+
+    #context = {"posts": post_list, "users": user_list, "userid": userid,
+     #          "user": user, "is_login": is_login}
+    return render(request, 'forum/AllList.html', locals())

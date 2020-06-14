@@ -14,27 +14,25 @@
 <!--        <img class="rounded-circle" src="{{ space_owner.avatar.url }}"-->
 <!--                                     style="width: 25px; height: 25px"/>-->
 <!--    </div>-->
-    <div class="flex-column" style="width: 100%;">
-        <div class="font title" >
-            个人信息：
+    <div class="flex-column" style="width: 100%;margin-top: 30px; font-size: 1.1em;">
+
+        <div class="myInfo">
+            <span style="font-weight: bolder;">用户名：</span>{{ space_owner.name }}
         </div>
         <div class="myInfo">
-            用户名：{{ space_owner.name }}
+            <span style="font-weight: bolder;">性别：</span>{{ space_owner.sex }}
         </div>
         <div class="myInfo">
-            性别：{{ space_owner.sex }}
+            <span style="font-weight: bolder;">年龄：</span>{{ space_owner.age }}
         </div>
         <div class="myInfo">
-            年龄：{{ space_owner.age }}
+            <span style="font-weight: bolder;">邮箱：</span>{{ space_owner.email }}
         </div>
         <div class="myInfo">
-            邮箱：{{ space_owner.email }}
+            <span style="font-weight: bolder;">学校：</span>{{ space_owner.school }}
         </div>
         <div class="myInfo">
-            学校：{{ space_owner.school }}
-        </div>
-        <div class="myInfo">
-            专业：{{ space_owner.major }}
+            <span style="font-weight: bolder;">专业：</span>{{ space_owner.major }}
         </div>
         <div style="margin:10px;">
             {% if is_owner or user.is_admin %}

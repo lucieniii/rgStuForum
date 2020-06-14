@@ -1,18 +1,34 @@
 .myInfo {
   font-size: 1.6em;
-  font-family: "Microsoft Yahei";
-  letter-spacing: 2.2px;
-  font-weight: lighter;
+    /*font-family: "lucida grande",
+    "lucida sans unicode",
+    lucida,
+    helvetica,
+    "Hiragino Sans GB",
+    "MicrosoftYaHei",
+    "WenQuanYi Micro Hei",
+    sans-serif;
+    font-size: 18px;*/
+    font-family:
+            PingFang SC,
+            Hiragino Sans GB,
+            Arial,
+            Microsoft YaHei,
+            Verdana,Roboto,
+            Noto,
+            Helvetica Neue,
+            sans-serif !important;
+
+  /*font-weight: bolder;*/
   text-decoration: none;
-  color: #2f77c6;
-  margin-top: 10px;
+  /*color: #2f77c6;*/
+
+  margin-bottom: 35px;
+    margin-left: 10px;
 }
 
-.title{
-    font-size:2.3em;
-    font-family: "Microsoft Yahei";
-    font-weight: border;
-    letter-spacing: 3px;
+#infoForm a {
+    display: none;
 }
 
 
