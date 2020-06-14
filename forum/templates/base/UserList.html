@@ -7,15 +7,16 @@
 {% endblock main2 %}
 
 {% block main %}
-    {% for search_user in users %}
+
         <div class="d-flex align-items-center flex-column"
              style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;">
-            <div class="border-top" style="width: 90%;">
-                <div class="d-flex flex-row">
+            <div class="" style="width: 90%; padding-top: 20px;">
+            {% for search_user in users %}
+                <div class="d-flex flex-row border">
                     <div class=" CommentAvatar d-flex flex-column align-items-center"
                          style="padding: 10px; width: 120px">
                         <div style="width: 75%">
-                            <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                            <img src="{{ search_user.avatar.url }}" class="border rounded-circle"
                                  style="width: 100%"/>
                         </div>
                         <div class="font d-flex flex-column" style="font-weight: bolder">
@@ -35,15 +36,16 @@
                                  style="margin-right: 5px; display: block;
                                   padding: 0 4px; text-align: center;
                                    font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
-                                <span>{{ search_user.level }}</span>
+                                <span>lv&nbsp;{{ search_user.level }}</span>
                             </div>
                             <span style="font-size: 0.8em; font-weight: bolder;">{{search_user.levelname}}</span>
                         </div>
                     </div>
                 </div>
+            {% endfor %}
             </div>
         </div>
-    {% endfor %}
+
 {% endblock %}
 {% block script %}
 {% endblock %}

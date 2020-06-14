@@ -491,7 +491,8 @@ def comment_list(request):
 def followUser(request):
     is_login = get_login_status(request)
     if not is_login:
-        return redirect('index', locals())
+        return redirect('/index/', locals())
+
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
     follows = Follow.objects.filter(FollowerID=userid)
@@ -509,7 +510,7 @@ def followUser(request):
 def followPost(request):
     is_login = get_login_status(request)
     if not is_login:
-        return redirect('index', locals())
+        return redirect('/index/', locals())
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
     favorites = FavoritePost.objects.filter(UserID=userid)

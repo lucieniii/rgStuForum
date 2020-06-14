@@ -46,6 +46,12 @@ def space(request, id):
         if not is_owner and not user.is_admin and not user.is_read:
             messages.success(request, "您没有看新手上路帖！")
             return redirect('/index/', locals())
+        try:
+            BlackList.objects.get(BlockerID=space_owner, BlockedID=user)
+            messages.success(request, "您被对方拉黑了！")
+            return redirect(reverse('space', kwargs={"id", userid}),locals())
+        except:
+            pass
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id)
         for post in posts:

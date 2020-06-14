@@ -98,9 +98,9 @@
                     }
                 </script>
                 {% endif %}
-                <div class="d-sm-flex align-items-sm-center">
+                <!--div class="d-sm-flex align-items-sm-center">
                     <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                </div>
+                </div-->
                 {% if is_owner %}
                     <div class="d-sm-flex align-items-sm-center">
                         <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
@@ -264,10 +264,13 @@
 {% endblock %}
 
 {% block moreComponents %}
-    <button class="rounded-circle d-flex align-items-center justify-content-center flex-button" id="return-button"
-            style="z-index: 15; background-color: #046be2; position: fixed;">
-        <i class="fa fa-arrow-left" style="color: white;"></i>
-    </button>
+    <a href="{% url 'ForumBoard' post.section %}">
+        <button class="rounded-circle d-flex align-items-center justify-content-center flex-button"
+                id="return-button"
+                style="z-index: 15; background-color: #046be2; position: fixed;">
+            <i class="fa fa-arrow-left" style="color: white;"></i>
+        </button>
+    </a>
     <button class="rounded-circle d-flex align-items-center justify-content-center flex-button"
             id="reply-button" data-toggle="modal" data-target="#ModalComment"
             style="z-index: 15; background-color: #046be2; position: fixed; outline: none;" onclick="f(0, 0)">
