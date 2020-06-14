@@ -1,0 +1,48 @@
+{% extends 'space/space.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block newCSS %}
+    <link rel="stylesheet" href="{% static 'space/css/myInfo.css' %}"/>
+{% endblock %}
+
+{% block main1 %}
+{% endblock %}
+
+{% block main2nav %}
+<!--    隐藏头像-->
+<!--    <div>-->
+<!--        <img class="rounded-circle" src="{{ space_owner.avatar.url }}"-->
+<!--                                     style="width: 25px; height: 25px"/>-->
+<!--    </div>-->
+    <div class="flex-column" style="width: 100%;margin-top: 30px; font-size: 1.1em;">
+
+        <div class="myInfo">
+            <span style="font-weight: bolder;">用户名：</span>{{ space_owner.name }}
+        </div>
+        <div class="myInfo">
+            <span style="font-weight: bolder;">性别：</span>{{ space_owner.sex }}
+        </div>
+        <div class="myInfo">
+            <span style="font-weight: bolder;">年龄：</span>{{ space_owner.age }}
+        </div>
+        <div class="myInfo">
+            <span style="font-weight: bolder;">邮箱：</span>{{ space_owner.email }}
+        </div>
+        <div class="myInfo">
+            <span style="font-weight: bolder;">学校：</span>{{ space_owner.school }}
+        </div>
+        <div class="myInfo">
+            <span style="font-weight: bolder;">专业：</span>{{ space_owner.major }}
+        </div>
+        <div style="margin:10px;">
+            {% if is_owner or user.is_admin %}
+                <a href="{% url 'settings' space_owner.id %}">
+                    <button type="button" class="btn btn-info changeButton" >修改个人信息</button>
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+{% endblock %}

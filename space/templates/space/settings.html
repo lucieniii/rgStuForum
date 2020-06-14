@@ -1,0 +1,93 @@
+{% extends 'space/space.html' %}
+{% load crispy_forms_filters %}
+
+{% load static %}
+{% block newCSS %}
+<!--    <script>-->
+<!--    $("#avatar-clear").hide();-->
+<!--    </script>-->
+    <link rel="stylesheet" href="{% static 'space/css/myInfo.css' %}"/>
+{% endblock %}
+
+{% block main1 %}
+{% endblock %}
+
+{% block main2nav %}
+{% endblock %}
+
+{% block main2 %}
+<div class="container">
+<!--    {% if form.errors %}-->
+<!--    {{ form.errors }}-->
+<!--    {% endif %}-->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+            {# 这个novalidate很重要啊，没有这个后面自己定制的错误提示无法渲染出来 #}
+            {# 自己编写表单验证插件的时候，使用它可以避免和默认的表单验证冲突 #}
+             <form action="" method="post" enctype="multipart/form-data" novalidate id="infoForm">
+                 {% csrf_token %}
+<!--                 {{ form.as_p }}-->
+<!--                <input type="submit">-->
+                 {% for field in form %}
+                    <div class="myInfo">
+                        <div style="margin-bottom: 20px;" id="{{field.name }}">
+                            <span style="font-size: 1.1em;font-weight: bolder;">{{field.name }}</span> : {{   field }}
+                        </div>
+                    </div>
+                 {% endfor %}
+                 <input type="submit" class="font btn btn-info changeButton" style="margin-top: 10px;margin-left: 5px; font-weight: bolder;">
+<!--                <div class="myInfo">-->
+<!--                    头像：{{ form.avatar }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    用户名：{{ form.name }}-->
+<!--                </div>-->
+<!--                    <div class="myInfo">-->
+<!--                    年龄：{{ form.age }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    密码：{{ form.password }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    邮箱：{{ form.email }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    性别：{{ form.sex }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    学校：{{ form.school }}-->
+<!--                </div>-->
+<!--                <div class="myInfo">-->
+<!--                    专业：{{ form.major }}-->
+<!--                </div>-->
+<!--                <div style="margin:10px  0  0  90px;">-->
+<!--                    <input type="submit" class="btn btn-info changeButton">-->
+<!--                </div>-->
+             </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block moreOnloadFunc %}
+    isf = {% if is_Following %}true{% else %}false{% endif %};
+    isb = {% if is_Black %}true{% else %}false{% endif %};
+    isban = {% if space_owner.is_ban %}true{% else %}false{% endif %}
+    if (isf) {
+    document.getElementById("follow").style.color = "#e6db74";
+    } else {
+    document.getElementById("follow").style.color = "darkgrey";
+    }
+    if (isb) {
+    document.getElementById("black").style.color = "red";
+    } else {
+    document.getElementById("black").style.color = "darkgrey";
+    }
+    if (isban) {
+    document.getElementById("ban").style.color = "black";
+    } else {
+    document.getElementById("ban").style.color = "darkgrey";
+    }
+    document.getElementById("avatar-clear_id").style.display="none";
+{% endblock %}

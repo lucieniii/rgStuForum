@@ -1,0 +1,111 @@
+{% extends 'space/space.html' %}
+{% load static %}
+
+{% block main2border %}
+    border-left border-right
+{% endblock %}
+{% block main2nav %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 20px; background-color: rgba(0,0,0,0);">
+        <li class="nav-item" style="font-size: 1.2em;">
+            <a class="nav-link active" id="Post-tab" data-toggle="tab" href="#AllPosts" role="tab" aria-controls="home"
+               aria-selected="true">所有帖子</a>
+        </li>
+        <li class="nav-item" style="font-size: 1.2em">
+            <a class="nav-link" id="Comment-tab" data-toggle="tab" href="#AllComments" role="tab"
+               aria-controls="profile"
+               aria-selected="false">所有用户</a>
+        </li>
+    </ul>
+{% endblock %}
+{% block main2-margintop %}
+{% endblock %}
+{% block main2 %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="AllPosts" role="tabpanel" aria-labelledby="Post-tab">
+            {% for post in posts %}
+                <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}"
+                     style="padding: 10px 20px;">
+                    <div class="flex-column postInfo" style="width: 75%;">
+                        <div class="font" style="font-size: 16px;">
+                            <a href="{{ post.get_absolute_url }}"
+                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                                {{ post.title }}
+                            </a>
+                        </div>
+                        <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                            {{ post.content | safe }}
+                        </div>
+                        <div class="d-sm-flex align-items-sm-center">
+                    <span class="font rounded"
+                          style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                        &nbsp;发帖板块&nbsp;
+                    </span>
+                            <span class="font"
+                                  style="font-size: 14px; font-weight:600;">
+                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comments.count }})
+                    </span>
+                        </div>
+                    </div>
+                    <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
+                        <div class="d-sm-flex align-items-sm-center flex-shrink-1">
+                            <a href="{{ post.author.get_absolute_url }}">
+                                <img class="rounded-circle" src="{{ post.author.avatar.url }}"
+                                     style="width: 25px; height: 25px"/>
+                            </a>
+                            <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
+                        </div>
+                        <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
+                            <time style="font-size: 14px; font-weight:600;">
+                                <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                                {{ post.create_time }}
+                            </time>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="AllComments" role="tabpanel" aria-labelledby="Comment-tab">
+            {% for search_user in users %}
+                <div class="d-flex align-items-center flex-column"
+                     style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;">
+                    <div class="border-bottom" style="width: 100%;">
+                        <div class="d-flex flex-row">
+                            <div class=" CommentAvatar d-flex flex-column align-items-center"
+                                 style="padding: 10px; width: 120px">
+                                <div style="width: 75%">
+                                    <img src="{% static 'base/images/avatar.jpeg' %}" class="border rounded-circle"
+                                         style="width: 100%"/>
+                                </div>
+                                <div class="font d-flex flex-column" style="font-weight: bolder">
+                                    <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                                        <span style="text-align: center"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                                <div class="d-flex align-items-center" style="flex-grow: 1">
+                            <span class="font"
+                                  style="font-size: 1.1em; font-weight: bolder;
+                                          {% if search_user.is_admin %}color: red;{% endif %}">{{ search_user.name }}</span>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="rounded d-flex align-items-center"
+                                         style="margin-right: 5px; display: block;
+                                  padding: 0 4px; text-align: center;
+                                   font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
+                                        <span>{{ search_user.level }}</span>
+                                    </div>
+                                    <span style="font-size: 0.8em; font-weight: bolder;">{{ search_user.levelname }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

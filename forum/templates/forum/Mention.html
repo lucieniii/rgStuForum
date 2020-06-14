@@ -1,0 +1,95 @@
+{% extends 'forum/index.html' %}
+{% load static %}
+
+{% block main2border %}
+    border-left border-right
+{% endblock %}
+{% block main2nav %}
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 20px; background-color: rgba(0,0,0,0);">
+        <li class="nav-item" style="font-size: 1.2em;">
+            <a class="nav-link active" id="Post-tab" data-toggle="tab" href="#AllPosts" role="tab" aria-controls="home"
+               aria-selected="true">帖子</a>
+        </li>
+        <li class="nav-item" style="font-size: 1.2em">
+            <a class="nav-link" id="Comment-tab" data-toggle="tab" href="#AllComments" role="tab"
+               aria-controls="profile"
+               aria-selected="false">回复</a>
+        </li>
+    </ul>
+{% endblock %}
+{% block main2-margintop %}
+{% endblock %}
+{% block main2 %}
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="AllPosts" role="tabpanel" aria-labelledby="Post-tab">
+            {% for comment in comments %}
+            {% if comment.reply_to %}
+                <div class="d-sm-flex align-items-sm-center border-bottom"
+                     style="padding: 10px 20px;">
+                    <div class="flex-column postInfo" style="width: 95%;">
+                        <div class="font" style="font-size: 16px;">
+                            <a href="{{ comment.post.get_absolute_url }}"
+                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                                    <i>{{ comment.reply_to }}</i>&nbsp;&nbsp;回复&nbsp;
+                                <i>{{ comment.post.title }}</i>
+                            </a>
+                        </div>
+                        <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                            {{ comment.content }}
+                        </div>
+                        <div class="d-sm-flex align-items-sm-center">
+                        <span class="font rounded"
+                              style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                            &nbsp;{{ comment.post.section }}&nbsp;
+                        </span>
+                            <span class="flex-shrink-1 align-center"
+                                  style="margin-top: 2px; padding-left: 4px; color: #636363;">
+                            <time style="font-size: 14px; font-weight:600;">
+                                <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                                {{ comment.created }}
+                            </time>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="tab-pane fade" id="AllComments" role="tabpanel" aria-labelledby="Comment-tab">
+            {% for comment in comments %}
+            {% if comment.user %}
+                <div class="d-sm-flex align-items-sm-center border-bottom"
+                     style="padding: 10px 20px;">
+                    <div class="flex-column postInfo" style="width: 95%;">
+                        <div class="font" style="font-size: 16px;">
+                            <a href="{{ comment.post.get_absolute_url }}"
+                               style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                                    <i>{{ comment.user }}</i>&nbsp;&nbsp;回复于&nbsp;
+                                <i>{{ comment.post.title }}</i>
+                            </a>
+                        </div>
+                        <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                            {{ comment.content }}
+                        </div>
+                        <div class="d-sm-flex align-items-sm-center">
+                        <span class="font rounded"
+                              style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                            &nbsp;{{ comment.post.section }}&nbsp;
+                        </span>
+                            <span class="flex-shrink-1 align-center"
+                                  style="margin-top: 2px; padding-left: 4px; color: #636363;">
+                            <time style="font-size: 14px; font-weight:600;">
+                                <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                                {{ comment.created }}
+                            </time>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,382 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block sidebartogglervisibility %}
+    visibility: hidden
+{% endblock %}
+
+{% block newCSS %}
+    <style type="text/css">
+        ul.errorlist {
+            display: none;
+        }
+
+        .thumbsup {
+            cursor: pointer;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'prism/prism.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="d-flex align-items-center flex-column"
+         style="width: 100%; flex-direction: column; background-color: rgba(255,255,255,0);font-size: 1rem;"
+         id="titleWrapper">
+        <div class="border-top" style="width: 90%;">
+            <div class="d-flex flex-row">
+                <div class="d-flex flex-column align-items-center" style="padding: 10px; width: 120px" id="avatarBox">
+                    <div style="width: 75%">
+                        <a href="{% url 'space' post.author.id %}">
+                            <img src="{{ post.author.avatar.url }}" class="border rounded-circle"
+                                 style="width: 100%"/>
+                        </a>
+                    </div>
+                    <div class="font d-flex flex-column" style="font-weight: bolder">
+                        <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em;
+                                {% if post.author.is_admin %}color: red;{% endif %}">
+                            <span style="text-align: center">{{ post.author.name }}</span>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder; color: white; background-color: #5baaff">
+                                lv {{ post.author.level }}
+                            </span>
+                            <span style="font-size: 0.8em">{{post.author.levelname}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                    <div class="d-flex align-items-center" style="flex-grow: 1">
+                        <span class="font" style="font-size: 1.1em; font-weight: bolder;">{{ post.title }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" style="width: 90%">
+            <div class="font" style="width: 80%; margin: 10px 0;font-size: 1.07em;">
+                {{ post.content|safe }}
+            </div>
+        </div>
+        <div class="d-flex"
+             style="width:90%; flex-direction:row; justify-content: flex-end; font-size:1em">
+            <div class="d-flex flex-row" style="justify-content: flex-end; font-size:0.9em">
+                <div class="d-sm-flex align-items-sm-center">
+                    {{ post.create_time | date:"Y-m-d" }}
+                </div>
+                <div class="d-sm-flex align-items-sm-center thumbsup"
+                     onclick="thumbs(0, {{ post.id }}, 'thumbupPost{{ post.id }}')">
+                    <i class="fa fa-thumbs{% if not is_thumbed_post %}-o{% endif %}-up" style="margin-left: 5px; padding-right: 2px"
+                       id="thumbupPost{{ post.id }}"></i>
+                </div>
+                <!--div class="d-sm-flex align-items-sm-center">
+                    <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
+                </div-->
+                {% if not is_owner %}
+                <div class="d-sm-flex align-items-sm-center" onclick="favor()">
+                    <i class="fa fa-star-o" style="margin-left: 5px; padding-right: 2px; cursor: pointer;"
+                       id="PostFavorite"></i>
+                </div>
+                <script>
+                    function favor() {
+                        $.ajax({
+                            url: '/ajax/favorite/',
+                            data: {
+                                "post_id": {{ post.id }},
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.isFavorite) {
+                                    document.getElementById("PostFavorite").className = "fa fa-star";
+                                } else {
+                                    document.getElementById("PostFavorite").className = "fa fa-star-o";
+                                }
+                            }
+                        })
+                    }
+                </script>
+                {% endif %}
+                <div class="d-sm-flex align-items-sm-center">
+                    <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
+                </div>
+                {% if is_owner %}
+                    <div class="d-sm-flex align-items-sm-center">
+                        <a href="{% url 'post_update' post.id %}" style="text-decoration: none;color: black;">
+                            <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                        </a>
+                    </div>
+                {% endif %}
+                {% if user.is_admin %}
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa {% if post.is_top %}fa-arrow-down{% else %}fa-arrow-up{% endif %}"
+                           onclick="top()" style="margin-left: 5px; padding-right: 2px; cursor: pointer;" id="top"></i>
+                    </div>
+                    <script>
+                        function top() {
+                            $.ajax({
+                                url: '/ajax/top/',
+                                data: {
+                                    "post_id": {{ post.id }},
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.isTop) {
+                                        document.getElementById("top").className = "fa fa-arrow-down";
+                                    } else {
+                                        document.getElementById("top").className = "fa fa-arrow-up";
+                                    }
+                                }
+                            })
+                        }
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+        {% for comment in comments_lv1 %}
+            <div class="border-top" style="width: 90%;">
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column align-items-center CommentAvatar"
+                         style="padding: 10px; width: 120px">
+                        <div style="width: 75%">
+                            <a href="{% url 'space' comment.0.user.id %}">
+                                <img src="{{ comment.0.user.avatar.url }}" class="border rounded-circle"
+                                     style="width: 100%"/>
+                            </a>
+                        </div>
+                        <div class="font d-flex flex-column" style="font-weight: bolder">
+                            <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">
+                                <span style="text-align: center;
+                                        {% if comment.0.user.is_admin %}color: red;{% endif %}">{{ comment.0.user.name }}</span>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center" style="margin-top: 5px;">
+                            <span class="rounded align-middle"
+                                  style="margin-right: 5px; padding: 0 4px; font-size: 0.7em; font-weight: bolder;
+                                  color: white; background-color: #5baaff">lv {{ comment.0.user.level }}</span>
+                                <span style="font-size: 0.8em">{{comment.0.user.levelname}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
+                        <div class="d-flex align-items-center" style="flex-grow: 1">
+                            <span class="font" style="font-size: 1.1em;">{{ comment.0.content | safe }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex"
+                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:0.9em">
+                    <div class="d-sm-flex align-items-sm-center">
+                        {{ comment.0.created | date:"Y-m-d H:i:s" }}
+                    </div>
+                    <!--div class="d-sm-flex align-items-sm-center thumbsup">
+                        <i class="fa fa-thumbs-o-up" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div-->
+                    <div class="d-sm-flex align-items-sm-center thumbsup"
+                         onclick="thumbs(1, {{ comment.0.id }}, 'thumbupComment{{ comment.0.id }}')">
+                        <i class="fa fa-thumbs{% if not comment.2 %}-o{% endif %}-up" style="margin-left: 5px; padding-right: 2px"
+                           id="thumbupComment{{ comment.0.id }}"></i>
+                    </div>
+                    <!--div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div-->
+                    <div class="d-sm-flex align-items-sm-center">
+                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                           data-target="#ModalComment"
+                           style="text-decoration: none; color: black;" onclick="f(0, {{ comment.0.id }})">
+                            <i class="fa fa-commenting" style="margin-left: 5px; padding-right: 2px"></i>
+                        </a>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <!--div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div>
+                    <div class="d-sm-flex align-items-sm-center">
+                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
+                    </div-->
+                </div>
+                {% if  comment.1|length  > 0 %}
+                    <div class="border rounded sub-comment"
+                         style="margin: 10px 3% 10px 12%; padding: 10px; background-color: rgb(255,255,255)">
+                        {% for subcomments in comment.1 %}
+                            <div class="{% if not forloop.last %}border-bottom{% endif %}" style="margin: 5px">
+                                <div>
+                                    <div style="font-weight:bolder; font-size:1em;">
+                                        <i><a href="{% url 'space' subcomments.0.user.id %}"
+                                              style="text-decoration: none;">
+                                            {{ subcomments.0.user }}
+                                        </a></i>
+                                        回复
+                                        {% if subcomments.0.reply_to %}
+                                            <i><a href="{% url 'space' subcomments.0.reply_to.id %}"
+                                                  style="text-decoration: none;">
+                                                {{ subcomments.0.reply_to }}
+                                            </a></i>
+                                        {% endif %}
+                                    </div>
+                                    <div style="font-size:0.9em; margin: 5px">
+                                        {{ subcomments.0.content | safe }}
+                                    </div>
+                                </div>
+                                <div class="d-flex"
+                                     style="max-width:100%; flex-direction:row; justify-content: flex-end; font-size:0.9em">
+                                    <div class="d-sm-flex align-items-sm-center">
+                                        {{ subcomments.0.created | date:"Y-m-d H:i:s" }}
+                                    </div>
+
+                                    <div class="d-sm-flex align-items-sm-center thumbsup"
+                                         onclick="thumbs(1, {{ subcomments.0.id }}, 'thumbupComment{{ subcomments.0.id }}')">
+                                        <i class="fa fa-thumbs{% if not subcomments.1 %}-o{% endif %}-up" style="margin-left: 5px; padding-right: 2px"
+                                           id="thumbupComment{{ subcomments.0.id }}"></i>
+                                    </div>
+                                    <!--div class="d-sm-flex align-items-sm-center">
+                                        <i class="fa fa-thumbs-o-down" style="margin-left: 5px; padding-right: 2px"></i>
+                                    </div-->
+                                    <div class="d-sm-flex align-items-sm-center">
+                                        <a href="#ModalComment" class="sub-comment-button" data-toggle="modal"
+                                           data-target="#ModalComment"
+                                           style="text-decoration: none; color: black;"
+                                           onclick="f({{ subcomments.0.user.id }}, {{ comment.0.id }})">
+                                            <i class="fa fa-commenting"
+                                               style="margin-left: 5px; padding-right: 2px"></i>
+                                        </a>
+                                    </div>
+                                    <div class="d-sm-flex align-items-sm-center">
+                                        <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
+                                    </div>
+                                    <!--div class="d-sm-flex align-items-sm-center">
+                                        <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
+                                    </div>
+                                    <div class="d-sm-flex align-items-sm-center">
+                                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
+                                    </div-->
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <br/><br/><br/><br/><br/><br/><br/>
+    </div>
+{% endblock %}
+
+{% block moreComponents %}
+    <button class="rounded-circle d-flex align-items-center justify-content-center flex-button" id="return-button"
+            style="z-index: 15; background-color: #046be2; position: fixed;">
+        <i class="fa fa-arrow-left" style="color: white;"></i>
+    </button>
+    <button class="rounded-circle d-flex align-items-center justify-content-center flex-button"
+            id="reply-button" data-toggle="modal" data-target="#ModalComment"
+            style="z-index: 15; background-color: #046be2; position: fixed; outline: none;" onclick="f(0, 0)">
+        <i class="fa fa-commenting-o" style="color: white;"></i>
+    </button>
+    <div class="modal fade" id="ModalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true" style="margin-top: 100px;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">回复</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% if is_login %}
+                        <div>
+                            <form method="POST" id="postForm" name="comment" action="">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div>
+                                        {{ comment_form.media }}
+                                        {{ comment_form.content }}
+                                    </div>
+                                </div>
+                                <!-- 提交按钮 -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary">发送</button>
+                                </div>
+                            </form>
+                        </div>
+                        <br>
+                    {% else %}
+                        <br>
+                        <h5 class="row justify-content-center">
+                            请<a href="{% url 'login' %}">登录</a>后回复
+                        </h5>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <br>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    <script type="text/javascript" src="{% static "prism/prism.js" %}"></script>
+    <script>
+        //ckeditor在bootstrap弹窗中输入异常
+        $('#ModalComment').on('shown.bs.modal', function () {
+            $(document).off('focusin.modal');
+        });
+        $('#ModalSubComment').on('shown.bs.modal', function () {
+            $(document).off('focusin.modal');
+        });
+    </script>
+    <script>
+        function f(replyToId, commentID) {
+            var nowUrl = document.URL;
+            $("#postForm").attr("action", nowUrl.substring(0, nowUrl.length - 1) + "&" + replyToId + "&" + commentID + "/");
+        }
+    </script>
+    <script type="text/javascript" src="{% static "forum/PostContent/js/PostContent.js" %}"></script>
+    <script>
+        function thumbs(type, id, divid) {
+            $.ajax({
+                url: '/ajax/thumb/',
+                data: {
+                    "type": type,
+                    "id": id,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.isThumb) {
+                        document.getElementById(divid).className = "fa fa-thumbs-o-up";
+                    } else {
+                        document.getElementById(divid).className = "fa fa-thumbs-up";
+                    }
+                }
+            })
+        }
+    </script>
+
+{% endblock %}
+
+{% block moreOnloadFunc %}
+    handler();
+    isfav = {% if is_favourite %}true{% else %}false{% endif %};
+    console.log(isfav);
+    if(isfav){
+        document.getElementById("PostFavorite").setAttribute("class", "fa fa-star")
+    } else {
+        document.getElementById("PostFavorite").setAttribute("class", "fa fa-star-o")
+    }
+{% endblock %}
+
+{% block funcShowSidebar %}
+{% endblock %}
