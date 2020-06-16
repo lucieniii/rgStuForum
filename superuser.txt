@@ -1,2 +1,0 @@
-userID:aikx
-password:aikx1234
