@@ -107,7 +107,17 @@ def mention(request):
         userid = request.session.get('user_id', None)
         user = User.objects.get(id=userid)
         posts = Post.objects.filter(author=userid)
-        comments = Comment.objects.filter(user=userid)
+        to_post = Comment.objects.filter(post__in=posts, reply_to_comment__isnull=True).order_by("-created")
+        my_comment = Comment.objects.filter(user=user)
+        to_comment = Comment.objects.filter(Q(reply_to_comment__in=my_comment, reply_to__isnull=True) | Q(reply_to=user)).order_by("-created")
+        for comment in to_post:
+            comment.content = striptags(comment.content)
+            if len(comment.content) > 30:
+                comment.content = comment.content[0:30] + '...'
+        for comment in to_comment:
+            comment.content = striptags(comment.content)
+            if len(comment.content) > 30:
+                comment.content = comment.content[0:30] + '...'
         # Comment表里没有post的title属性，故在本地进行查询
         # 发现可以直接使用comment.user访问User类，那就不需要下面的东西了
         '''
@@ -380,13 +390,29 @@ def post_list(request):
 
 
 def post_safe_delete(request, id):
+    id = int(id)
     is_login = get_login_status(request)
+    if not is_login:
+        return redirect('/index/', locals())
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
     post = Post.objects.get(id=id)
     post.delete()
     context = {'is_login': is_login, 'user': user}
     return redirect(reverse('space', kwargs={"id": str(userid)}), context)
+
+
+def comment_safe_delete(request, id):
+    id = int(id)
+    is_login = get_login_status(request)
+    if not is_login:
+        return redirect('/index/', locals())
+    userid = request.session.get('user_id', None)
+    user = User.objects.get(id=userid)
+    comment = Comment.objects.get(id=id)
+    post_id = comment.post.id
+    comment.delete()
+    return redirect(reverse('PostContent', kwargs={"s": str(post_id)}), locals())
 
 
 def post_rank(request):

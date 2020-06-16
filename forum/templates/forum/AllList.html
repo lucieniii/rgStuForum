@@ -23,7 +23,7 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="AllPosts" role="tabpanel" aria-labelledby="Post-tab">
             {% for post in posts %}
-                <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}"
+                <div class="d-sm-flex align-items-sm-center border-bottom {% if forloop.last %}border-bottom{% endif %}"
                      style="padding: 10px 20px;">
                     <div class="flex-column postInfo" style="width: 75%;">
                         <div class="font" style="font-size: 16px;">
@@ -38,7 +38,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                     <span class="font rounded"
                           style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                        &nbsp;发帖板块&nbsp;
+                        &nbsp;{{ post.get_section_display }}&nbsp;
                     </span>
                             <span class="font"
                                   style="font-size: 14px; font-weight:600;">

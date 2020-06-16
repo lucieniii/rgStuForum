@@ -17,6 +17,12 @@
         .thumbsup {
             cursor: pointer;
         }
+        .post-content {
+
+        }
+        .post-content img {
+
+        }
     </style>
     <link rel="stylesheet" href="{% static 'prism/prism.css' %}">
 {% endblock %}
@@ -56,7 +62,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center" style="width: 90%">
-            <div class="font" style="width: 80%; margin: 10px 0;font-size: 1.07em;">
+            <div class="font post-content" style="width: 80%; margin: 10px 0;font-size: 1.07em;">
                 {{ post.content|safe }}
             </div>
         </div>
@@ -159,7 +165,7 @@
                         </div>
                     </div>
                     <div class="d-flex flex-fill" style="padding: 10px; flex-direction: column;">
-                        <div class="d-flex align-items-center" style="flex-grow: 1">
+                        <div class="d-flex align-items-center post-content" style="flex-grow: 1">
                             <span class="font" style="font-size: 1.1em;">{{ comment.0.content | safe }}</span>
                         </div>
                     </div>
@@ -187,15 +193,19 @@
                             <i class="fa fa-commenting" style="margin-left: 5px; padding-right: 2px"></i>
                         </a>
                     </div>
-                    <div class="d-sm-flex align-items-sm-center">
+                    <!--div class="d-sm-flex align-items-sm-center">
                         <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
+                    </div-->
                     <!--div class="d-sm-flex align-items-sm-center">
                         <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                    </div>
-                    <div class="d-sm-flex align-items-sm-center">
-                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
                     </div-->
+                {% if userid == comment.0.user.id or user.is_admin %}
+                    <div class="d-sm-flex align-items-sm-center">
+                        <a href="{% url 'comment_safe_delete' comment.0.id %}" style="text-decoration: none;color: black;">
+                            <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px; cursor: pointer;"></i>
+                        </a>
+                    </div>
+                {% endif %}
                 </div>
                 {% if  comment.1|length  > 0 %}
                     <div class="border rounded sub-comment"
@@ -216,7 +226,7 @@
                                             </a></i>
                                         {% endif %}
                                     </div>
-                                    <div style="font-size:0.9em; margin: 5px">
+                                    <div class="post-content" style="font-size:0.9em; margin: 5px">
                                         {{ subcomments.0.content | safe }}
                                     </div>
                                 </div>
@@ -243,15 +253,20 @@
                                                style="margin-left: 5px; padding-right: 2px"></i>
                                         </a>
                                     </div>
-                                    <div class="d-sm-flex align-items-sm-center">
+                                    <!--div class="d-sm-flex align-items-sm-center">
                                         <i class="fa fa-hand-stop-o" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
+                                    </div-->
                                     <!--div class="d-sm-flex align-items-sm-center">
                                         <i class="fa fa-pencil-square" style="margin-left: 5px; padding-right: 2px"></i>
-                                    </div>
-                                    <div class="d-sm-flex align-items-sm-center">
-                                        <i class="fa fa-trash-o" style="margin-left: 5px; padding-right: 2px"></i>
                                     </div-->
+                                {% if userid == subcomments.0.user.id or user.is_admin %}
+                                    <div class="d-sm-flex align-items-sm-center">
+                                        <a href="{% url 'comment_safe_delete' subcomments.0.id %}" style="text-decoration: none;color: black;">
+                                            <i class="fa fa-trash-o"
+                                               style="margin-left: 5px; padding-right: 2px; cursor: pointer;"></i>
+                                        </a>
+                                    </div>
+                                {% endif %}
                                 </div>
                             </div>
                         {% endfor %}
@@ -277,7 +292,7 @@
         <i class="fa fa-commenting-o" style="color: white;"></i>
     </button>
     <div class="modal fade" id="ModalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true" style="margin-top: 100px;">
+         aria-hidden="true" style="margin-top: 0;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -365,6 +380,7 @@
                     }
                 }
             })
+
         }
     </script>
 

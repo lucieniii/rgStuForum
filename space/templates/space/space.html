@@ -118,6 +118,7 @@
             </button>
         </a>
     </div>
+    {% if is_owner %}
     <div>
         <a href="{% url 'BlackList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理黑名单" style="color: #06a2ec;">
@@ -125,6 +126,7 @@
             </button>
         </a>
     </div>
+    {% endif %}
     <div>
         <a href="{% url 'BlogList' space_owner.id %}">
             <button class="button" type="button" data-hover="管理所有关注帖子" style="color: #06a2ec;">
@@ -141,9 +143,9 @@
     </div>
 
     {% if is_owner and user.is_admin %}
-        <div>
-            <a href="{% url 'AllLists' space_owner.id %}">
-                <button class="button" type="button" data-hover="管理全站用户与帖子" style="color: #06a2ec;">
+        <div >
+            <a href="{% url 'AllLists' space_owner.id %}" >
+                <button class="button" type="button" data-hover="管理全站信息" style="color: #06a2ec;">
                     <span><i class="fa fa-comments" style="padding-right: 10px"></i>论坛管理</span>
                 </button>
             </a>

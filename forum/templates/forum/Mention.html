@@ -22,15 +22,14 @@
 {% block main2 %}
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="AllPosts" role="tabpanel" aria-labelledby="Post-tab">
-            {% for comment in comments %}
-            {% if comment.reply_to %}
+            {% for comment in to_post %}
                 <div class="d-sm-flex align-items-sm-center border-bottom"
                      style="padding: 10px 20px;">
                     <div class="flex-column postInfo" style="width: 95%;">
                         <div class="font" style="font-size: 16px;">
                             <a href="{{ comment.post.get_absolute_url }}"
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                                    <i>{{ comment.reply_to }}</i>&nbsp;&nbsp;回复&nbsp;
+                                    <i>{{ comment.user.name }}</i>&nbsp;&nbsp;回复&nbsp;
                                 <i>{{ comment.post.title }}</i>
                             </a>
                         </div>
@@ -40,7 +39,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                         <span class="font rounded"
                               style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                            &nbsp;{{ comment.post.section }}&nbsp;
+                            &nbsp;{{ comment.post.get_section_display }}&nbsp;
                         </span>
                             <span class="flex-shrink-1 align-center"
                                   style="margin-top: 2px; padding-left: 4px; color: #636363;">
@@ -52,19 +51,17 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
             {% endfor %}
         </div>
         <div class="tab-pane fade" id="AllComments" role="tabpanel" aria-labelledby="Comment-tab">
-            {% for comment in comments %}
-            {% if comment.user %}
+            {% for comment in to_comment %}
                 <div class="d-sm-flex align-items-sm-center border-bottom"
                      style="padding: 10px 20px;">
                     <div class="flex-column postInfo" style="width: 95%;">
                         <div class="font" style="font-size: 16px;">
                             <a href="{{ comment.post.get_absolute_url }}"
                                style="text-decoration: none; color: #2f77c6; font-weight: bolder">
-                                    <i>{{ comment.user }}</i>&nbsp;&nbsp;回复于&nbsp;
+                                <i>{{ comment.user }}</i>&nbsp;&nbsp;回复我于&nbsp;
                                 <i>{{ comment.post.title }}</i>
                             </a>
                         </div>
@@ -74,7 +71,7 @@
                         <div class="d-sm-flex align-items-sm-center">
                         <span class="font rounded"
                               style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
-                            &nbsp;{{ comment.post.section }}&nbsp;
+                            &nbsp;{{ comment.post.get_section_display }}&nbsp;
                         </span>
                             <span class="flex-shrink-1 align-center"
                                   style="margin-top: 2px; padding-left: 4px; color: #636363;">
@@ -86,7 +83,6 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
             {% endfor %}
         </div>
     </div>

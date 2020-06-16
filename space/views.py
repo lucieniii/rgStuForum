@@ -25,7 +25,7 @@ def get_space_status(request, userid, ownerid):
     space_owner = User.objects.get(id=ownerid)
     user = User.objects.get(id=userid)
     try:
-        BlackList.objects.get(BlockerID=userid, BlockedID=ownerid)
+        BlackList.objects.get(BlockerID=ownerid, BlockedID=userid)
         is_Black = True
     except:
         is_Black = False
@@ -39,6 +39,8 @@ def get_space_status(request, userid, ownerid):
 
 # Create your views here.
 def space(request, id):
+    # 拉黑信息会跳出两次
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -46,14 +48,12 @@ def space(request, id):
         if not is_owner and not user.is_admin and not user.is_read:
             messages.success(request, "您没有看新手上路帖！")
             return redirect('/index/', locals())
-        try:
-            BlackList.objects.get(BlockerID=space_owner, BlockedID=user)
+        if is_Black:
             messages.success(request, "您被对方拉黑了！")
-            return redirect(reverse('space', kwargs={"id", userid}),locals())
-        except:
-            pass
+            return redirect(reverse('space', kwargs={"id": str(userid)}))
+            # return redirect(reverse('space', kwargs={"id": str(userid)}), locals())
         posts = Post.objects.filter(author=id)
-        comments = Comment.objects.filter(user=id)
+        comments = Comment.objects.filter(user=id).order_by("-created")
         for post in posts:
             post.comment_count = len(Comment.objects.filter(post=post))
             # print(post.get_absolute_url())
@@ -89,6 +89,7 @@ def space(request, id):
 
 
 def myInfo(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -100,6 +101,7 @@ def myInfo(request, id):
 
 def settings(request, id):
     # 定制化提示信息，
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -125,15 +127,15 @@ def settings(request, id):
                 if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
-                    return redirect(reverse('space', args=str(id)), locals())
+                    return redirect(reverse('space', kwargs={'id': id}), locals())
                 print(1)
                 form.save(commit=True)
                 messages.success(request, "修改成功")
-                return redirect(reverse('space', args=str(id)), locals())
+                return redirect(reverse('space', kwargs={'id': id}), locals())
             elif form.is_valid():  # 无name字段
                 form.save(commit=True)
                 messages.success(request, "修改成功")
-                return redirect(reverse('space', args=str(id)), locals())
+                return redirect(reverse('space', kwargs={'id': id}), locals())
             else:
                 if flag == -1:
                     messages.success(request, "修改失败！注意年龄/经验值不得小于0, 密码长度需要在4~16之间，使用合法邮箱格式")
@@ -239,6 +241,7 @@ def settings(request, id):
 
 
 def friendList(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -250,6 +253,7 @@ def friendList(request, id):
 
 
 def letterList(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -261,6 +265,7 @@ def letterList(request, id):
 
 
 def letter(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -272,6 +277,7 @@ def letter(request, id):
 
 
 def blackList(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -283,6 +289,7 @@ def blackList(request, id):
 
 
 def BlogList(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -396,6 +403,7 @@ def favorite(request):
 
 
 def all_lists(request, id):
+    id = int(id)
     is_login = get_login_status(request)
     if not is_login:
         return redirect('index', locals())

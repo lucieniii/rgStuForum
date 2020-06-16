@@ -27,6 +27,15 @@
       onload="init({% block initParaInHtml %}{% endblock %})">
 {% block head %}
 {% endblock %}
+{% block message %}
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}
 {% block navAttr %}
     <nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
          id="nav-bar"
@@ -113,7 +122,7 @@
                          style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
                         <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
                            style="font-size: 16px;padding-left: 10px;">登录</a>
-                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                        <a class="dropdown-item" role="presentation" href="{% url 'register' %}"
                            style="font-size: 16px;padding-left: 10px;">注册</a>
                     </div>
                 {% endif %}

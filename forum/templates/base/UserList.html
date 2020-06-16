@@ -16,8 +16,10 @@
                     <div class=" CommentAvatar d-flex flex-column align-items-center"
                          style="padding: 10px; width: 120px">
                         <div style="width: 75%">
-                            <img src="{{ search_user.avatar.url }}" class="border rounded-circle"
+                            <a href="{{ search_user.get_absolute_url }}">
+				<img src="{{ search_user.avatar.url }}" class="border rounded-circle"
                                  style="width: 100%"/>
+				</a>
                         </div>
                         <div class="font d-flex flex-column" style="font-weight: bolder">
                             <div class="d-flex justify-content-center" style="margin-top: 5px; font-size: 1em">

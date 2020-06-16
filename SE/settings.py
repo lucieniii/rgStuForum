@@ -20,8 +20,9 @@ SECRET_KEY = '=q+-&!%i@m&v7x$9snq@=#*v@#2^+xq3k$j)x77flos%k=h9e0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -116,23 +117,24 @@ WSGI_APPLICATION = 'SE.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
-#         'NAME': 'se',  # 数据库名
-#         'USER': 'se',  # 账号
-#         'PASSWORD': 'softwareengineering',  # 密码
-#         'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
-#         'POST': 3306,  # 端口
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'NAME': 'se',  # 数据库名
+        'USER': 'se',  # 账号
+        'PASSWORD': 'softwareengineering',  # 密码
+        # 'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
+        'HOST': 'rm-2zen8t8uc7499104z125010.mysql.rds.aliyuncs.com',  # HOST
+        'POST': 3306,  # 端口
+    }
+}
 
 
 # Password validation
@@ -170,3 +172,7 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
