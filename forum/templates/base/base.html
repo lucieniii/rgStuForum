@@ -1,0 +1,258 @@
+{% load static %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SE</title>
+    <!-- 引入monikai.css -->
+    <link rel="stylesheet" href="{% static 'base/css/monokai.css' %}">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'base/fonts/BethEllen.css' %}">
+    <link rel="stylesheet" href="{% static 'base/fonts/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Navigation-with-Search.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Sidebar-Menu.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/Button-Change-Text-on-Hover.css' %}">
+    <link rel="stylesheet" href="{% static 'base/css/base.css' %}">
+    {% block newCSS %}{% endblock %}
+    <style type="text/css">
+        a, button, input, img {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body style="max-height: 650px;min-height: 0;background-color: #f5f5f5;"
+      onload="init({% block initParaInHtml %}{% endblock %})">
+{% block head %}
+{% endblock %}
+{% block message %}
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}
+{% block navAttr %}
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-search  d-flex d-sm-flex d-xl-flex align-items-start justify-content-sm-start align-items-sm-start align-items-xl-start"
+         id="nav-bar"
+         style="z-index:11; position: fixed;left: 0; top: 0;background-color: #f5f5f5;width: 100%;height: 70px;">
+{% endblock %}
+<div class="container" style="width: 100%;">
+    <div class="d-flex justify-content-center" style="width: 100%;" id="subcontainer">
+        <div class="d-flex flex-fill align-items-center justify-content-center" id="toggleContainer">
+            <a class="btn btn-link" role="button" id="menu-toggle" href="#menu-toggle"
+               style="background-color: rgba(255,255,255,0);width: 100%;padding: 0;
+                               {% block sidebartogglervisibility %}{% endblock %}">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <div class="align-middle" style="width: 75%;text-align: center;" id="brandcontainer">
+            <a class="navbar-brand" href="{% url 'index' %}"
+               style="font-family: 'Beth Ellen', cursive;color: #0051ba;background-color: rgba(255,255,255,0);">
+                <img src="{% static 'base/images/logo.png' %}" style="width: 45px;margin-left: 5px;margin-top: -6px;">
+                <span class="align-baseline" style="font-size: 1.1rem; margin-left: 5px;"
+                      id="brand">Share Your Life</span>
+            </a>
+        </div>
+        <div class="d-flex flex-fill align-items-center justify-content-center" style="margin-left: 3px"
+             id="navbartogglercontainer">
+            <button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler" id="navbartoggler"
+                    style="width: 80%;padding: 0 0 3px;height: 30px;">
+                <i class="fa fa-unsorted" style="color: #3a75c4;font-size: 16px;"></i>
+            </button>
+        </div>
+    </div>
+    <div class="collapse navbar-collapse" id="navcol-1" style="max-width: 400px;">
+        <div class="form-inline mr-auto">
+            <div class="form-group"
+                 style="display: flex!important;justify-content: center!important; margin-top: 0px; margin-bottom: 0px">
+                <div class="dropdown" style="font-size: 20px;">
+                    <a class="dropdown-toggle" data-toggle="dropdown"
+                       aria-expanded="false" href="#"
+                       style="color: #1072cd; background-color: rgba(255,255,255,0); text-decoration: none">
+                        <i class="fa fa-search" style="font-size: 20px;"></i>
+                    </a>
+                    {% block searchMenu %}
+                        <div class="dropdown-menu" role="menu" style="margin-top: 8px;">
+                            <a class="dropdown-item" role="presentation" onclick="toggleSearchPost()">
+                                搜贴</a>
+                            <a class="dropdown-item" role="presentation" onclick="toggleSearchUser()">
+                                搜人</a>
+                        </div>
+                    {% endblock %}
+                </div>
+                <input class="border rounded form-control search-field"
+                       type="search" id="search"
+                       name="search"
+                       style="width: 250px;margin-left: 12px;"
+                       placeholder="搜索帖子">
+            </div>
+        </div>
+        <div class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#"
+               style="background-color: rgb(255,255,255);font-size: 0;">
+                <!--Avatar-->
+                {% block avatar %}
+                    {% if is_login %}
+                        <img class="border rounded-circle"
+                             src="{{ user.avatar.url }}"
+                             style="width:40px; height: 40px;">
+                    {% else %}
+                        <img class="border rounded-circle"
+                             src="{% static 'base/images/avatar.jpeg' %}"
+                             style="width: 40px;height: 40px;">
+                    {% endif %}
+                {% endblock %}
+            </a>
+            {% block avatarMenu %}
+                {% if is_login %}
+                    <div class="dropdown-menu text-left" role="menu"
+                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                        <a class="dropdown-item" role="presentation" href="{% url 'space' userid %}"
+                           style="padding-left: 10px;">个人空间</a>
+                        <a class="dropdown-item" role="presentation" href="{% url 'logout' %}"
+                           style="font-size: 16px;padding-left: 10px;">登出</a>
+                    </div>
+                {% else %}
+                    <div class="dropdown-menu text-left" role="menu"
+                         style="width: 100px;min-width: 0;max-width: 120px;margin-top: 6px;">
+                        <a class="dropdown-item" role="presentation" href="{% url 'login' %}"
+                           style="font-size: 16px;padding-left: 10px;">登录</a>
+                        <a class="dropdown-item" role="presentation" href="{% url 'register' %}"
+                           style="font-size: 16px;padding-left: 10px;">注册</a>
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</nav>
+<div class="d-md-flex d-lg-flex d-xl-flex align-items-md-start align-items-lg-start align-items-xl-start"
+     style="z-index:10; margin-top:70px; background-color: rgba(255,255,255,0);">
+    {% block sidebar %}
+        <div id="wrapper" style="width: 0;background-color: rgba(255,255,255,0);">
+            <div id="sidebar-wrapper" class="d-xl-flex flex-column justify-content-xl-start align-items-xl-center"
+                 style="background-color: #f5f5f5;">
+                {% block sidebarMenu %}
+                    {% block side1 %}
+                        <div class="d-xl-flex justify-content-xl-center"
+                             style="padding: 0;margin-top: 20px;">
+                            {% block side1_content %}
+                                <a href="{% url 'post_create' %}" style="text-decoration: none;">
+                                    <div class="
+                                            {% block side1_border %}{% endblock %}flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                                         style="width: 200px;">
+                                        <button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                type="button" style="height: 50px;width: 180px;padding: 0;">
+                                            <span class="d-xl-flex justify-content-xl-center align-items-xl-center"
+                                                  style="font-size: 20px;width: 150px;height: 50px;">
+                                                <i class="fa fa-edit" style="padding-right: 20px;"></i>
+                                                    发布帖子
+                                            </span>
+                                        </button>
+                                    </div>
+                                </a>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                    {% block side2 %}
+                        <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                             style="width: 200px; margin-top: 20px;">
+                            {% block side2_content %}
+                                <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                                </button>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                    {% block side3 %}
+                        <div class="border rounded flex-column d-xl-flex justify-content-xl-center align-items-xl-center"
+                             style="width: 200px; margin-top: 20px;">
+                            {% block side3_content %}
+                                <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+                                    <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+                                </button>
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+    {% block main %}
+        <div id="main" style="padding:30px 30px; width: 100%; background-color: rgba(255,255,255,0);">
+
+            <div class="{% block main1border %}border rounded{% endblock %}"
+                 style="width: 100%; height: auto; background: rgba(0,0,0,0);">
+                {% block main1 %}
+                    <div style="word-break: break-all;">
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                        area1area1area1area1area1
+                    </div>
+                {% endblock %}
+            </div>
+            {% block main2nav %}
+            {% endblock %}
+            <div class="{% block main2border %}border rounded{% endblock %} flex-column"
+                 style="width: 100%; height: auto; background: rgba(0,0,0,0); {% block main2-margintop %}margin-top: 20px;{% endblock %}">
+                {% block main2 %}
+                    <div style="word-break: break-all;">
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                        area2area2area2area2area2
+                    </div>
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+</div>
+{% block moreComponents %}
+{% endblock %}
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="{% static 'layer/layer.js' %}"></script>
+{% block script %}
+    <script src="{% static 'base/js/Sidebar-Menu.js' %}"></script>
+{% endblock %}
+{% block morescript %}
+{% endblock %}
+<script>
+    function init({% block initParaInFunc %}{% endblock %}) {
+        {% block moreOnloadFunc %}
+        {% endblock %}
+        document.body.style.height = Number(window.innerHeight).toString() + "px";
+    }
+
+    var searchPost = true;
+
+    function toggleSearchPost() {
+        searchPost = true;
+        document.getElementById("search").setAttribute("placeholder", "搜索帖子")
+    }
+
+    function toggleSearchUser() {
+        searchPost = false;
+        document.getElementById("search").setAttribute("placeholder", "搜索用户")
+        console.log("http://" + window.location.host + "/search?search=");
+    }
+
+    $("#search").bind('keypress', function (event) {
+        if (event.keyCode === 13) {
+            window.location.href = "/search/?search=" + $('#search').val() + "&searchPost=" + searchPost;
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block side2_content %}
+    <a href="{% url 'ForumBoard' 1 %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-comments" style="padding-right: 10px"></i>讨论区</span>
+        </button>
+    </a>
+    <a href="{% url 'ForumBoard' 2 %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-book" style="padding-right: 10px"></i>课程推荐</span>
+        </button>
+    </a>
+    <a href="{% url 'ForumBoard' 3 %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-pencil-square-o" style="padding-right: 10px"></i>刷题</span>
+        </button>
+    </a>
+    <a href="{% url 'ForumBoard' 4 %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-map-marker" style="padding-right: 10px"></i>校园周边</span>
+        </button>
+    </a>
+    <a href="{% url 'ForumBoard' 5 %}">
+        <button class="button" type="button" data-hover="进入板块" style="color: #06a2ec;">
+            <span><i class="fa fa-share-square-o" style="padding-right: 10px"></i>资源共享</span>
+        </button>
+    </a>
+{% endblock %}
+
+{% block side3_content %}
+    <a href="{% url 'FollowUser' %}">
+        <button class="button" type="button" data-hover="查看关注用户" style="color: #06a2ec;">
+            <span><i class="fa fa-group" style="padding-right: 10px"></i>关注用户</span>
+        </button>
+    </a>
+    <a href="{% url 'Mention' %}">
+        <button class="button" type="button" data-hover="查看回复我的" style="color: #06a2ec;">
+            <span><i class="fa fa-envelope" style="padding-right: 10px"></i>回复我的</span>
+        </button>
+    </a>
+    <a href="{% url 'FollowPost' %}">
+        <button class="button" type="button" data-hover="查看关注帖子" style="color: #06a2ec;">
+            <span><i class="fa fa-file-text	" style="padding-right: 10px"></i>关注帖子</span>
+        </button>
+    </a>
+    {% endblock %}
+
+<-热帖-->!-
+{% block main1border %}
+    border-left border-right
+{% endblock %}
+
+{% block main1 %}
+    {% for post in hot_posts %}
+        <div class="d-sm-flex-column align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}" style="padding: 10px 20px;">
+            <div style="width: 100%;">
+                <div class="font" style="font-size: 16px;">
+                    <span class="badge badge-danger">HOT</span>
+                    <a href="{{ post.get_absolute_url }}" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                        {{ post.title }}
+                    </a>
+                </div>
+            </div>
+            <div class="d-sm-flex " style="width: 100%; margin: 10px 0 0 0; align-items:center; justify-content:flex-end;" id="top-userInfo">
+                <div class="d-sm-flex align-items-sm-center">
+                    <a href="{{ post.author.get_absolute_url }}">
+                        <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 20px; height: 20px" />
+                    </a>
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
+                </div>
+                <div class="d-sm-flex align-items-sm-center" style="padding-left: 4px; color: #636363; ">
+                    <time style="font-size: 14px; font-weight:600;">
+                        <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                        {{ post.last_edit }}
+                    </time>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+
+
+<!--普通帖-->
+{% block main2border %}
+    border-left border-right
+{% endblock %}
+
+{% block main2 %}
+    {% for post in normal_posts %}
+        <div class="d-sm-flex align-items-sm-center border-top {% if forloop.last %}border-bottom{% endif %}" style="padding: 10px 20px;">
+            <div class="flex-column postInfo" style="width: 75%;">
+                <div class="font" style="font-size: 16px;">
+                    <a href="{{ post.get_absolute_url }}" style="text-decoration: none; color: #2f77c6; font-weight: bolder">
+                        {{ post.title }}
+                    </a>
+                </div>
+                <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
+                    {{ post.content | safe}}
+                </div>
+                <div class="d-sm-flex align-items-sm-center">
+                    <span class="font rounded"
+                          style="background-color: #d9dee2; font-size: 14px; padding: 3px; margin-right: 10px; font-weight:600;">
+                        &nbsp;{{ post.get_section_display }}&nbsp;
+                    </span>
+                        <span class="font"
+                              style="font-size: 14px; font-weight:600;">
+                        <i class="fa fa-comments-o" style="padding-right: 2px"></i>评论({{ post.comments.count}})
+                    </span>
+                </div>
+            </div>
+            <div class="userInfo" style="width: 25%; margin: 10px 0; display: flex; flex-direction: column;">
+                <div class="d-sm-flex align-items-sm-center flex-shrink-1">
+                    <a href="{{ post.author.get_absolute_url }}">
+                        <img class="rounded-circle" src="{{ post.author.avatar.url }}" style="width: 25px; height: 25px" />
+                    </a>
+                    <span class="font" style="margin-left: 5px; font-size: 14px; font-weight:600;
+                    {% if post.author.is_admin %}color: red;{% endif %}">{{ post.author.name }}</span>
+                </div>
+                <div class="flex-shrink-1" style="margin-top: 2px; padding-left: 4px; color: #636363;">
+                    <time style="font-size: 14px; font-weight:600;">
+                        <i class="fa fa-clock-o" style="padding-right: 2px"></i>
+                        {{ post.last_edit }}
+                    </time>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
