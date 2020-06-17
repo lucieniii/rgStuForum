@@ -130,8 +130,8 @@ DATABASES = {
         'NAME': 'se',  # 数据库名
         'USER': 'se',  # 账号
         'PASSWORD': 'softwareengineering',  # 密码
-        # 'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
-        'HOST': 'rm-2zen8t8uc7499104z125010.mysql.rds.aliyuncs.com',  # HOST
+        'HOST': 'rm-2zen8t8uc7499104z7o.mysql.rds.aliyuncs.com',  # HOST
+        # 'HOST': 'rm-2zen8t8uc7499104z125010.mysql.rds.aliyuncs.com',  # HOST
         'POST': 3306,  # 端口
     }
 }

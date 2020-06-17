@@ -111,6 +111,7 @@
             </button>
         </a>
     </div>
+    {% if not is_Black or user.is_admin %}
     <div>
         <a href="{% url 'myInfo' space_owner.id %}">
             <button class="button" type="button" data-hover="管理个人信息" style="color: #06a2ec;">
@@ -141,7 +142,7 @@
             </button>
         </a>
     </div>
-
+    {% endif %}
     {% if is_owner and user.is_admin %}
         <div >
             <a href="{% url 'AllLists' space_owner.id %}" >
@@ -164,21 +165,31 @@
     border-left border-right
 {% endblock %}
 {% block main2nav %}
+    {% if not is_Black or user.is_admin %}
     <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 20px; background-color: rgba(0,0,0,0);">
         <li class="nav-item" style="font-size: 1.2em;">
             <a class="nav-link active" id="Post-tab" data-toggle="tab" href="#AllPosts" role="tab" aria-controls="home"
-               aria-selected="true">所有发帖</a>
+               aria-selected="true" style="font-size: 1.1em; font-weight: bolder; text-decoration: none; color: black;">所有发帖</a>
         </li>
         <li class="nav-item" style="font-size: 1.2em">
             <a class="nav-link" id="Comment-tab" data-toggle="tab" href="#AllComments" role="tab"
                aria-controls="profile"
-               aria-selected="false">所有评论</a>
+               aria-selected="false" style="font-size: 1.1em; font-weight: bolder; text-decoration: none; color: black;">所有评论</a>
         </li>
     </ul>
+    {% else %}
+        <div class="d-flex justify-content-center">
+            <span class="font" style="font-weight: bolder; font-size: 1.6em;">
+                你已经被对方拉黑！
+            </span>
+        </div>
+    {% endif %}
 {% endblock %}
 {% block main2-margintop %}
 {% endblock %}
+
 {% block main2 %}
+    {% if not is_Black or user.is_admin %}
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="AllPosts" role="tabpanel" aria-labelledby="Post-tab">
             {% for post in posts %}
@@ -288,7 +299,6 @@
         </div>
     </div>
 
-
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
          aria-hidden="true">
@@ -310,38 +320,7 @@
             </div>
         </div>
     </div>
-    <script>
-
-        {#// 删除文章的函数#}
-        {#function confirm_delete() {#}
-        {#    // 调用layer弹窗组件#}
-        {#    layer.open({#}
-        {#        // 弹窗标题#}
-        {#        title: "确认删除",#}
-        {#        // 正文#}
-        {#        content: "确认删除这篇文章吗？",#}
-        {#        // 点击确定按钮后调用的回调函数#}
-        {#        yes: function (index, layero) {#}
-        {#            // 指定应当前往的 url#}
-        {#            location.href = '{% url "post_safe_delete" post.id %}'#}
-        {#        },#}
-        {#    })#}
-        function f() {
-            isf = {{ is_Following }};
-            isb =  {{ is_Ban }};
-
-            if (isf) {
-                document.getElementById("follow").style.color = "#e6db74";
-            } else {
-                document.getElementById("follow").style.color = "darkgrey";
-            }
-            if (isb) {
-                document.getElementById("follow").style.color = "red";
-            } else {
-                document.getElementById("follow").style.color = "darkgrey";
-            }
-        }
-    </script>
+    {% endif %}
 
     {% if messages %}
         <script>
@@ -358,7 +337,7 @@
 {% endblock %}
 {% block moreOnloadFunc %}
     isf = {% if is_Following %}true{% else %}false{% endif %};
-    isb = {% if is_Black %}true{% else %}false{% endif %};
+    isb = {% if black_Owner %}true{% else %}false{% endif %};
     isban = {% if space_owner.is_ban %}true{% else %}false{% endif %}
     if (isf) {
     document.getElementById("follow").style.color = "#e6db74";

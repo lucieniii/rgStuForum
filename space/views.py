@@ -30,11 +30,16 @@ def get_space_status(request, userid, ownerid):
     except:
         is_Black = False
     try:
+        BlackList.objects.get(BlockerID=userid, BlockedID=ownerid)
+        black_Owner = True
+    except:
+        black_Owner = False
+    try:
         Follow.objects.get(FollowerID=userid, FollowedID=ownerid)
         is_Following = True
     except:
         is_Following = False
-    return is_login, is_owner, space_owner, user, is_Following, is_Black
+    return is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner
 
 
 # Create your views here.
@@ -44,13 +49,13 @@ def space(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
         if not is_owner and not user.is_admin and not user.is_read:
             messages.success(request, "您没有看新手上路帖！")
             return redirect('/index/', locals())
-        if is_Black:
-            messages.success(request, "您被对方拉黑了！")
-            return redirect(reverse('space', kwargs={"id": str(userid)}))
+        # if is_Black:
+        #     messages.success(request, "您被对方拉黑了！")
+        #     return redirect(reverse('space', kwargs={"id": str(userid)}))
             # return redirect(reverse('space', kwargs={"id": str(userid)}), locals())
         posts = Post.objects.filter(author=id)
         comments = Comment.objects.filter(user=id).order_by("-created")
@@ -93,7 +98,9 @@ def myInfo(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
+        if is_Black and not user.is_admin:
+            return redirect(reverse('space', kwargs={"id": str(id)}))
         return render(request, "space/myInfo.html", locals())
     # return redirect(reverse('settings', kwargs={'id': id}), locals())
     return render(request, "forum/index.html", locals())
@@ -105,7 +112,7 @@ def settings(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
 
         if request.method == "POST":
             flag = 0
@@ -118,12 +125,14 @@ def settings(request, id):
             elif not is_owner and user.is_admin:
                 flag = 1  # 因为这里没有name，特殊处理
                 form = userInfo_admin(request.POST, request.FILES, instance=space_owner)
+            else:
+                return redirect(reverse('space', kwargs={"id": str(id)}))
             now_name = space_owner.name
             # 如果全部输入信息有效
             if form.is_valid() and flag != 1:
                 value = form.cleaned_data['name']
-                print(space_owner.name)
-                print(value)
+                # print(space_owner.name)
+                # print(value)
                 if User.objects.filter(name=value) and now_name != value:
                     space_owner.name = now_name
                     messages.success(request, "用户名已存在")
@@ -245,7 +254,9 @@ def friendList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
+        if is_Black and not user.is_admin:
+            return redirect(reverse('space', kwargs={"id": str(id)}))
         follows = Follow.objects.filter(FollowerID=id)
     else:
         return redirect('/index/', locals())
@@ -257,7 +268,9 @@ def letterList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
+        if is_Black and not user.is_admin:
+            return redirect(reverse('space', kwargs={"id": str(id)}))
         messages = Message.objects.filter(ReceiverID=id)
     else:
         return redirect('/index/', locals())
@@ -269,7 +282,9 @@ def letter(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
+        if is_Black and not user.is_admin:
+            return redirect(reverse('space', kwargs={"id": str(id)}))
         follows = Follow.objects.filter(FollowerID=id)
     else:
         return redirect('/index/', locals())
@@ -281,7 +296,7 @@ def blackList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
         blackLists = BlackList.objects.filter(BlockerID=id)
     else:
         return redirect('/index/', locals())
@@ -293,7 +308,7 @@ def BlogList(request, id):
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
-        is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+        is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
         favoritePosts = FavoritePost.objects.filter(UserID=id)
         for it in favoritePosts:
             it.PostID.content = striptags(it.PostID.content)
@@ -409,7 +424,7 @@ def all_lists(request, id):
         return redirect('index', locals())
     userid = request.session.get('user_id', None)
     user = User.objects.get(id=userid)
-    is_login, is_owner, space_owner, user, is_Following, is_Black = get_space_status(request, userid, id)
+    is_login, is_owner, space_owner, user, is_Following, is_Black, black_Owner = get_space_status(request, userid, id)
     if not user.is_admin:
         return redirect('index', locals())
     posts = Post.objects.all()

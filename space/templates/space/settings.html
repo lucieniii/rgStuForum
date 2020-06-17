@@ -72,7 +72,7 @@
 
 {% block moreOnloadFunc %}
     isf = {% if is_Following %}true{% else %}false{% endif %};
-    isb = {% if is_Black %}true{% else %}false{% endif %};
+    isb = {% if black_Owner %}true{% else %}false{% endif %};
     isban = {% if space_owner.is_ban %}true{% else %}false{% endif %}
     if (isf) {
     document.getElementById("follow").style.color = "#e6db74";
