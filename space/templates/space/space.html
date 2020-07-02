@@ -203,7 +203,7 @@
                             </a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                            {{ post.content }}
+                            {{ post.content | safe }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <span class="font rounded"
@@ -278,7 +278,7 @@
                             </a>
                         </div>
                         <div class="font" style="font-size: 12px; color: gray; padding: 10px 0;">
-                            {{ comment.content }}
+                            {{ comment.content | safe }}
                         </div>
                         <div class="d-sm-flex align-items-sm-center">
                             <span class="font rounded"

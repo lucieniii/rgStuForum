@@ -246,12 +246,7 @@ def PostContent(request, s):
 
 
 def post_update(request, id):
-    """
-    更新文章的视图函数
-    通过POST方法提交表单，更新 title、body字段
-    GET方法进入初始表单页面
-    id： 文章的 id
-    """
+
     is_login = get_login_status(request)
     if is_login:
         userid = request.session.get('user_id', None)
@@ -275,7 +270,6 @@ def post_update(request, id):
             post.content = request.POST['content']
             post.section = request.POST['section']
             post.save()
-            # 完成后返回到修改后的文章中。需传入文章的 id 值
             return redirect(reverse('PostContent', kwargs={"s": str(post.id)}), locals())
         # 如果数据不合法，返回错误信息
         else:
@@ -513,7 +507,6 @@ def comment_list(request):
     return render(request, 'forum/Mention.html', context)
 
 
-# 没排序，没缩略，没渲染富文本！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 def followUser(request):
     is_login = get_login_status(request)
     if not is_login:

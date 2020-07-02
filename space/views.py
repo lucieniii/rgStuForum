@@ -201,52 +201,6 @@ def settings(request, id):
 
     return render(request, "space/settings.html", locals())
 
-    '''
-    is_login = get_login_status(request)
-    if is_login:
-    '''
-
-    '''
-    # 返回个人信息
-    userid = request.session.get('user_id', None)
-    user = User.objects.get(id=userid)
-    return render(request, "space/settings.html", locals())
-    '''
-
-    '''
-    # 返回关注用户
-    userid = request.session.get('user_id', None)
-    follows = Follow.objects.filter(FollowerID=userid)
-    return render(request, "space/settings.html", locals())
-    '''
-
-    '''
-    # 返回收藏帖子
-    userid = request.session.get('user_id', None)
-    favoritePosts = FavoritePost.objects.filter(UserID=userid)
-    return render(request, "space/settings.html", locals())
-    '''
-
-    '''
-    # 返回黑名单
-    userid = request.session.get('user_id', None)
-    blackLists = BlackList.objects.filter(BlockerID=userid)
-    return render(request, "space/settings.html", locals())
-    '''
-
-    '''
-    # 返回私信
-    userid = request.session.get('user_id', None)
-    messages = Message.objects.filter(SenderID=userid)
-    return render(request, "space/settings.html", locals())
-    '''
-
-    '''
-    # 返回权限信息
-    userid = request.session.get('user_id', None)
-    permissions = Permission.objects.filter(SenderID=userid)
-    return render(request, "space/settings.html", locals())
-    '''
 
 
 def friendList(request, id):
